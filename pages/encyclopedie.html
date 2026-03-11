@@ -1,0 +1,1426 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Encyclopedie Cybersecurite - S1 / S2 / S3</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* =============================================
+   THERUST LAB - CHARTE GRAPHIQUE
+   Bleu Abysse #132639
+   Bleu Arc Electrique #00B4D8
+   Rouille #B85C38
+   ============================================= */
+
+:root {
+  --bleu-abysse: #132639;
+  --bleu-abysse-dark: #0A1620;
+  --bleu-cyan: #00B4D8;
+  --rouille: #B85C38;
+  --gris-clair: #E8E9EB;
+  --gris-moyen: #7A7C7F;
+  --gris-fonce: #3D3E40;
+  --blanc: #FFFFFF;
+  --card-bg: #1a3350;
+  --card-hover: #1f3d5e;
+
+  /* Family colors gradient */
+  --fam-1: #00B4D8;  /* Hardening Systeme */
+  --fam-2: #0098C8;  /* Authentification et Acces */
+  --fam-3: #2080B0;  /* Audit et Journalisation */
+  --fam-4: #4070A0;  /* Integrite et Conformite */
+  --fam-5: #6862A0;  /* Architecture Reseau */
+  --fam-6: #8854A0;  /* Securite Perimetrique */
+  --fam-7: #A04678;  /* Attaques TCP/IP */
+  --fam-8: #B04050;  /* SIEM et Detection */
+  --fam-9: #B84840;  /* Referentiels et Normes */
+  --fam-10: #B85038; /* Protocoles de Securite */
+  --fam-11: #B85C38; /* Outils du Lab */
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.5;
+  background: var(--bleu-abysse-dark);
+  color: var(--blanc);
+  min-height: 100vh;
+}
+
+/* HEADER */
+.header {
+  background: var(--bleu-abysse);
+  border-bottom: 4px solid var(--rouille);
+  padding: 32px 40px 24px;
+  text-align: center;
+}
+
+.header h1 {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
+  font-size: 40px;
+  line-height: 1.2;
+  color: var(--blanc);
+  margin-bottom: 8px;
+}
+
+.header .subtitle {
+  font-family: 'Roboto Mono', monospace;
+  font-weight: 400;
+  font-size: 16px;
+  color: var(--bleu-cyan);
+  letter-spacing: 1px;
+}
+
+.header .meta {
+  font-size: 14px;
+  color: var(--gris-moyen);
+  margin-top: 8px;
+}
+
+/* NAVIGATION TABS */
+.nav-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 0;
+  background: var(--bleu-abysse);
+  border-bottom: 2px solid var(--bleu-cyan);
+  padding: 0 20px;
+  flex-wrap: wrap;
+}
+
+.nav-tab {
+  padding: 12px 24px;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  font-size: 15px;
+  color: var(--gris-clair);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  transition: all 0.2s;
+  border-radius: 2px 2px 0 0;
+}
+
+.nav-tab:hover {
+  color: var(--blanc);
+  background: rgba(0, 180, 216, 0.08);
+}
+
+.nav-tab.active {
+  color: var(--bleu-cyan);
+  border-bottom-color: var(--bleu-cyan);
+}
+
+.nav-tab.active-anssi {
+  color: var(--rouille);
+  border-bottom-color: var(--rouille);
+}
+
+.nav-tab.active-abbr {
+  color: var(--rouille);
+  border-bottom-color: var(--rouille);
+}
+
+/* SEARCH + FILTER BAR */
+.controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 40px;
+  flex-wrap: wrap;
+}
+
+.search-box {
+  position: relative;
+  flex: 0 1 500px;
+}
+
+.search-box input {
+  width: 100%;
+  padding: 12px 16px 12px 44px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  color: var(--blanc);
+  background: var(--bleu-abysse);
+  border: 2px solid var(--gris-fonce);
+  border-radius: 3px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.search-box input:focus {
+  border-color: var(--bleu-cyan);
+}
+
+.search-box input::placeholder {
+  color: var(--gris-moyen);
+}
+
+.search-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--gris-moyen);
+  font-size: 18px;
+  pointer-events: none;
+}
+
+.counter {
+  font-family: 'Roboto Mono', monospace;
+  font-size: 14px;
+  color: var(--gris-moyen);
+}
+
+/* VIEW TOGGLE */
+.view-section {
+  display: none;
+}
+
+.view-section.active {
+  display: block;
+}
+
+/* FAMILIES SECTION */
+.families-section {
+  padding: 0 40px;
+}
+
+/* FILTER PILLS */
+.filter-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  padding: 8px 40px 20px;
+}
+
+.filter-pill {
+  padding: 8px 16px;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  background: var(--bleu-abysse);
+  color: var(--gris-clair);
+  border: 1px solid var(--gris-fonce);
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.filter-pill:hover {
+  border-color: var(--bleu-cyan);
+  color: var(--blanc);
+}
+
+.filter-pill.active {
+  background: var(--bleu-cyan);
+  color: var(--bleu-abysse-dark);
+  border-color: var(--bleu-cyan);
+}
+
+/* FAMILY GROUP */
+.family-group {
+  margin-bottom: 40px;
+}
+
+.family-title {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
+  font-size: 26px;
+  line-height: 1.2;
+  padding: 12px 0 4px;
+  border-left: 4px solid var(--fam-color, var(--bleu-cyan));
+  padding-left: 16px;
+  margin-bottom: 6px;
+  color: var(--blanc);
+}
+
+.family-session {
+  font-family: 'Roboto Mono', monospace;
+  font-weight: 400;
+  font-size: 13px;
+  color: var(--fam-color, var(--bleu-cyan));
+  padding-left: 20px;
+  margin-bottom: 16px;
+}
+
+/* CARDS GRID -- format carte a jouer */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+/* CARD -- fond colore par famille */
+.card {
+  background: var(--card-bg-color, var(--card-bg));
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 3px;
+  padding: 24px 20px 20px;
+  min-height: 320px;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+  cursor: default;
+  position: relative;
+  overflow: hidden;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--fam-color, var(--bleu-cyan));
+  opacity: 0.6;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.card:hover::before {
+  opacity: 1;
+}
+
+.card-name {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  color: var(--bleu-cyan);
+  margin-bottom: 4px;
+}
+
+.card-aka {
+  font-family: 'Roboto Mono', monospace;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.card-desc {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--blanc);
+  margin-bottom: auto;
+  flex: 1;
+}
+
+.card-example {
+  font-family: 'Roboto Mono', monospace;
+  font-size: 12px;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.6);
+  padding: 10px 12px;
+  margin-top: 14px;
+  background: rgba(0, 0, 0, 0.25);
+  border-left: 3px solid var(--fam-color, var(--bleu-cyan));
+  border-radius: 0 2px 2px 0;
+}
+
+.card-session-tag {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  font-family: 'Roboto Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 2px;
+  background: rgba(0, 0, 0, 0.3);
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* ANSSI TAB STYLES */
+.anssi-content {
+  padding: 20px 40px;
+}
+
+.anssi-section {
+  margin-bottom: 40px;
+}
+
+.anssi-guide-header {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
+  font-size: 22px;
+  color: var(--blanc);
+  margin-bottom: 20px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--rouille);
+}
+
+.anssi-recommendation {
+  background: var(--card-bg);
+  border-left: 4px solid var(--rouille);
+  padding: 16px;
+  margin-bottom: 12px;
+  border-radius: 3px;
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.anssi-priority-badge {
+  flex-shrink: 0;
+  padding: 4px 10px;
+  font-family: 'Roboto Mono', monospace;
+  font-weight: 700;
+  font-size: 11px;
+  border-radius: 3px;
+  text-align: center;
+  min-width: 90px;
+  white-space: nowrap;
+}
+
+.anssi-priority-indispensable {
+  background: #2d7d3d;
+  color: #ffffff;
+}
+
+.anssi-priority-recommande {
+  background: #2d5f8e;
+  color: #ffffff;
+}
+
+.anssi-priority-renforce {
+  background: #5a5a5a;
+  color: #ffffff;
+}
+
+.anssi-rec-content {
+  flex: 1;
+}
+
+.anssi-rec-title {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--blanc);
+  margin-bottom: 6px;
+}
+
+.anssi-rec-desc {
+  font-size: 14px;
+  color: var(--gris-clair);
+  margin-bottom: 8px;
+  line-height: 1.5;
+}
+
+.anssi-rec-ref {
+  font-family: 'Roboto Mono', monospace;
+  font-size: 12px;
+  color: var(--gris-moyen);
+}
+
+/* ABBREVIATIONS SECTION */
+.abbr-section {
+  padding: 0 40px 40px;
+}
+
+.abbr-category {
+  margin-bottom: 40px;
+}
+
+.abbr-category-title {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 1.2;
+  padding: 12px 0 4px;
+  border-left: 4px solid var(--bleu-cyan);
+  padding-left: 16px;
+  margin-bottom: 4px;
+}
+
+.abbr-category-desc {
+  font-family: 'Roboto Mono', monospace;
+  font-weight: 400;
+  font-size: 13px;
+  color: var(--gris-moyen);
+  padding-left: 20px;
+  margin-bottom: 12px;
+  font-style: italic;
+}
+
+.abbr-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--card-bg);
+  border: 1px solid rgba(0, 180, 216, 0.2);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.abbr-table tr {
+  border-bottom: 1px solid rgba(0, 180, 216, 0.1);
+}
+
+.abbr-table tr:last-child {
+  border-bottom: none;
+}
+
+.abbr-table th {
+  background: var(--bleu-abysse);
+  padding: 12px 16px;
+  text-align: left;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--bleu-cyan);
+  border-bottom: 2px solid var(--bleu-cyan);
+}
+
+.abbr-table td {
+  padding: 12px 16px;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.abbr-table td:first-child {
+  font-family: 'Roboto Mono', monospace;
+  font-weight: 600;
+  color: var(--bleu-cyan);
+  width: 100px;
+}
+
+.abbr-table td:last-child {
+  color: var(--gris-clair);
+}
+
+.abbr-table tbody tr:hover {
+  background: rgba(0, 180, 216, 0.08);
+}
+
+/* FOOTER */
+.footer {
+  background: var(--bleu-abysse);
+  border-top: 2px solid var(--rouille);
+  padding: 20px 40px;
+  text-align: center;
+  margin-top: 40px;
+}
+
+.footer p {
+  font-size: 12px;
+  color: var(--gris-moyen);
+  margin: 4px 0;
+}
+
+/* PRINT STYLES */
+@media print {
+  body {
+    background: white;
+    color: black;
+  }
+
+  .header, .nav-tabs, .controls, .filter-pills, .footer {
+    display: none;
+  }
+
+  .card, .abbr-table {
+    page-break-inside: avoid;
+    background: white;
+    color: black;
+    border: 1px solid #ddd;
+  }
+
+  .card-desc, .abbr-table td:last-child {
+    color: black;
+  }
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .header h1 {
+    font-size: 28px;
+  }
+
+  .nav-tabs {
+    padding: 0 10px;
+  }
+
+  .nav-tab {
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+
+  .controls {
+    padding: 16px 20px;
+    gap: 8px;
+  }
+
+  .search-box {
+    flex: 0 1 300px;
+  }
+
+  .cards-grid {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 12px;
+    padding: 0 20px;
+  }
+
+  .families-section, .abbr-section {
+    padding: 0 20px;
+  }
+
+  .counter {
+    display: none;
+  }
+
+  .anssi-recommendation {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .abbr-table {
+    font-size: 12px;
+  }
+
+  .abbr-table th, .abbr-table td {
+    padding: 8px 10px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <h1>Encyclopedie Cybersecurite</h1>
+  <div class="subtitle">S1 Hardening • S2 Audit • S3 SIEM</div>
+  <div class="meta">11 families | 84 concepts | 103 abreviations | ANSSI</div>
+</div>
+
+<!-- NAVIGATION TABS -->
+<div class="nav-tabs">
+  <button class="nav-tab active" onclick="switchView('families')">Familles & Concepts</button>
+  <button class="nav-tab" onclick="switchView('anssi')">Referentiel ANSSI</button>
+  <button class="nav-tab" onclick="switchView('abbr')">Abreviations</button>
+</div>
+
+<!-- SEARCH & CONTROLS -->
+<div class="controls">
+  <div class="search-box">
+    <span class="search-icon">S</span>
+    <input type="text" id="searchInput" placeholder="Rechercher un concept, une abreviation ou une recommandation ANSSI..." onkeyup="filterContent()">
+  </div>
+  <div class="counter"><span id="resultCount">0</span> resultats</div>
+</div>
+
+<!-- ===== FAMILIES & CONCEPTS VIEW ===== -->
+<div id="families-view" class="view-section active">
+  <div class="filter-pills" id="filterPills"></div>
+  <div class="families-section" id="familiesContainer"></div>
+</div>
+
+<!-- ===== ANSSI REFERENTIEL VIEW ===== -->
+<div id="anssi-view" class="view-section">
+  <div class="anssi-content" id="anssiContainer"></div>
+</div>
+
+<!-- ===== ABBREVIATIONS VIEW ===== -->
+<div id="abbr-view" class="view-section">
+  <div class="abbr-section" id="abbrContainer"></div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <p>Baptiste Ochlafen • TheRustLab</p>
+  <p>Sources open-source : MIT, BSD, Apache 2.0, CC BY-SA 4.0</p>
+</div>
+
+<script>
+// =============================================
+// DATA -- FAMILIES & CONCEPTS
+// =============================================
+
+const families = [
+  {
+    name: "Hardening Systeme",
+    sessions: "S1",
+    color: "#00B4D8", bg: "#0C353D",
+    cards: [
+      { name: "Defense en profondeur", aka: "Defense in Depth", desc: "Strategie de securite superposant plusieurs couches de protection independantes. Si une couche echoue, les suivantes prennent le relais. Concept fondamental repris par l'ANSSI.", example: "7 couches : physique, reseau, hote, application, donnees, utilisateur, politique" },
+      { name: "Triade CIA", aka: "Confidentiality, Integrity, Availability", desc: "Les trois piliers fondamentaux de la securite de l'information : Confidentialite, Integrite, Disponibilite. Extension ANSSI : DICP (Disponibilite, Integrite, Confidentialite, Preuve).", example: "CIA + Preuve = DICP (referentiel ANSSI)" },
+      { name: "Surface d'attaque", aka: "Attack Surface", desc: "Ensemble des points d'entree exploitables sur un systeme : ports ouverts, services actifs, comptes utilisateurs, binaires SUID. Reduire la surface d'attaque est le premier objectif du hardening.", example: "ss -tlnp -> lister tous les ports TCP en ecoute" },
+      { name: "Principe du moindre privilege", aka: "Least Privilege", desc: "Chaque utilisateur, processus ou service ne doit disposer que des droits strictement necessaires a son fonctionnement. Limite l'impact en cas de compromission.", example: "visudo : restreindre les commandes autorisees par utilisateur" },
+      { name: "10 piliers du hardening", aka: "CIS / ANSSI / STIG", desc: "Les axes majeurs du durcissement Linux : installation minimale, mises a jour, comptes et mots de passe, sudo, SSH, pare-feu, sysctl, audit, integrite fichiers, services.", example: "Debian netinstall + unattended-upgrades + nftables + auditd + AIDE" },
+      { name: "Installation minimale", aka: "Minimal Install / netinstall", desc: "Installer uniquement les paquets essentiels pour reduire la surface d'attaque. Debian netinstall sans environnement de bureau. Partitionnement LVM avec separations /home, /var, /tmp.", example: "Debian 12 netinstall -> decocher 'Environnement de bureau'" },
+      { name: "Durcissement SSH", aka: "SSH Hardening", desc: "Securisation du service OpenSSH : cles Ed25519, port non standard (2222), desactivation root login, restriction des algorithmes cryptographiques (KexAlgorithms, Ciphers, MACs), banniere legale.", example: "Port 2222, PermitRootLogin no, PubkeyAuthentication yes" },
+      { name: "sysctl hardening", aka: "Kernel Parameters", desc: "Parametres noyau Linux pour la securite reseau et systeme. Configures dans /etc/sysctl.d/99-hardening.conf : SYN cookies, reverse path filtering, desactivation IP forwarding, restriction ICMP.", example: "net.ipv4.tcp_syncookies=1, kernel.dmesg_restrict=1" },
+      { name: "fail2ban", aka: "Intrusion Prevention", desc: "Outil de prevention d'intrusion analysant les logs en temps reel. Bannit temporairement les IPs apres N echecs de connexion. Action nftables-multiport en S1.", example: "fail2ban-client status sshd -> voir les IPs bannies" },
+      { name: "nftables", aka: "Netfilter Tables", desc: "Framework de filtrage de paquets Linux remplacant iptables. Politique DROP par defaut : seuls les flux explicitement autorises passent. Syntaxe structuree en tables, chaines et regles.", example: "nft list ruleset -> afficher toutes les regles actives" },
+      { name: "Options de montage securisees", aka: "Mount Options", desc: "Restrictions appliquees aux partitions via /etc/fstab : noexec (pas d'execution), nosuid (ignorer les bits SUID), nodev (pas de peripheriques). Protege /tmp et /var.", example: "/tmp : noexec,nosuid,nodev dans /etc/fstab" },
+      { name: "LUKS", aka: "Linux Unified Key Setup", desc: "Standard de chiffrement de disque sous Linux. Protege les donnees au repos (data at rest) en cas de vol physique. Compatible avec LVM.", example: "cryptsetup luksFormat /dev/sda2" },
+      { name: "Protection GRUB", aka: "Bootloader Security", desc: "Protection du chargeur d'amorcage par mot de passe pour empecher la modification des parametres de demarrage (mode single user, init=/bin/bash).", example: "grub-mkpasswd-pbkdf2 -> /etc/grub.d/40_custom" },
+      { name: "Desactivation des services inutiles", aka: "Service Minimization", desc: "Arreter et desactiver les services non necessaires pour reduire la surface d'attaque. Exemples courants : avahi-daemon, cups, bluetooth, ModemManager, exim4.", example: "systemctl disable --now avahi-daemon cups bluetooth" },
+      { name: "unattended-upgrades", aka: "Auto Security Updates", desc: "Mecanisme Debian/Ubuntu pour appliquer automatiquement les mises a jour de securite. Configure pour ne pas redemarrer automatiquement en production.", example: "apt install unattended-upgrades && dpkg-reconfigure -plow unattended-upgrades" }
+    ]
+  },
+  {
+    name: "Authentification et Acces",
+    sessions: "S1",
+    color: "#009BCC", bg: "#0C313D",
+    cards: [
+      { name: "PAM", aka: "Pluggable Authentication Modules", desc: "Framework modulaire d'authentification sous Linux. Permet de configurer des politiques de mots de passe (longueur, complexite), le verrouillage de comptes et les limites de ressources.", example: "pam_pwquality.so : minlen=12, ucredit=-1, dcredit=-1" },
+      { name: "SUID / SGID", aka: "Set User/Group ID", desc: "Bits speciaux sur les fichiers executables permettant de s'executer avec les droits du proprietaire (SUID) ou du groupe (SGID). Vecteur d'escalade de privileges si mal controle.", example: "find / -perm -4000 -type f 2>/dev/null -> lister les binaires SUID" },
+      { name: "GTFOBins", aka: "Unix Binaries Exploitation", desc: "Base de donnees de binaires Unix legitimement presents sur les systemes pouvant etre exploites pour escalader les privileges, echapper a des environnements restreints ou exfiltrer des donnees.", example: "find . -exec /bin/sh \\; -> shell via find si SUID" },
+      { name: "Permissions Linux", aka: "chmod / chown", desc: "Systeme de droits POSIX : lecture (r), ecriture (w), execution (x) pour proprietaire, groupe et autres. Les fichiers critiques (/etc/shadow, /etc/ssh/) doivent avoir des permissions restrictives.", example: "chmod 600 /etc/shadow (lecture/ecriture root uniquement)" },
+      { name: "sudo", aka: "Superuser Do", desc: "Mecanisme d'elevation de privileges permettant a un utilisateur autorise d'executer des commandes en tant que root. Configurable finement dans /etc/sudoers avec log des commandes.", example: "Defaults log_input, log_output dans /etc/sudoers" },
+      { name: "Limites PAM", aka: "/etc/security/limits.conf", desc: "Configuration des limites de ressources par utilisateur ou groupe : nombre maximal de processus, taille des fichiers, memoire. Previent les fork bombs et les abus de ressources.", example: "* hard nproc 150, * hard core 0" }
+    ]
+  },
+  {
+    name: "Audit et Journalisation",
+    sessions: "S2",
+    color: "#2C99D0", bg: "#0C2C3D",
+    cards: [
+      { name: "auditd", aka: "Linux Audit Daemon", desc: "Daemon d'audit du noyau Linux capturant les evenements systeme. Trois types de regles : controle (configuration), fichiers (surveillance de modifications), appels systeme (syscalls).", example: "-w /etc/passwd -p wa -k identity -> surveiller les modifications" },
+      { name: "ausearch / aureport", aka: "Audit Search & Report", desc: "Outils de recherche et de reporting dans les logs d'audit. ausearch filtre par type, cle ou date. aureport genere des rapports synthetiques (authentifications, fichiers, anomalies).", example: "ausearch -k identity --start today | aureport -f" },
+      { name: "rsyslog", aka: "Rocket-fast System Logging", desc: "Daemon de journalisation systeme Linux. Architecture a 4 couches : auditd (noyau), rsyslog/journald (systeme), logs applicatifs, AIDE/FIM. Centralisation possible vers un SIEM.", example: "/var/log/auth.log, /var/log/syslog, /var/log/kern.log" },
+      { name: "journald", aka: "systemd Journal", desc: "Systeme de journalisation binaire integre a systemd. Collecte les logs de tous les services. Complementaire a rsyslog pour le stockage persistant.", example: "journalctl -u sshd --since '1 hour ago'" },
+      { name: "logrotate", aka: "Log Rotation", desc: "Utilitaire de rotation automatique des fichiers de logs pour eviter la saturation du disque. Configuration par fichier dans /etc/logrotate.d/.", example: "logrotate -f /etc/logrotate.conf -> rotation forcee" },
+      { name: "Regles auditd hardening", aka: "Audit Rules", desc: "Ensemble de regles d'audit preconfigurees pour le hardening : surveillance des fichiers d'identite, des modifications de politique, des montages, des modules noyau et des commandes privilegiees.", example: "-a always,exit -F arch=b64 -S execve -k exec_log" }
+    ]
+  },
+  {
+    name: "Integrite et Conformite",
+    sessions: "S2",
+    color: "#5C95CE", bg: "#0C253D",
+    cards: [
+      { name: "AIDE", aka: "Advanced Intrusion Detection Environment", desc: "Outil de controle d'integrite des fichiers (FIM offline). Cree une base de reference des empreintes de fichiers critiques et detecte toute modification. Verification periodique via cron.", example: "aideinit -> creer la base, aide --check -> verifier" },
+      { name: "FIM", aka: "File Integrity Monitoring", desc: "Surveillance en temps reel des modifications de fichiers critiques (/etc/passwd, /etc/shadow, binaires systeme). AIDE est la version offline (S2), Wazuh la version temps reel (S3).", example: "Wazuh alerte FIM niveau 7+ si /etc/hosts est modifie" },
+      { name: "Lynis", aka: "Security Auditing Tool", desc: "Outil d'audit de securite open-source pour systemes Unix. Genere un score de durcissement (hardening index) en evaluant la configuration par rapport aux bonnes pratiques CIS et ANSSI.", example: "lynis audit system -> score attendu > 60% apres hardening S1" },
+      { name: "rkhunter", aka: "Rootkit Hunter", desc: "Outil de detection de rootkits, backdoors et exploits locaux. Verifie les binaires systeme, les permissions, les ports en ecoute et les fichiers suspects.", example: "rkhunter --check --skip-keypress" },
+      { name: "SCA", aka: "Security Configuration Assessment", desc: "Module Wazuh verifiant la conformite d'un systeme par rapport aux benchmarks CIS (Center for Internet Security). Genere un score de 0 a 100%. Score > 60% attendu apres hardening S1.", example: "Dashboard Wazuh -> SCA -> Debian CIS Benchmark" },
+      { name: "CIS Benchmarks", aka: "Center for Internet Security", desc: "Referentiels de securite detailles par systeme d'exploitation, application ou service. Standards reconnus internationalement pour l'evaluation et le durcissement des systemes.", example: "CIS Debian Linux Benchmark : 300+ controles" }
+    ]
+  },
+  {
+    name: "Architecture Reseau",
+    sessions: "S3",
+    color: "#8F88CE", bg: "#110C3D",
+    cards: [
+      { name: "VLAN", aka: "Virtual Local Area Network - IEEE 802.1Q", desc: "Segmentation logique d'un reseau physique au niveau L2. Chaque VLAN est une zone de securite isolee. Marquage des trames Ethernet avec un tag VLAN ID (12 bits = 4096 VLANs max).", example: "Lab S3 : VLAN 10 Management, 20 Serveurs, 30 Users, 60 DMZ" },
+      { name: "DMZ", aka: "DeMilitarized Zone", desc: "Zone reseau intermediaire entre Internet et le LAN interne. Heberge les services accessibles depuis l'exterieur (web, mail, DNS). Les services DMZ ne peuvent pas initier de connexion vers le LAN.", example: "Internet -> [FW Ext] -> DMZ -> [FW Int] -> LAN" },
+      { name: "VRF", aka: "Virtual Routing and Forwarding", desc: "Isolation logique au niveau L3 : plusieurs tables de routage independantes sur un meme routeur. Complementaire aux VLANs (L2). Usage operateurs MPLS et industriel.", example: "VLAN = isolation L2 (trames), VRF = isolation L3 (tables IP)" },
+      { name: "Micro-segmentation", aka: "Workload Segmentation", desc: "Segmentation au niveau de chaque workload ou conteneur, pas seulement au niveau VLAN. Chaque VM ou conteneur Docker possede ses propres regles de flux. Typique des SDN et du cloud.", example: "WireGuard + mTLS, Kubernetes NetworkPolicy, Cilium, NSX" },
+      { name: "Zero Trust Network", aka: "Never Trust, Always Verify", desc: "Modele de securite ou aucune zone n'est implicitement sure, meme le LAN interne. L'authentification se fait par identite (pas par IP ou reseau). Evolution : VLAN (S3) -> Zero Trust (S6) -> PKI/mTLS (S7).", example: "Meme sur le LAN interne, authentification obligatoire" },
+      { name: "Reseau plat", aka: "Flat Network", desc: "Reseau sans segmentation ou un poste compromis peut atteindre 100% du SI. Mouvement lateral libre pour l'attaquant. La segmentation reduit le blast radius d'une intrusion.", example: "Blast radius : impact d'une compromission sur le SI" },
+      { name: "Port trunk vs access", aka: "802.1Q Tagged / Untagged", desc: "Port trunk : transporte plusieurs VLANs simultanement avec tags 802.1Q. Port access : connecte un equipement a un seul VLAN (untagged). Le switch GNS3 utilise dot1q pour le trunk.", example: "Port 0 trunk (tous VLANs) -> OPNsense, Ports 1-4 access" },
+      { name: "Routage inter-VLAN", aka: "Router on a Stick", desc: "Les VLANs ne communiquent pas sans routage explicite. OPNsense assure le routage inter-VLAN en filtrant les flux : seuls les flux autorises passent entre les zones.", example: "OPNsense : 4 sous-interfaces VLAN + regles par interface" }
+    ]
+  },
+  {
+    name: "Securite Perimetrique",
+    sessions: "S3",
+    color: "#B679D3", bg: "#2D0C3D",
+    cards: [
+      { name: "Pare-feu stateless", aka: "ACL L3/L4", desc: "Filtrage par IP et port sans memoire des sessions. Pas de suivi de connexion. Utilise sur les routeurs avec des ACL (Cisco). Premiere generation de pare-feu.", example: "ACL Cisco : permit tcp 192.168.1.0 0.0.0.255 any eq 80" },
+      { name: "Pare-feu stateful", aka: "Conntrack / Table d'etats", desc: "Filtrage avec suivi des sessions TCP/UDP. Autorise automatiquement les reponses aux connexions initiees. OPNsense, iptables, nftables sont des pare-feu stateful.", example: "nftables : ct state established,related accept" },
+      { name: "NGFW", aka: "Next-Generation Firewall", desc: "Pare-feu stateful + inspection L7 + IPS integre + controle applicatif. Peut identifier les applications (HTTP, DNS, SMTP) dans les flux. Palo Alto, Stormshield, Fortinet.", example: "NGFW detecte du trafic BitTorrent meme sur port 443" },
+      { name: "OPNsense", aka: "FreeBSD Firewall (BSD-2-Clause)", desc: "Pare-feu open-source base sur FreeBSD/HardenedBSD. Fonctionnalites : VLAN 802.1Q, VPN (IPsec/WireGuard/OpenVPN), IDS/IPS (Suricata), DNS Resolver, DHCP, proxy Squid, QoS.", example: "Lab S3 : OPNsense = FW stateful + routeur inter-VLAN + DHCP + DNS" },
+      { name: "Politique ANSSI 6 sections", aka: "Regles de filtrage", desc: "Structure ANSSI d'une regle de pare-feu : 1) Etat (active/inactive/test), 2) Source (interface/IP/port), 3) Destination, 4) Protocole (TCP/UDP/ICMP), 5) Action (ALLOW/DENY/LOG), 6) Commentaire obligatoire.", example: "Regle sans commentaire = regle de securite incomplete (ANSSI)" },
+      { name: "Deny-all + Whitelist", aka: "Default Deny Policy", desc: "Politique fondamentale ANSSI : tout trafic est refuse par defaut. Seuls les flux strictement necessaires sont autorises (whitelist explicite). Derniere regle : BLOCK any any.", example: "OPNsense : BLOCK any any -> any any en derniere regle par VLAN" },
+      { name: "Proxy sortant", aka: "Forward Proxy (Squid)", desc: "Intercepte les connexions CLIENT vers Internet. Fonctions : filtrage de contenu, cache, anonymisation, controle de la navigation utilisateur. Protege les CLIENTS.", example: "Squid, OPNsense Squid plugin, Bluecoat" },
+      { name: "Reverse Proxy", aka: "nginx / HAProxy", desc: "Intercepte les connexions Internet vers un SERVEUR. Fonctions : load balancing, terminaison TLS, routage applicatif. Protege les SERVEURS.", example: "nginx devant une application web en DMZ" },
+      { name: "WAF", aka: "Web Application Firewall", desc: "Inspecte le payload HTTP pour detecter les attaques applicatives : SQLi, XSS, path traversal (OWASP Top 10). Ne remplace pas un pare-feu reseau, travaille uniquement au niveau L7.", example: "ModSecurity + OWASP CRS devant une application web" },
+      { name: "UTM", aka: "Unified Threat Management", desc: "Solution tout-en-un pour PME : NGFW + antivirus + VPN + filtrage URL + anti-spam. Simplifie l'administration mais cree un point unique de defaillance.", example: "Fortinet FortiGate, Sophos UTM" }
+    ]
+  },
+  {
+    name: "Attaques TCP/IP",
+    sessions: "S1+S3",
+    color: "#D96BA8", bg: "#3D0C27",
+    cards: [
+      { name: "ARP Spoofing", aka: "ARP Poisoning (L2)", desc: "Attaque L2 : envoi de fausses reponses ARP pour empoisonner les caches des victimes. Resultat : Man-in-the-Middle au niveau L2, tout le trafic passe par l'attaquant.", example: "Contre-mesure : DAI (Dynamic ARP Inspection) sur le switch" },
+      { name: "SYN Flood", aka: "TCP DoS (L4)", desc: "Attaque L4 : envoi massif de paquets SYN sans jamais envoyer le ACK final. Sature la table des connexions TCP half-open du serveur. Amplification DDoS possible via botnet.", example: "Contre-mesure : SYN Cookies (net.ipv4.tcp_syncookies=1)" },
+      { name: "DNS Cache Poisoning", aka: "Attaque Kaminsky (L7)", desc: "Injection de fausses reponses DNS dans le cache d'un resolver. Les victimes sont redirigees vers des serveurs malveillants. Transparent pour l'utilisateur.", example: "Contre-mesures : DNSSEC, DoT (port 853), DoH (port 443)" },
+      { name: "IP Spoofing", aka: "Falsification d'adresse source (L3)", desc: "Falsification de l'adresse IP source pour masquer l'identite de l'attaquant ou contourner les ACL. Contre-mesure : RPF (Reverse Path Forwarding) via sysctl rp_filter + BCP38.", example: "net.ipv4.conf.all.rp_filter=1 (active en S1)" },
+      { name: "Man-in-the-Middle", aka: "MITM (toutes couches)", desc: "Attaque ou l'adversaire s'interpose entre deux parties communicantes. Peut intercepter, modifier ou injecter du trafic. Contre-mesures : chiffrement TLS 1.3 + HSTS.", example: "ARP Spoofing (L2) + DNS Poisoning (L7) = MITM complet" },
+      { name: "DAI", aka: "Dynamic ARP Inspection", desc: "Mesure de securite L2 sur les commutateurs (Cisco/OPNsense). Valide chaque paquet ARP contre la table DHCP Snooping Binding. Empeche l'ARP Spoofing.", example: "ip arp inspection vlan 10 + ip dhcp snooping (Cisco)" },
+      { name: "DHCP Snooping", aka: "DHCP Security (L2)", desc: "Securite L2 sur les commutateurs : distingue les ports trusted (serveur DHCP) des ports untrusted (clients). Prerequis pour DAI. Empeche les serveurs DHCP non autorises.", example: "ANSSI BP-033/BP-094 : activer sur tous les commutateurs" }
+    ]
+  },
+  {
+    name: "SIEM et Detection",
+    sessions: "S3",
+    color: "#EB6376", bg: "#3D0C13",
+    cards: [
+      { name: "SIEM", aka: "Security Information and Event Management", desc: "Plateforme centralisant, normalisant et correlant les evenements de securite de toutes les sources. Transforme le bruit (millions de logs/jour) en signal (alertes coherentes).", example: "Connexion SSH + modif /etc/passwd + nouveau service = chaine d'alerte" },
+      { name: "Wazuh", aka: "SIEM/XDR Open-Source", desc: "Solution open-source combinant SIEM et XDR. Trois composants : Manager (analyse, 3000+ regles MITRE ATT&CK), Indexer (OpenSearch, stockage), Dashboard (interface web Kibana-like).", example: "Wazuh OVA all-in-one : Manager + Indexer + Dashboard" },
+      { name: "Agent Wazuh", aka: "HIDS Agent (~35 Mo RAM)", desc: "Processus leger installe sur chaque hote surveille. Collecte les logs, surveille les fichiers (FIM), inventorie les paquets et execute les politiques SCA. Moins de 1% CPU.", example: "WAZUH_MANAGER='192.168.10.50' apt-get install wazuh-agent" },
+      { name: "IDS vs IPS", aka: "Detection vs Prevention", desc: "IDS (Intrusion Detection System) : detecte et alerte, mode passif. IPS (Intrusion Prevention System) : detecte, alerte ET bloque, mode actif inline. Suricata dans OPNsense peut faire les deux.", example: "IDS = alarme, IPS = alarme + porte blindee automatique" },
+      { name: "HIDS vs NIDS", aka: "Host vs Network IDS", desc: "HIDS (Wazuh) : installe sur chaque machine, surveille les evenements locaux (logs, fichiers, processus). Voit le trafic chiffre TLS. NIDS (Suricata) : sur le reseau, analyse les paquets en transit.", example: "HIDS Wazuh voit les modifications de /etc/shadow, le NIDS non" },
+      { name: "Correlation SIEM", aka: "Temporal & Contextual", desc: "Mise en relation d'evenements isoles pour detecter des attaques multi-etapes. Sans SIEM : impossible de correler des logs eparpilles entre silos. Qualite des regles = qualite des alertes.", example: "SolarWinds (2020) : 9 mois non detecte dans des centaines d'orgs" },
+      { name: "OpenSearch", aka: "Wazuh Indexer (Fork Elasticsearch)", desc: "Moteur de recherche et d'indexation des evenements de securite. Composant Indexer de Wazuh. Stockage des alertes et des logs. Necessite 4+ Go de RAM (8 Go recommandes).", example: "systemctl status wazuh-indexer -> doit etre Active (running)" },
+      { name: "GNS3", aka: "Graphical Network Simulator 3", desc: "Emulateur de reseau open-source (GPL v3) permettant de simuler des equipements reels (routeurs, pare-feu) via QEMU/VirtualBox. Lab reseau complet sans materiel physique.", example: "Topologie S3 : Cloud NAT + OPNsense + Switch L2 + 4 VMs" }
+    ]
+  },
+  {
+    name: "Referentiels et Normes",
+    sessions: "S1+S2+S3",
+    color: "#EB665D", bg: "#3D0F0C",
+    cards: [
+      { name: "ANSSI", aka: "Agence Nationale SSI (France)", desc: "Autorite nationale en matiere de securite des systemes d'information. Publie des guides de reference : PG-040 (cloisonnement), PA-066 (DMZ), PA-105 (DNS), BP-033/BP-094 (commutateurs).", example: "ANSSI PG-040 : la segmentation est un principe fondamental" },
+      { name: "CIS", aka: "Center for Internet Security", desc: "Organisation internationale publiant des benchmarks de securite par OS, application et service. Utilise par le module SCA de Wazuh pour evaluer la conformite.", example: "CIS Debian Linux Benchmark -> score SCA Wazuh" },
+      { name: "MITRE ATT&CK", aka: "Adversarial Tactics & Techniques", desc: "Framework de tactiques et techniques d'attaque. Base de regles Wazuh (3000+). Reference mondiale pour la classification des comportements adverses.", example: "T1078 Valid Accounts, T1059 Command and Scripting Interpreter" },
+      { name: "STIG / DISA", aka: "Security Technical Implementation Guides", desc: "Guides de securite du Department of Defense americain. Regles de durcissement detaillees par technologie. Plus strict que les benchmarks CIS.", example: "STIG Debian : restrictions supplementaires sur les services" },
+      { name: "OWASP Top 10", aka: "Web Application Security Risks", desc: "Classification des 10 risques de securite les plus critiques pour les applications web. Reference pour les WAF et les audits applicatifs. Inclut SQLi, XSS, CSRF.", example: "A01:2021 Broken Access Control, A03:2021 Injection" },
+      { name: "RFC", aka: "Request for Comments (IETF)", desc: "Documents de specification des protocoles Internet. Definissent les standards techniques : ARP (RFC 826), TCP (RFC 793), DNS (RFC 1035), TLS 1.3 (RFC 8446).", example: "RFC 826 : specification ARP -> contexte attaque ARP Spoofing" }
+    ]
+  },
+  {
+    name: "Protocoles de Securite",
+    sessions: "S1+S3",
+    color: "#E66D50", bg: "#3D160C",
+    cards: [
+      { name: "TLS 1.3", aka: "Transport Layer Security", desc: "Protocole de chiffrement des communications. Version 1.3 : handshake en 1 round-trip, forward secrecy obligatoire, algorithmes obsoletes supprimes. Contre-mesure MITM.", example: "HSTS force le navigateur a utiliser TLS (pas de downgrade)" },
+      { name: "DNSSEC", aka: "DNS Security Extensions", desc: "Signatures cryptographiques sur les zones DNS. Chaine de confiance depuis la racine (.). Empeche le DNS Cache Poisoning en authentifiant les reponses.", example: "DNSKEY + RRSIG sur chaque zone DNS signee" },
+      { name: "DoT / DoH", aka: "DNS over TLS / DNS over HTTPS", desc: "Protocoles de chiffrement des requetes DNS. DoT (port 853) : chiffrement TLS dedie. DoH (port 443) : encapsulation DNS dans HTTPS, traverse les pare-feux. Cloisonnement ANSSI PA-105.", example: "OPNsense : resolver DNS interne + forwarder chiffre" },
+      { name: "IPsec / WireGuard", aka: "VPN Protocols", desc: "Protocoles de tunnel VPN. IPsec : standard industriel, complexe. WireGuard : moderne, plus simple, performant. Les deux disponibles dans OPNsense.", example: "WireGuard + mTLS : base de la micro-segmentation Zero Trust" },
+      { name: "HSTS", aka: "HTTP Strict Transport Security", desc: "En-tete HTTP forcant le navigateur a utiliser HTTPS exclusivement. Empeche les attaques de downgrade SSL/TLS et le SSL stripping.", example: "Strict-Transport-Security: max-age=31536000; includeSubDomains" },
+      { name: "mTLS", aka: "Mutual TLS Authentication", desc: "TLS avec authentification mutuelle : le serveur ET le client presentent un certificat. Base du Zero Trust : chaque service prouve son identite. Perspective S7 (PKI).", example: "Kubernetes : communication inter-services securisee par mTLS" }
+    ]
+  },
+  {
+    name: "Outils du Lab",
+    sessions: "S1+S2+S3",
+    color: "#DC744B", bg: "#3D1A0C",
+    cards: [
+      { name: "Debian 12", aka: "Stable / Bookworm", desc: "Distribution Linux de reference pour le serveur. Installation minimale (netinstall) comme base de hardening. VM durcie en S1 reutilisee comme agent Wazuh en S3.", example: "Debian 12.9.0 netinst amd64 -> 2 Go RAM, 20 Go disque" },
+      { name: "QEMU / QCOW2", aka: "Quick Emulator", desc: "Hyperviseur d'emulation/virtualisation utilise par GNS3. Format de disque QCOW2 : snapshots, compression, copy-on-write. La VM Debian est exportee en QCOW2 pour GNS3.", example: "qemu-img convert -f vdi -O qcow2 Debian.vdi debian-hardened.qcow2" },
+      { name: "VirtualBox / VMware", aka: "Hyperviseurs Desktop", desc: "Hyperviseurs de type 2 pour creer les VMs avant export GNS3. VirtualBox (GPLv2) recommande pour Wazuh OVA. VMware Workstation comme alternative.", example: "VBoxManage clonemedium disk --format QCOW Debian.vdi debian.qcow2" },
+      { name: "nmcli", aka: "NetworkManager CLI", desc: "Outil en ligne de commande pour configurer le reseau sous Linux. Utilise dans la Wazuh OVA pour configurer l'IP statique (192.168.10.50/24).", example: "nmcli con mod 'Wired connection 1' ipv4.addresses 192.168.10.50/24" },
+      { name: "Suricata", aka: "IDS/IPS Engine", desc: "Moteur IDS/IPS open-source integre a OPNsense. Analyse le trafic reseau en temps reel. Peut fonctionner en mode detection (IDS) ou prevention (IPS inline).", example: "OPNsense -> Services -> Intrusion Detection -> Enable Suricata" },
+      { name: "VPCS", aka: "Virtual PC Simulator", desc: "Simulateur de PC leger dans GNS3. Permet de tester la connectivite reseau (ping, traceroute) sans deployer de VM complete. Utilise pour les tests d'isolation VLAN.", example: "ip 192.168.30.100 255.255.255.0 192.168.30.1 -> test VLAN 30" }
+    ]
+  }
+];
+
+// =============================================
+// DATA -- ANSSI REFERENTIEL
+// =============================================
+
+const anssiGuides = [
+  {
+    guide: "A",
+    title: "Hygiene Informatique",
+    recommendations: [
+      { title: "Inventorier tous les equipements et logiciels", desc: "Maintenir un registre a jour de tous les actifs IT (materiel, logiciels, versions). Prerequis pour une securite effective.", ref: "ANSSI - Guide Hygiene", priority: "Indispensable" },
+      { title: "Appliquer les mises a jour de securite sans delai", desc: "Deployer les patches de securite sur tous les systemes dans un delai maximal de 30 jours pour les vulnerabilites critiques.", ref: "ANSSI - Guide Hygiene", priority: "Indispensable" },
+      { title: "Definir et verifier les regles de filtrage des pare-feux", desc: "Mettre en place des politiques de filtrage claires, documenter chaque regle et les tester regulierement.", ref: "ANSSI - Guide Hygiene", priority: "Indispensable" },
+      { title: "Segmenter le reseau et controller les flux", desc: "Diviser le reseau en zones de securite et controler les communications entre les zones via pare-feu.", ref: "ANSSI - Guide Hygiene", priority: "Indispensable" },
+      { title: "Proteger les acces d'administration", desc: "Limiter l'acces root/administrateur, utiliser des comptes dedies, journaliser les actions privilegiees.", ref: "ANSSI - Guide Hygiene", priority: "Indispensable" },
+      { title: "Gerer les droits selon le principe du moindre privilege", desc: "Attribuer a chaque utilisateur/processus les droits minimums necessaires a son fonctionnement.", ref: "ANSSI - Guide Hygiene", priority: "Indispensable" },
+      { title: "Mettre en place une journalisation centralisee", desc: "Collecter les logs de toutes les sources vers un SIEM central pour analyse et correlation.", ref: "ANSSI - Guide Hygiene", priority: "Indispensable" },
+      { title: "Sauvegarder regulierement les donnees critiques", desc: "Executer des sauvegardes quotidiennes des donnees critiques avec tests periodiques de restauration.", ref: "ANSSI - Guide Hygiene", priority: "Indispensable" }
+    ]
+  },
+  {
+    guide: "B",
+    title: "Cloisonnement et Architecture",
+    recommendations: [
+      { title: "Segmenter le reseau en zones de securite", desc: "Utiliser les VLANs (L2) ou VRF (L3) pour isoler les flux selon leur sensibilite (management, production, users, DMZ).", ref: "ANSSI PG-040", priority: "Indispensable" },
+      { title: "Placer les services publics en DMZ double pare-feu", desc: "Heberger les services accessibles depuis Internet (web, mail) en DMZ avec pare-feu interne et externe.", ref: "ANSSI PA-066", priority: "Indispensable" },
+      { title: "Isoler le reseau de management dans un VLAN dedie", desc: "Separer physiquement le reseau d'administration du reseau de production pour empecher les mouvements lateraux.", ref: "ANSSI PG-040", priority: "Indispensable" },
+      { title: "Controler les flux inter-zones par pare-feu stateful", desc: "Utiliser un pare-feu avec inspection d'etat (OPNsense, iptables, nftables) entre chaque zone.", ref: "ANSSI PG-040", priority: "Indispensable" },
+      { title: "Utiliser des technologies de segmentation adaptees", desc: "Employer des VLANs (L2) pour les reseaux clos, VRF (L3) pour les gros operateurs, SDN pour le cloud.", ref: "ANSSI PG-040", priority: "Recommande" },
+      { title: "Ne jamais connecter directement un reseau interne a Internet", desc: "Toute connexion Internet doit transiter par un pare-feu perimetrique (DMZ double FW).", ref: "ANSSI PA-066", priority: "Indispensable" },
+      { title: "Placer le SIEM dans la zone de management", desc: "Le SIEM collecte les logs de toutes les zones mais doit etre physiquement isole (non expose a Internet).", ref: "ANSSI PG-040", priority: "Recommande" }
+    ]
+  },
+  {
+    guide: "C",
+    title: "Mots de Passe et Authentification",
+    recommendations: [
+      { title: "Minimum 12 caracteres pour un mot de passe utilisateur", desc: "Exiger une longueur minimale de 12 caracteres pour les mots de passe ordinaires. Preferer les phrases de passe.", ref: "ANSSI PA-022", priority: "Indispensable" },
+      { title: "Minimum 15 caracteres pour un compte administrateur", desc: "Les comptes root/administrateur doivent utiliser des mots de passe de 15+ caracteres ou des cles SSH.", ref: "ANSSI PA-022", priority: "Indispensable" },
+      { title: "Privilegier les phrases de passe", desc: "Les phrases de passe (longueur > complexite) sont plus memorizables et plus resilientes aux attaques.", ref: "ANSSI PA-022", priority: "Recommande" },
+      { title: "Imposer le MFA pour les acces d'administration", desc: "L'authentification multifacteur (MFA) est obligatoire pour tous les acces privilegies (root, administrateur).", ref: "ANSSI PA-022", priority: "Indispensable" },
+      { title: "Ne jamais stocker les mots de passe en clair", desc: "Utiliser des fonctions de hachage (bcrypt, scrypt, argon2) pour stocker les mots de passe de facon irreversible.", ref: "ANSSI PA-022", priority: "Indispensable" },
+      { title: "Verrouiller les comptes apres echecs repetes", desc: "Apres 5 echecs de connexion, verrouiller temporairement le compte (15 minutes) pour prevenir le bruteforce.", ref: "ANSSI PA-022", priority: "Indispensable" },
+      { title: "Changer les mots de passe par defaut avant mise en production", desc: "Tous les equipements et services doivent avoir leurs mots de passe par defaut changes avant deployment en production.", ref: "ANSSI PA-022", priority: "Indispensable" },
+      { title: "Utiliser des gestionnaires de mots de passe", desc: "Employer des solutions de gestion des secrets (Vault, LastPass, KeePass) pour les acces administratifs.", ref: "ANSSI PA-022", priority: "Recommande" }
+    ]
+  },
+  {
+    guide: "D",
+    title: "Hardening Systeme",
+    recommendations: [
+      { title: "Installer uniquement les paquets necessaires", desc: "Installation minimale (netinstall) : ne selectionner que les paquets essentiels pour la fonction du serveur.", ref: "ANSSI - Guide Linux", priority: "Indispensable" },
+      { title: "Desactiver les services non utilises", desc: "Arreter et desactiver tous les services inutiles (cups, avahi, bluetooth) pour reduire la surface d'attaque.", ref: "ANSSI - Guide Linux", priority: "Indispensable" },
+      { title: "Configurer le pare-feu local en politique deny-all", desc: "Politique par defaut : tout trafic refuse. Seules les connexions explicitement autorisees passent (nftables, iptables).", ref: "ANSSI - Guide Linux", priority: "Indispensable" },
+      { title: "Durcir la configuration SSH", desc: "Port non standard, cles Ed25519, desactivation root login, algorithmes cryptographiques restrictifs (KexAlgorithms, Ciphers, MACs).", ref: "ANSSI DAT-NT-028", priority: "Indispensable" },
+      { title: "Activer et configurer auditd pour la tracabilite", desc: "Audit noyau Linux pour enregistrer les acces critiques, modifications de fichiers et appels systeme privilegies.", ref: "ANSSI - Guide Linux", priority: "Indispensable" },
+      { title: "Proteger le chargeur d'amorcage par mot de passe", desc: "GRUB : definir un mot de passe pour empecher la modification des parametres de demarrage (single user, init=/bin/bash).", ref: "ANSSI - Guide Linux", priority: "Recommande" },
+      { title: "Appliquer les options de montage restrictives", desc: "Partitions /tmp, /var, /home avec options noexec, nosuid, nodev pour prevenir l'execution de code malveillant.", ref: "ANSSI - Guide Linux", priority: "Indispensable" },
+      { title: "Configurer les parametres sysctl de securite", desc: "SYN cookies, reverse path filtering, desactivation IP forwarding, restriction ICMP, dmesg_restrict.", ref: "ANSSI - Guide Linux", priority: "Indispensable" },
+      { title: "Mettre en place le controle d'integrite", desc: "AIDE/FIM pour verifier l'integrite des fichiers critiques et detecter les modifications non autorisees.", ref: "ANSSI - Guide Linux", priority: "Recommande" }
+    ]
+  },
+  {
+    guide: "E",
+    title: "Filtrage Reseau",
+    recommendations: [
+      { title: "Structurer chaque regle selon les 6 sections ANSSI", desc: "1) Etat, 2) Source (IP/port), 3) Destination (IP/port), 4) Protocole, 5) Action, 6) Commentaire (obligatoire).", ref: "ANSSI - Guide Pare-feu", priority: "Indispensable" },
+      { title: "Appliquer la politique deny-all sur toutes les interfaces", desc: "Politique par defaut : tout trafic refuse. Seuls les flux strictement autorises sont acceptes (whitelist).", ref: "ANSSI - Guide Pare-feu", priority: "Indispensable" },
+      { title: "Documenter chaque regle avec un commentaire obligatoire", desc: "Tout regle sans commentaire ne doit pas etre activee. Facilite la maintenance et l'audit.", ref: "ANSSI - Guide Pare-feu", priority: "Indispensable" },
+      { title: "Logger les regles de blocage (DENY) pour l'audit", desc: "Tous les paquets rejetes doivent etre journalises pour detection d'anomalies et investigation d'incidents.", ref: "ANSSI - Guide Pare-feu", priority: "Recommande" },
+      { title: "Separer les flux d'administration des flux de production", desc: "Trafic admin (SSH, management) ne doit jamais melanger le trafic applicatif pour des raisons de securite.", ref: "ANSSI - Guide Pare-feu", priority: "Indispensable" },
+      { title: "Verifier regulierement la coherence des regles", desc: "Audit trimestriel du ruleset pare-feu pour identifier les regles obsoletes, dupliquees ou redundantes.", ref: "ANSSI - Guide Pare-feu", priority: "Recommande" }
+    ]
+  },
+  {
+    guide: "F",
+    title: "Securite des Commutateurs",
+    recommendations: [
+      { title: "Activer le DHCP Snooping sur tous les VLANs", desc: "Distinguer les ports trusted (serveur DHCP) des ports untrusted (clients) pour prevenir les serveurs DHCP rogues.", ref: "ANSSI BP-033", priority: "Indispensable" },
+      { title: "Activer le DAI sur les ports access", desc: "Dynamic ARP Inspection : valider chaque ARP contre la table DHCP Snooping Binding pour empecher l'ARP Spoofing.", ref: "ANSSI BP-094", priority: "Indispensable" },
+      { title: "Configurer les ports en mode access par defaut", desc: "Tous les ports physiques doivent etre en mode access (untagged). Seuls les ports montantes de switch doivent etre trunk.", ref: "ANSSI BP-033", priority: "Indispensable" },
+      { title: "Desactiver les ports physiques non utilises", desc: "Ports inactifs doivent etre desactives ou configures dans un VLAN d'isolation pour prevenir les connexions non autorisees.", ref: "ANSSI BP-033", priority: "Recommande" },
+      { title: "Utiliser 802.1X pour l'authentification sur port", desc: "Authentification par port via RADIUS pour verifier l'identite de chaque equipement se connectant au switch (perspective S6).", ref: "ANSSI BP-033", priority: "Renforce" }
+    ]
+  },
+  {
+    guide: "G",
+    title: "PSSI et Gouvernance",
+    recommendations: [
+      { title: "Definir une PSSI formelle", desc: "Politique de Securite des Systemes d'Information documentee, approuvee par la direction, communiquee a tous les utilisateurs.", ref: "ANSSI - PSSI", priority: "Indispensable" },
+      { title: "Identifier les actifs critiques et les risques associes", desc: "Inventorier les systemes critiques, evaluer leurs risques (threats, vulnerabilites, impact) et prioritiser les mesures.", ref: "ANSSI - PSSI", priority: "Indispensable" },
+      { title: "Definir les roles et responsabilites securite", desc: "Nommer un responsable securite, definir les equipes (CISO, SOC, audit), clarifier les responsabilites de chacun.", ref: "ANSSI - PSSI", priority: "Indispensable" },
+      { title: "Etablir un PCA - Plan de Continuite d'Activite", desc: "Plan decrivant comment maintenir les operations critiques en cas de sinistre (pannes, attaques, desastres).", ref: "ANSSI - PSSI", priority: "Indispensable" },
+      { title: "Etablir un PRA - Plan de Reprise d'Activite", desc: "Plan decrivant comment restaurer les systemes apres un incident. Inclut RTO (Recovery Time Objective) et RPO (Recovery Point Objective).", ref: "ANSSI - PSSI", priority: "Indispensable" },
+      { title: "Realiser des audits de securite reguliers", desc: "Audits internes/externes annuels pour evaluer la conformite aux normes et identifier les gaps de securite.", ref: "ANSSI - PSSI", priority: "Recommande" },
+      { title: "Sensibiliser les utilisateurs aux bonnes pratiques", desc: "Formation annuelle sur la securite, phishing, gestion des mots de passe, gestion des donnees sensibles.", ref: "ANSSI - PSSI", priority: "Indispensable" },
+      { title: "Definir une procedure de gestion des incidents", desc: "Processus formel pour detecter, signaler, investiguer et resoudre les incidents de securite. Inclut une escalade.", ref: "ANSSI - PSSI", priority: "Indispensable" }
+    ]
+  }
+];
+
+// =============================================
+// DATA -- ABBREVIATIONS (EXHAUSTIVE)
+// =============================================
+
+const abbreviations = {
+  facile: {
+    label: "Facile",
+    desc: "Termes de base en informatique et reseaux, vus des le premier cours.",
+    items: [
+      { abbr: "ACK", full: "Acknowledge", ctx: "Flag TCP confirmant la reception d'un segment" },
+      { abbr: "CLI", full: "Command Line Interface", ctx: "Interface en ligne de commande (terminal)" },
+      { abbr: "CPU", full: "Central Processing Unit", ctx: "Processeur de la machine" },
+      { abbr: "DHCP", full: "Dynamic Host Configuration Protocol", ctx: "Attribution automatique d'adresses IP" },
+      { abbr: "DNS", full: "Domain Name System", ctx: "Traduction noms de domaine -> adresses IP" },
+      { abbr: "FW", full: "Firewall", ctx: "Pare-feu (filtrage du trafic reseau)" },
+      { abbr: "GUI", full: "Graphical User Interface", ctx: "Interface graphique utilisateur" },
+      { abbr: "HTTP", full: "HyperText Transfer Protocol", ctx: "Protocole web non chiffre (port 80)" },
+      { abbr: "HTTPS", full: "HyperText Transfer Protocol Secure", ctx: "HTTP chiffre via TLS (port 443)" },
+      { abbr: "ICMP", full: "Internet Control Message Protocol", ctx: "Protocole de diagnostic reseau (ping)" },
+      { abbr: "IP", full: "Internet Protocol", ctx: "Protocole d'adressage reseau (IPv4, IPv6)" },
+      { abbr: "ISO", full: "Image disque / International Organization for Standardization", ctx: "Fichier image d'installation (Debian, OPNsense)" },
+      { abbr: "LAN", full: "Local Area Network", ctx: "Reseau local (ex : reseau interne entreprise)" },
+      { abbr: "MAC", full: "Media Access Control (adresse)", ctx: "Adresse physique d'une interface reseau (L2)" },
+      { abbr: "NAT", full: "Network Address Translation", ctx: "Traduction d'adresses IP (privees <-> publiques)" },
+      { abbr: "OS", full: "Operating System", ctx: "Systeme d'exploitation (Linux, Windows)" },
+      { abbr: "RAM", full: "Random Access Memory", ctx: "Memoire vive de la machine" },
+      { abbr: "SSH", full: "Secure Shell", ctx: "Protocole d'acces distant chiffre (port 22/2222)" },
+      { abbr: "SYN", full: "Synchronize", ctx: "Flag TCP d'initiation de connexion (3-way handshake)" },
+      { abbr: "TCP", full: "Transmission Control Protocol", ctx: "Protocole de transport fiable (connexion orientee)" },
+      { abbr: "UDP", full: "User Datagram Protocol", ctx: "Protocole de transport sans connexion" },
+      { abbr: "URL", full: "Uniform Resource Locator", ctx: "Adresse web complete" },
+      { abbr: "USB", full: "Universal Serial Bus", ctx: "Port de connexion peripheriques" },
+      { abbr: "VM", full: "Virtual Machine", ctx: "Machine virtuelle (VirtualBox, QEMU)" },
+      { abbr: "VPN", full: "Virtual Private Network", ctx: "Tunnel chiffre entre deux reseaux" },
+      { abbr: "WAN", full: "Wide Area Network", ctx: "Reseau etendu (ex : Internet)" }
+    ]
+  },
+  moyen: {
+    label: "Moyen",
+    desc: "Termes d'infrastructure et securite, specifiques aux domaines du hardening et reseaux.",
+    items: [
+      { abbr: "AIDE", full: "Advanced Intrusion Detection Environment", ctx: "Outil de controle d'integrite des fichiers offline" },
+      { abbr: "ANSSI", full: "Agence Nationale de la Securite des Systemes d'Information", ctx: "Autorite francaise de la cybersecurite" },
+      { abbr: "ARP", full: "Address Resolution Protocol", ctx: "Traduction adresses IP -> adresses MAC (L2)" },
+      { abbr: "API", full: "Application Programming Interface", ctx: "Interface de programmation pour interagir avec un service" },
+      { abbr: "BCP38", full: "Best Current Practice 38 (RFC 2827)", ctx: "Filtre Ingress pour empecher l'IP Spoofing" },
+      { abbr: "CERT", full: "Computer Emergency Response Team", ctx: "Equipe de reponse aux incidents de securite" },
+      { abbr: "CNAME", full: "Canonical Name (DNS)", ctx: "Alias DNS vers un autre nom de domaine" },
+      { abbr: "CIS", full: "Center for Internet Security", ctx: "Organisation publiant des benchmarks de securite" },
+      { abbr: "CMDB", full: "Configuration Management Database", ctx: "Base de donnees des elements de configuration IT" },
+      { abbr: "CTI", full: "Cyber Threat Intelligence", ctx: "Intelligence sur les menaces, acteurs et techniques d'attaque" },
+      { abbr: "CVE", full: "Common Vulnerabilities and Exposures", ctx: "Identifiant unique pour une vulnerabilite publiquement connue" },
+      { abbr: "DAI", full: "Dynamic ARP Inspection", ctx: "Securite L2 : validation des paquets ARP sur le switch" },
+      { abbr: "DDoS", full: "Distributed Denial of Service", ctx: "Attaque distribuee visant a saturer un service" },
+      { abbr: "DKIM", full: "DomainKeys Identified Mail", ctx: "Signature cryptographique sur les emails" },
+      { abbr: "DMARC", full: "Domain-based Message Authentication", ctx: "Politique d'authentification des emails par domaine" },
+      { abbr: "DMZ", full: "DeMilitarized Zone", ctx: "Zone reseau intermediaire entre Internet et le LAN interne" },
+      { abbr: "DNSSEC", full: "DNS Security Extensions", ctx: "Signatures cryptographiques sur les zones DNS" },
+      { abbr: "DoH", full: "DNS over HTTPS", ctx: "Requetes DNS chiffrees via HTTPS (port 443)" },
+      { abbr: "DoT", full: "DNS over TLS", ctx: "Requetes DNS chiffrees via TLS (port 853)" },
+      { abbr: "DPIA", full: "Data Protection Impact Assessment", ctx: "Evaluation d'impact sur la protection des donnees (RGPD)" },
+      { abbr: "DSA", full: "Digital Services Act", ctx: "Regulation europeenne sur les services numeriques" },
+      { abbr: "DSOS", full: "Duty to Secure Our Systems", ctx: "Obligation de securiser les systemes (NIS2, RGPD)" },
+      { abbr: "ED25519", full: "Edwards-curve Digital Signature Algorithm", ctx: "Algorithme de signature cryptographique moderne (recommande pour SSH)" },
+      { abbr: "EFS", full: "Encrypting File System", ctx: "Chiffrement de fichiers au niveau du systeme de fichiers (Windows, Linux)" },
+      { abbr: "FQDN", full: "Fully Qualified Domain Name", ctx: "Nom de domaine complet incluant les sous-domaines" },
+      { abbr: "FTP", full: "File Transfer Protocol", ctx: "Protocole de transfert de fichiers non securise (port 20/21)" },
+      { abbr: "GDPR", full: "General Data Protection Regulation", ctx: "Regulation europeenne sur la protection des donnees (RGPD en francais)" },
+      { abbr: "GnuPG", full: "GNU Privacy Guard", ctx: "Implémentation open-source de PGP pour chiffrement et signature" },
+      { abbr: "GPG", full: "GNU Privacy Guard", ctx: "Alias de GnuPG" },
+      { abbr: "GPT", full: "GUID Partition Table", ctx: "Format de table de partitions pour disques modernes (remplace MBR)" },
+      { abbr: "GRUB", full: "GRand Unified Bootloader", ctx: "Chargeur d'amorcage Linux standard" },
+      { abbr: "GTFOBins", full: "GTFOBins", ctx: "Base de donnees de binaires exploitables pour escalade de privileges" },
+      { abbr: "HA", full: "High Availability", ctx: "Architecture redondante garantissant la continuite de service" },
+      { abbr: "HIDS", full: "Host Intrusion Detection System", ctx: "Systeme de detection d'intrusion sur hote (ex: Wazuh agent)" },
+      { abbr: "HMAC", full: "Hash Message Authentication Code", ctx: "Code d'authentification par hash cryptographique" },
+      { abbr: "HSTS", full: "HTTP Strict Transport Security", ctx: "En-tete HTTP forcant l'usage de TLS" },
+      { abbr: "IANA", full: "Internet Assigned Numbers Authority", ctx: "Organisme allouant les adresses IP, ports et autres ressources" },
+      { abbr: "ICMP", full: "Internet Control Message Protocol", ctx: "Protocole de diagnostic reseau (ping, traceroute)" },
+      { abbr: "ICP", full: "Internet Content Provider", ctx: "Fournisseur de contenu Internet" },
+      { abbr: "IDS", full: "Intrusion Detection System", ctx: "Systeme de detection d'intrusion (mode passif)" },
+      { abbr: "IETF", full: "Internet Engineering Task Force", ctx: "Organisme definissant les standards Internet (RFC)" },
+      { abbr: "IPSEC", full: "Internet Protocol Security", ctx: "Protocole de tunnel VPN au niveau L3" },
+      { abbr: "IPS", full: "Intrusion Prevention System", ctx: "Systeme de prevention d'intrusion (mode actif)" },
+      { abbr: "IPv4", full: "Internet Protocol version 4", ctx: "Version 4 du protocole IP (adresses 32 bits)" },
+      { abbr: "IPv6", full: "Internet Protocol version 6", ctx: "Version 6 du protocole IP (adresses 128 bits)" },
+      { abbr: "ISCSI", full: "Internet Small Computer Systems Interface", ctx: "Protocole de stockage reseau (bloc)" },
+      { abbr: "ISP", full: "Internet Service Provider", ctx: "Fournisseur d'acces Internet" },
+      { abbr: "ITK", full: "Insight Segmentation and Registration Toolkit", ctx: "Librairie de traitement d'images (non securite)" },
+      { abbr: "L2", full: "Layer 2 (Data Link)", ctx: "Couche 2 du modele OSI (adresses MAC, VLAN)" },
+      { abbr: "L3", full: "Layer 3 (Network)", ctx: "Couche 3 du modele OSI (adresses IP, routage)" },
+      { abbr: "L7", full: "Layer 7 (Application)", ctx: "Couche 7 du modele OSI (HTTP, DNS, SMTP)" },
+      { abbr: "LDAP", full: "Lightweight Directory Access Protocol", ctx: "Protocole d'acces aux annuaires d'utilisateurs (Active Directory)" },
+      { abbr: "LVM", full: "Logical Volume Manager", ctx: "Gestionnaire de volumes logiques pour partitionnement flexible" },
+      { abbr: "MAC", full: "Media Access Control", ctx: "Adresse physique d'une interface reseau (48 bits)" },
+      { abbr: "MBR", full: "Master Boot Record", ctx: "Secteur d'amorce classique (remplace par GPT)" },
+      { abbr: "MD5", full: "Message Digest 5", ctx: "Fonction de hachage (DEPRECIE, ne pas utiliser pour la securite)" },
+      { abbr: "MFA", full: "Multi-Factor Authentication", ctx: "Authentification multifacteur (au moins 2 methodes)" },
+      { abbr: "MITM", full: "Man-in-the-Middle", ctx: "Attaque d'interception entre deux parties communicantes" },
+      { abbr: "MITRE", full: "Adversarial Tactics, Techniques, and Common Knowledge", ctx: "Framework de classification des techniques d'attaque" },
+      { abbr: "MQTT", full: "Message Queuing Telemetry Transport", ctx: "Protocole leger de messagerie pub/sub (IoT)" },
+      { abbr: "MX", full: "Mail Exchange (DNS)", ctx: "Enregistrement DNS pointant vers le serveur de mail" },
+      { abbr: "NAC", full: "Network Access Control", ctx: "Controle d'acces au reseau basee sur l'authenticite de l'equipement" },
+      { abbr: "NAT", full: "Network Address Translation", ctx: "Traduction d'adresses IP (privees <-> publiques)" },
+      { abbr: "NIDS", full: "Network Intrusion Detection System", ctx: "Systeme de detection d'intrusion sur le reseau (ex: Suricata)" },
+      { abbr: "NIST", full: "National Institute of Standards and Technology", ctx: "Institut americain de normalisation et securite" },
+      { abbr: "NTP", full: "Network Time Protocol", ctx: "Protocole de synchronisation horaire sur le reseau" },
+      { abbr: "NXDOMAIN", full: "Non-Existent Domain", ctx: "Reponse DNS indiquant qu'un domaine n'existe pas" },
+      { abbr: "OATH", full: "Open Authentication", ctx: "Standard d'authentification (OTP, TOTP)" },
+      { abbr: "OCSP", full: "Online Certificate Status Protocol", ctx: "Protocole de verification de l'etat d'un certificat" },
+      { abbr: "OID", full: "Object Identifier", ctx: "Identifiant unique pour un objet (X.509, ASN.1)" },
+      { abbr: "OWASP", full: "Open Web Application Security Project", ctx: "Organisation promouveant la securite des applications web" },
+      { abbr: "PAM", full: "Pluggable Authentication Modules", ctx: "Framework d'authentification modulaire sous Linux" },
+      { abbr: "PII", full: "Personally Identifiable Information", ctx: "Donnees personnelles permettant d'identifier un individu" },
+      { abbr: "PKI", full: "Public Key Infrastructure", ctx: "Infrastructure de gestion des certificats et cles publiques" },
+      { abbr: "POP3", full: "Post Office Protocol 3", ctx: "Protocole de reception d'emails (port 110/995)" },
+      { abbr: "PQC", full: "Post-Quantum Cryptography", ctx: "Algorithmes cryptographiques resistants aux ordinateurs quantiques" },
+      { abbr: "PSK", full: "Pre-Shared Key", ctx: "Cle partagee a l'avance pour authentifier les parties" },
+      { abbr: "PSSI", full: "Politique de Securite des Systemes d'Information", ctx: "Politique formelle de securite dans une organisation" },
+      { abbr: "PTR", full: "Pointer (DNS reverse)", ctx: "Enregistrement DNS pour traduction inverse IP -> FQDN" },
+      { abbr: "PXE", full: "Preboot Execution Environment", ctx: "Boot par reseau, permet de charger un systeme depuis un serveur DHCP" },
+      { abbr: "QEMU", full: "Quick Emulator", ctx: "Hyperviseur d'emulation/virtualisation open-source" },
+      { abbr: "QoS", full: "Quality of Service", ctx: "Qualite de service : gestion de la bande passante et des priorites" },
+      { abbr: "RADIUS", full: "Remote Authentication Dial In User Service", ctx: "Protocole d'authentification centralisee pour acces reseau" },
+      { abbr: "RAT", full: "Remote Access Trojan", ctx: "Malware permettant l'acces distant non autorise" },
+      { abbr: "RBAC", full: "Role-Based Access Control", ctx: "Controle d'acces base sur les roles (administrateur, user, invitee)" },
+      { abbr: "RFC", full: "Request for Comments", ctx: "Documents IETF definissant les standards Internet" },
+      { abbr: "RFI", full: "Remote File Inclusion", ctx: "Vulnerabilite permettant d'inclure un fichier distant (PHP)" },
+      { abbr: "RIPEMD", full: "RACE Integrity Primitive Evaluation Message Digest", ctx: "Fonction de hachage (remplacee par SHA)" },
+      { abbr: "RKHUNTER", full: "Rootkit Hunter", ctx: "Outil de detection de rootkits et backdoors" },
+      { abbr: "RDNS", full: "Reverse DNS (DNS reverse)", ctx: "Resolution inverse : IP -> FQDN (opposite de DNS)" },
+      { abbr: "RPF", full: "Reverse Path Forwarding", ctx: "Filtre contre l'IP Spoofing (verifie que la source provient du bon lien)" },
+      { abbr: "RPM", full: "RedHat Package Manager", ctx: "Gestionnaire de paquets pour systemes basés RedHat" },
+      { abbr: "RRset", full: "Resource Record Set", ctx: "Ensemble de ressources DNS identiques (A, MX, TXT)" },
+      { abbr: "RRSIG", full: "DNSSEC Signature (Resource Record Signature)", ctx: "Signature cryptographique d'un enregistrement DNS" },
+      { abbr: "RSA", full: "Rivest-Shamir-Adleman", ctx: "Algorithme de chiffrement asymetrique (remplace par ECC)" },
+      { abbr: "RSYSLOG", full: "Rocket-fast System Logging", ctx: "Daemon de journalisation systeme sous Linux" },
+      { abbr: "RTMP", full: "Real-Time Messaging Protocol", ctx: "Protocole de streaming video (Adobe Flash)" },
+      { abbr: "RTO", full: "Recovery Time Objective", ctx: "Delai maximum acceptable pour restaurer un service (PRA)" },
+      { abbr: "RPO", full: "Recovery Point Objective", ctx: "Volume maximal de donnees perdues tolere (PRA)" },
+      { abbr: "SA", full: "Security Association", ctx: "Accord de securite pour une connexion IPSec ou IKE" },
+      { abbr: "SACT", full: "Security Assessment and Configuration Tool", ctx: "Outil d'evaluation de la securite" },
+      { abbr: "SAM", full: "Security Accounts Manager", ctx: "Base de donnees des comptes locaux sous Windows" },
+      { abbr: "SAP", full: "Systems, Applications, and Products", ctx: "ERP d'entreprise pour gestion integrale (non securite directe)" },
+      { abbr: "SANS", full: "SysAdmin, Audit, Network, Security", ctx: "Institut de formation en cybersecurite americain" },
+      { abbr: "SCA", full: "Security Configuration Assessment", ctx: "Module Wazuh d'evaluation de conformite CIS" },
+      { abbr: "SCP", full: "Secure Copy Protocol", ctx: "Protocole de copie sécurisée par SSH (remplace par SFTP)" },
+      { abbr: "SCRAM", full: "Salted Challenge Response Authentication Mechanism", ctx: "Methode d'authentification avec salt contre le precompute" },
+      { abbr: "SDN", full: "Software Defined Networking", ctx: "Architecture reseau programmable (OpenFlow, Kubernetes NetworkPolicy)" },
+      { abbr: "SECP256K1", full: "Standards for Efficient Cryptography 256-bit", ctx: "Courbe elliptique utilisee par Bitcoin (non recommandee pour SSH)" },
+      { abbr: "SFTP", full: "SSH File Transfer Protocol", ctx: "Protocole de transfert de fichiers securise par SSH" },
+      { abbr: "SHA", full: "Secure Hash Algorithm", ctx: "Famille de fonctions de hachage (SHA-1, SHA-256, SHA-512)" },
+      { abbr: "SLA", full: "Service Level Agreement", ctx: "Accord de niveau de service definissant les garanties" },
+      { abbr: "SLDAP", full: "Secure LDAP", ctx: "LDAP chiffre par TLS (port 636)" },
+      { abbr: "SMB", full: "Server Message Block", ctx: "Protocole de partage de fichiers Windows (ports 139/445)" },
+      { abbr: "SMTP", full: "Simple Mail Transfer Protocol", ctx: "Protocole d'envoi d'emails (port 25/587/465)" },
+      { abbr: "SNMP", full: "Simple Network Management Protocol", ctx: "Protocole de gestion de peripheriques reseau (port 161/162)" },
+      { abbr: "SNI", full: "Server Name Indication", ctx: "Extension TLS permettant plusieurs certificats par IP" },
+      { abbr: "SOA", full: "Start of Authority (DNS)", ctx: "Enregistrement DNS definissant l'autorite d'une zone" },
+      { abbr: "SOC", full: "Security Operations Center", ctx: "Centre de surveillance de la securite 24/7" },
+      { abbr: "SOCMINT", full: "Social Media Intelligence", ctx: "Renseignement basé sur les reseaux sociaux (OSINT)" },
+      { abbr: "SOD", full: "Separation of Duties", ctx: "Principe de separation des fonctions pour eviter les abus" },
+      { abbr: "SOP", full: "Standard Operating Procedure", ctx: "Procedure standard d'exploitation" },
+      { abbr: "SPDY", full: "Speedy", ctx: "Protocole de compression HTTP (remplace par HTTP/2)" },
+      { abbr: "SPF", full: "Sender Policy Framework", ctx: "Enregistrement DNS validant les serveurs SMTP autorises" },
+      { abbr: "SQL", full: "Structured Query Language", ctx: "Langage de requete pour bases de donnees" },
+      { abbr: "SQLI", full: "SQL Injection", ctx: "Injection SQL via donnees non validees (OWASP Top 10)" },
+      { abbr: "SRV", full: "Service (DNS)", ctx: "Enregistrement DNS definissant l'emplacement d'un service" },
+      { abbr: "SSH", full: "Secure Shell", ctx: "Protocole d'acces distant chiffre (port 22)" },
+      { abbr: "SSID", full: "Service Set Identifier", ctx: "Nom du reseau WiFi (WLAN)" },
+      { abbr: "SSL", full: "Secure Sockets Layer", ctx: "Protocole de chiffrement (deprecie, remplace par TLS)" },
+      { abbr: "SSO", full: "Single Sign-On", ctx: "Authentification unique pour plusieurs services" },
+      { abbr: "SSRF", full: "Server-Side Request Forgery", ctx: "Attaque forcant le serveur a faire des requetes (OWASP)" },
+      { abbr: "SSTI", full: "Server-Side Template Injection", ctx: "Injection dans les templates serveur" },
+      { abbr: "STIG", full: "Security Technical Implementation Guides (DISA)", ctx: "Guides de durcissement du DoD americain" },
+      { abbr: "SUDO", full: "Superuser Do", ctx: "Mecanisme d'elevation de privileges sous Linux" },
+      { abbr: "SUID", full: "Set User ID", ctx: "Bit special permettant execution avec droits du proprietaire" },
+      { abbr: "SYSCTL", full: "System Control", ctx: "Outil de configuration des parametres noyau Linux" },
+      { abbr: "TACACS", full: "Terminal Access Controller Access Control System", ctx: "Protocole d'authentification centralisee (RADIUS+)" },
+      { abbr: "TANDBERG", full: "Video Conferencing Systems", ctx: "Systeme de visioconference (non securite directe)" },
+      { abbr: "TCAM", full: "Ternary Content Addressable Memory", ctx: "Memoire de recherche rapide dans les switchs (regles ACL)" },
+      { abbr: "TCP", full: "Transmission Control Protocol", ctx: "Protocole de transport fiable, connexion-orientee" },
+      { abbr: "TCPDump", full: "TCP Packet Sniffer", ctx: "Outil de capture de paquets reseau (Linux)" },
+      { abbr: "TFP", full: "Trivial File Transfer Protocol", ctx: "Protocole leger de transfert de fichiers (non securise)" },
+      { abbr: "TFSM", full: "Threat Focused Security Model", ctx: "Modele de securite orienté sur les menaces" },
+      { abbr: "TLS", full: "Transport Layer Security", ctx: "Protocole de chiffrement des communications (remplace SSL)" },
+      { abbr: "TOFU", full: "Trust On First Use", ctx: "Modele de confiance : faire confiance a la premiere connexion" },
+      { abbr: "TOTP", full: "Time-based One-Time Password", ctx: "Mot de passe temporaire base sur l'heure (Google Authenticator)" },
+      { abbr: "TRACE", full: "HTTP TRACE Method", ctx: "Methode HTTP dangereuse (XST - Cross-Site Tracing)" },
+      { abbr: "TRUNCATION", full: "DNS Truncation", ctx: "Reponse DNS tronquee, signalant de basculer vers TCP (port 53)" },
+      { abbr: "TTL", full: "Time To Live", ctx: "Duree de vie des enregistrements DNS et des paquets IP" },
+      { abbr: "TXT", full: "Text (DNS)", ctx: "Enregistrement DNS de texte (SPF, DKIM, DMARC)" },
+      { abbr: "UDP", full: "User Datagram Protocol", ctx: "Protocole de transport sans connexion (non fiable)" },
+      { abbr: "VLAN", full: "Virtual Local Area Network", ctx: "Segmentation logique L2 d'un reseau physique" },
+      { abbr: "VLANF", full: "VLAN Filtering", ctx: "Filtrage basé sur les VLANs au niveau L2" },
+      { abbr: "VRF", full: "Virtual Routing and Forwarding", ctx: "Isolation logique L3 : tables de routage independantes" },
+      { abbr: "VPP", full: "Vector Packet Processing", ctx: "Moteur haute-performance de traitement de paquets (FD.io)" },
+      { abbr: "WAF", full: "Web Application Firewall", ctx: "Pare-feu applicatif (L7) pour les applications web" },
+      { abbr: "WAN", full: "Wide Area Network", ctx: "Reseau etendu (ex : Internet, connexion inter-sites)" },
+      { abbr: "WARP", full: "Webassembly Runtime for Python", ctx: "Runtime WebAssembly (non securite directe)" },
+      { abbr: "WAZUH", full: "SIEM/XDR Open-Source", ctx: "Plateforme de securite combinant SIEM et XDR" },
+      { abbr: "WEP", full: "Wired Equivalent Privacy", ctx: "Chiffrement WiFi ancien (DEPRECIE)" },
+      { abbr: "WHOIS", full: "WHOIS Protocol", ctx: "Protocole de recherche d'information sur les domaines (port 43)" },
+      { abbr: "WSGI", full: "Web Server Gateway Interface", ctx: "Interface Python pour serveurs web" },
+      { abbr: "X.509", full: "X.509 Certificate Standard", ctx: "Standard de certificats digitaux (PKI)" },
+      { abbr: "XFF", full: "X-Forwarded-For", ctx: "En-tete HTTP indiquant l'IP cliente derriere un proxy" },
+      { abbr: "XSS", full: "Cross-Site Scripting", ctx: "Injection de code JavaScript dans une page (OWASP Top 10)" },
+      { abbr: "XST", full: "Cross-Site Tracing", ctx: "Attaque exploitant la methode TRACE (heritiere de XSS)" },
+      { abbr: "YAML", full: "YAML Ain't Markup Language", ctx: "Format de fichier de configuration (human-readable)" },
+      { abbr: "YARA", full: "Yet Another Recursive Acronym", ctx: "Langage de detection d'patterns de malwares (Wazuh, MISP)" },
+      { abbr: "ZEN", full: "Zen IDS/IPS Ruleset", ctx: "Ensemble de regles pour Suricata (IDS/IPS)" },
+      { abbr: "ZERO-DAY", full: "Vulnerability Not Yet Patched", ctx: "Vulnerabilite inconnue du vendeur (exploit anonyme)" },
+      { abbr: "ZONING", full: "Network Zoning", ctx: "Division du reseau en zones de securite basees sur VLAN/DMZ" }
+    ]
+  }
+};
+
+// =============================================
+// RENDERING FUNCTIONS
+// =============================================
+
+function renderFamilies() {
+  const container = document.getElementById('familiesContainer');
+  container.innerHTML = '';
+
+  families.forEach((family, index) => {
+    const groupDiv = document.createElement('div');
+    groupDiv.className = 'family-group';
+    groupDiv.setAttribute('data-family', family.name);
+
+    const titleDiv = document.createElement('div');
+    titleDiv.className = 'family-title';
+    titleDiv.setAttribute('style', `--fam-color: ${family.color}`);
+    titleDiv.textContent = family.name;
+    groupDiv.appendChild(titleDiv);
+
+    const sessionDiv = document.createElement('div');
+    sessionDiv.className = 'family-session';
+    sessionDiv.setAttribute('style', `color: ${family.color}`);
+    sessionDiv.textContent = family.sessions;
+    groupDiv.appendChild(sessionDiv);
+
+    const cardsGrid = document.createElement('div');
+    cardsGrid.className = 'cards-grid';
+
+    family.cards.forEach(card => {
+      const cardDiv = document.createElement('div');
+      cardDiv.className = 'card';
+      cardDiv.setAttribute('style', `--fam-color: ${family.color}; --card-bg-color: ${family.bg}`);
+      cardDiv.setAttribute('data-search', `${card.name} ${card.aka} ${card.desc} ${card.example}`.toLowerCase());
+
+      const tagDiv = document.createElement('div');
+      tagDiv.className = 'card-session-tag';
+      tagDiv.textContent = family.sessions;
+      cardDiv.appendChild(tagDiv);
+
+      const nameDiv = document.createElement('div');
+      nameDiv.className = 'card-name';
+      nameDiv.textContent = card.name;
+      cardDiv.appendChild(nameDiv);
+
+      const akaDiv = document.createElement('div');
+      akaDiv.className = 'card-aka';
+      akaDiv.textContent = card.aka;
+      cardDiv.appendChild(akaDiv);
+
+      const descDiv = document.createElement('div');
+      descDiv.className = 'card-desc';
+      descDiv.textContent = card.desc;
+      cardDiv.appendChild(descDiv);
+
+      const exampleDiv = document.createElement('div');
+      exampleDiv.className = 'card-example';
+      exampleDiv.textContent = card.example;
+      cardDiv.appendChild(exampleDiv);
+
+      cardsGrid.appendChild(cardDiv);
+    });
+
+    groupDiv.appendChild(cardsGrid);
+    container.appendChild(groupDiv);
+  });
+
+  renderFilterPills();
+}
+
+function renderFilterPills() {
+  const pillsDiv = document.getElementById('filterPills');
+  pillsDiv.innerHTML = '';
+
+  families.forEach(family => {
+    const pill = document.createElement('button');
+    pill.className = 'filter-pill';
+    pill.textContent = family.name;
+    pill.onclick = () => filterByFamily(family.name, pill);
+    pillsDiv.appendChild(pill);
+  });
+}
+
+function renderANSSI() {
+  const container = document.getElementById('anssiContainer');
+  container.innerHTML = '';
+
+  anssiGuides.forEach(guide => {
+    const sectionDiv = document.createElement('div');
+    sectionDiv.className = 'anssi-section';
+    sectionDiv.setAttribute('data-search', guide.title.toLowerCase());
+
+    const headerDiv = document.createElement('div');
+    headerDiv.className = 'anssi-guide-header';
+    headerDiv.textContent = `Guide ${guide.guide}: ${guide.title}`;
+    sectionDiv.appendChild(headerDiv);
+
+    guide.recommendations.forEach(rec => {
+      const recDiv = document.createElement('div');
+      recDiv.className = 'anssi-recommendation';
+      recDiv.setAttribute('data-search', `${rec.title} ${rec.desc} ${rec.ref}`.toLowerCase());
+
+      const priorityBadge = document.createElement('div');
+      priorityBadge.className = `anssi-priority-badge anssi-priority-${rec.priority.toLowerCase().replace('-', '')}`;
+      priorityBadge.textContent = rec.priority;
+      recDiv.appendChild(priorityBadge);
+
+      const contentDiv = document.createElement('div');
+      contentDiv.className = 'anssi-rec-content';
+
+      const titleDiv = document.createElement('div');
+      titleDiv.className = 'anssi-rec-title';
+      titleDiv.textContent = rec.title;
+      contentDiv.appendChild(titleDiv);
+
+      const descDiv = document.createElement('div');
+      descDiv.className = 'anssi-rec-desc';
+      descDiv.textContent = rec.desc;
+      contentDiv.appendChild(descDiv);
+
+      const refDiv = document.createElement('div');
+      refDiv.className = 'anssi-rec-ref';
+      refDiv.textContent = rec.ref;
+      contentDiv.appendChild(refDiv);
+
+      recDiv.appendChild(contentDiv);
+      sectionDiv.appendChild(recDiv);
+    });
+
+    container.appendChild(sectionDiv);
+  });
+}
+
+function renderAbbreviations() {
+  const container = document.getElementById('abbrContainer');
+  container.innerHTML = '';
+
+  Object.entries(abbreviations).forEach(([key, category]) => {
+    const categoryDiv = document.createElement('div');
+    categoryDiv.className = 'abbr-category';
+    categoryDiv.setAttribute('data-search', category.label.toLowerCase());
+
+    const titleDiv = document.createElement('div');
+    titleDiv.className = 'abbr-category-title';
+    titleDiv.textContent = category.label;
+    categoryDiv.appendChild(titleDiv);
+
+    const descDiv = document.createElement('div');
+    descDiv.className = 'abbr-category-desc';
+    descDiv.textContent = category.desc;
+    categoryDiv.appendChild(descDiv);
+
+    const table = document.createElement('table');
+    table.className = 'abbr-table';
+
+    const thead = document.createElement('thead');
+    const headerRow = document.createElement('tr');
+    const headers = ['Abreviation', 'Terme Complet', 'Contexte'];
+    headers.forEach(h => {
+      const th = document.createElement('th');
+      th.textContent = h;
+      headerRow.appendChild(th);
+    });
+    thead.appendChild(headerRow);
+    table.appendChild(thead);
+
+    const tbody = document.createElement('tbody');
+    category.items.forEach(item => {
+      const row = document.createElement('tr');
+      row.setAttribute('data-search', `${item.abbr} ${item.full} ${item.ctx}`.toLowerCase());
+
+      const abbrTd = document.createElement('td');
+      abbrTd.textContent = item.abbr;
+      row.appendChild(abbrTd);
+
+      const fullTd = document.createElement('td');
+      fullTd.textContent = item.full;
+      row.appendChild(fullTd);
+
+      const ctxTd = document.createElement('td');
+      ctxTd.textContent = item.ctx;
+      row.appendChild(ctxTd);
+
+      tbody.appendChild(row);
+    });
+    table.appendChild(tbody);
+
+    categoryDiv.appendChild(table);
+    container.appendChild(categoryDiv);
+  });
+}
+
+function switchView(viewName) {
+  const views = document.querySelectorAll('.view-section');
+  views.forEach(v => v.classList.remove('active'));
+  document.getElementById(viewName + '-view').classList.add('active');
+
+  const tabs = document.querySelectorAll('.nav-tab');
+  tabs.forEach(t => {
+    t.classList.remove('active', 'active-anssi', 'active-abbr');
+  });
+
+  if (viewName === 'families') {
+    tabs[0].classList.add('active');
+  } else if (viewName === 'anssi') {
+    tabs[1].classList.add('active-anssi');
+  } else if (viewName === 'abbr') {
+    tabs[2].classList.add('active-abbr');
+  }
+
+  filterContent();
+}
+
+function filterByFamily(familyName, pillElement) {
+  const pills = document.querySelectorAll('.filter-pill');
+  pills.forEach(p => p.classList.remove('active'));
+  pillElement.classList.add('active');
+  filterContent();
+}
+
+function filterContent() {
+  const searchQuery = document.getElementById('searchInput').value.toLowerCase();
+  const activeView = document.querySelector('.view-section.active').id;
+  let visibleCount = 0;
+
+  if (activeView === 'families-view') {
+    const activePill = document.querySelector('.filter-pill.active');
+    const selectedFamily = activePill ? activePill.textContent : null;
+
+    document.querySelectorAll('.family-group').forEach(group => {
+      const familyName = group.getAttribute('data-family');
+      let isVisible = !selectedFamily || familyName === selectedFamily;
+
+      if (isVisible) {
+        group.querySelectorAll('.card').forEach(card => {
+          const searchAttr = card.getAttribute('data-search');
+          const matches = !searchQuery || searchAttr.includes(searchQuery);
+          card.style.display = matches ? '' : 'none';
+          if (matches) visibleCount++;
+        });
+        group.style.display = group.querySelectorAll('.card:not([style*="none"])').length > 0 ? '' : 'none';
+      } else {
+        group.style.display = 'none';
+      }
+    });
+  } else if (activeView === 'anssi-view') {
+    document.querySelectorAll('.anssi-recommendation').forEach(rec => {
+      const searchAttr = rec.getAttribute('data-search');
+      const matches = !searchQuery || searchAttr.includes(searchQuery);
+      rec.style.display = matches ? '' : 'none';
+      if (matches) visibleCount++;
+    });
+
+    document.querySelectorAll('.anssi-section').forEach(section => {
+      const hasVisibleRecs = section.querySelectorAll('.anssi-recommendation:not([style*="none"])').length > 0;
+      section.style.display = hasVisibleRecs ? '' : 'none';
+    });
+  } else if (activeView === 'abbr-view') {
+    document.querySelectorAll('.abbr-category').forEach(category => {
+      category.querySelectorAll('tbody tr').forEach(row => {
+        const searchAttr = row.getAttribute('data-search');
+        const matches = !searchQuery || searchAttr.includes(searchQuery);
+        row.style.display = matches ? 'table-row' : 'none';
+        if (matches) visibleCount++;
+      });
+
+      const hasVisibleRows = category.querySelectorAll('tbody tr:not([style*="none"])').length > 0;
+      category.style.display = hasVisibleRows ? '' : 'none';
+    });
+  }
+
+  document.getElementById('resultCount').textContent = visibleCount;
+}
+
+// =============================================
+// INITIALIZATION
+// =============================================
+
+document.addEventListener('DOMContentLoaded', () => {
+  renderFamilies();
+  renderANSSI();
+  renderAbbreviations();
+  filterContent();
+});
+</script>
+
+</body>
+</html>
