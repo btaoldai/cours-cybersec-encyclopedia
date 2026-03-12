@@ -152,10 +152,12 @@ header {
   border-left: 1px solid var(--color-border);
   display: flex;
   flex-direction: column;
+  position: absolute;
+  top: 0; right: 0; bottom: 0;
   transform: translateX(100%);
   transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  flex-shrink: 0;
   overflow: hidden;
+  z-index: 10;
 }
 #detail-panel.open { transform: translateX(0); }
 .panel-header {
@@ -252,12 +254,68 @@ header {
   opacity: 0;
   transition: opacity 0.15s;
   z-index: 1000;
-  max-width: 230px;
+  max-width: 280px;
 }
 #tooltip.show { opacity: 1; }
 .tt-name { font-weight: 600; margin-bottom: 2px; }
 .tt-mitre { font-family: var(--font-mono); font-size: 10px; color: var(--color-primary); }
 .tt-sev { font-size: 11px; color: var(--color-text-muted); margin-top: 2px; }
+.tt-preview { font-size: 11px; color: var(--color-text-muted); margin-top: 5px; line-height: 1.5; border-top: 1px solid var(--color-border); padding-top: 5px; font-style: italic; }
+
+/* ---- PULSE NOEUD CENTRAL ---- */
+@keyframes pulse-ring {
+  0%   { stroke-opacity: 0.9; stroke-width: 2px; }
+  50%  { stroke-opacity: 0.4; stroke-width: 4px; }
+  100% { stroke-opacity: 0.9; stroke-width: 2px; }
+}
+.center-pulse { animation: pulse-ring 2.8s ease-in-out infinite; }
+
+/* ---- INDICATEUR + HOVER CATEGORIE ---- */
+.cat-hint { pointer-events: none; font-size: 14px; font-weight: 700; fill: #ffffff; opacity: 0; transition: opacity 0.15s; }
+
+/* ---- SECTION REFERENCES PANEL ---- */
+.panel-section.refs-section { border-top: 1px solid var(--color-border); margin-top: 20px; padding-top: 20px; }
+.refs-list { display: flex; flex-direction: column; gap: 6px; margin-top: 2px; }
+.ref-link {
+  display: inline-flex; align-items: center; gap: 6px;
+  color: var(--color-primary); text-decoration: none;
+  font-size: 12px; font-family: var(--font-mono);
+  padding: 5px 10px; border-radius: 4px;
+  background: rgba(0,180,216,0.07); border: 1px solid rgba(0,180,216,0.15);
+  transition: background 0.15s, border-color 0.15s;
+}
+.ref-link:hover { background: rgba(0,180,216,0.15); border-color: rgba(0,180,216,0.35); }
+.ref-link-extra { color: var(--color-accent); background: rgba(184,92,56,0.07); border-color: rgba(184,92,56,0.15); }
+.ref-link-extra:hover { background: rgba(184,92,56,0.15); border-color: rgba(184,92,56,0.35); }
+
+/* ---- LOADING OVERLAY ---- */
+#loading-overlay {
+  position: fixed; inset: 0;
+  background: rgba(15,17,23,0.75);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 9000; pointer-events: none;
+  opacity: 1; transition: opacity 0.7s ease;
+}
+#loading-overlay.hidden { opacity: 0; }
+.loading-inner { text-align: center; }
+.loading-text { font-size: 13px; color: var(--color-primary); font-weight: 600; letter-spacing: 0.05em; }
+.loading-sub { font-size: 11px; color: var(--color-text-muted); margin-top: 6px; }
+.loading-bar {
+  width: 120px; height: 2px; background: var(--color-border);
+  border-radius: 2px; margin: 10px auto 0; overflow: hidden;
+}
+.loading-bar-fill {
+  height: 100%; width: 0%; background: var(--color-primary);
+  border-radius: 2px; animation: load-progress 1.8s ease-out forwards;
+}
+@keyframes load-progress { to { width: 100%; } }
+
+/* ---- STAT CATEGORIE ---- */
+#stat-cat-name {
+  font-size: 10px; color: var(--color-text-muted);
+  display: none; margin-top: 2px;
+  font-family: var(--font-mono);
+}
 </style>
 </head>
 <body>
@@ -272,11 +330,14 @@ header {
   </div>
   <div class="search-wrap">
     <span class="search-icon">&#9740;</span>
-    <input id="search-input" type="search" placeholder="Rechercher une technique, ID MITRE...">
+    <input id="search-input" type="search" autocomplete="off" spellcheck="false" placeholder="Rechercher une technique, ID MITRE...">
   </div>
   <div class="header-stats">
     <div class="stat-pill"><strong id="stat-cats">10</strong>&nbsp;cat&eacute;gories</div>
-    <div class="stat-pill"><strong id="stat-attacks">0</strong>&nbsp;techniques</div>
+    <div class="stat-pill">
+      <strong id="stat-attacks">0</strong>&nbsp;techniques
+      <div id="stat-cat-name"></div>
+    </div>
   </div>
 </header>
 
@@ -315,6 +376,10 @@ header {
         <div class="section-label">Contre-mesures</div>
         <ul id="panel-counters" class="counter-list"></ul>
       </div>
+      <div class="panel-section refs-section" id="panel-refs-section" style="display:none">
+        <div class="section-label">R&eacute;f&eacute;rences</div>
+        <div id="panel-refs" class="refs-list"></div>
+      </div>
     </div>
   </div>
 </div>
@@ -323,6 +388,15 @@ header {
   <div id="tt-name" class="tt-name"></div>
   <div id="tt-mitre" class="tt-mitre"></div>
   <div id="tt-sev" class="tt-sev"></div>
+  <div id="tt-preview" class="tt-preview" style="display:none"></div>
+</div>
+
+<div id="loading-overlay">
+  <div class="loading-inner">
+    <div class="loading-text">Initialisation du graphe&hellip;</div>
+    <div class="loading-sub">59 techniques &mdash; MITRE ATT&amp;CK</div>
+    <div class="loading-bar"><div class="loading-bar-fill"></div></div>
+  </div>
 </div>
 
 <script>
@@ -649,6 +723,71 @@ const ATTACKS = [
     counters:['D\u00e9sactivation ou protection par fuse des interfaces debug en production','Effacement des pads JTAG sur les PCB finaux commercialis\u00e9s','Authentification JTAG avec cl\u00e9s cryptographiques (ARM CoreSight)','Audit mat\u00e9riel et tests de p\u00e9n\u00e9tration avant tout d\u00e9ploiement'] },
 ];
 
+// =============================================================================
+// REFERENCES EDUCATIVES — MITRE ATT&CK (CC BY 4.0) + OWASP (CC BY-SA 3.0)
+// =============================================================================
+const REFS = {
+  mitm:            { mitre: 'https://attack.mitre.org/techniques/T1557/', label: 'MITRE T1557' },
+  ddos:            { mitre: 'https://attack.mitre.org/techniques/T1498/', label: 'MITRE T1498' },
+  arp:             { mitre: 'https://attack.mitre.org/techniques/T1557/002/', label: 'MITRE T1557.002' },
+  dns:             { mitre: 'https://attack.mitre.org/techniques/T1584/002/', label: 'MITRE T1584.002' },
+  sniffing:        { mitre: 'https://attack.mitre.org/techniques/T1040/', label: 'MITRE T1040' },
+  portscan:        { mitre: 'https://attack.mitre.org/techniques/T1046/', label: 'MITRE T1046' },
+  vlanhopping:     { mitre: 'https://attack.mitre.org/techniques/T1599/', label: 'MITRE T1599' },
+  bgphijack:       { mitre: 'https://attack.mitre.org/techniques/T1557/', label: 'MITRE T1557 (BGP)' },
+  xss:             { mitre: 'https://attack.mitre.org/techniques/T1059/007/', label: 'MITRE T1059.007', extra: 'https://owasp.org/www-community/attacks/xss/', extraLabel: 'OWASP — XSS' },
+  sqli:            { mitre: 'https://attack.mitre.org/techniques/T1190/', label: 'MITRE T1190', extra: 'https://owasp.org/www-community/attacks/SQL_Injection', extraLabel: 'OWASP — SQL Injection' },
+  csrf:            { mitre: 'https://attack.mitre.org/techniques/T1185/', label: 'MITRE T1185', extra: 'https://owasp.org/www-community/attacks/csrf', extraLabel: 'OWASP — CSRF' },
+  ssrf:            { mitre: 'https://attack.mitre.org/techniques/T1190/', label: 'MITRE T1190', extra: 'https://owasp.org/www-community/attacks/Server_Side_Request_Forgery', extraLabel: 'OWASP — SSRF' },
+  lfi:             { mitre: 'https://attack.mitre.org/techniques/T1190/', label: 'MITRE T1190' },
+  xxe:             { mitre: 'https://attack.mitre.org/techniques/T1190/', label: 'MITRE T1190', extra: 'https://owasp.org/www-community/vulnerabilities/XML_External_Entity_(XXE)_Processing', extraLabel: 'OWASP — XXE' },
+  brokenauth:      { mitre: 'https://attack.mitre.org/techniques/T1078/', label: 'MITRE T1078' },
+  phishing:        { mitre: 'https://attack.mitre.org/techniques/T1566/', label: 'MITRE T1566' },
+  spearphishing:   { mitre: 'https://attack.mitre.org/techniques/T1566/001/', label: 'MITRE T1566.001' },
+  vishing:         { mitre: 'https://attack.mitre.org/techniques/T1566/004/', label: 'MITRE T1566.004' },
+  pretexting:      { mitre: 'https://attack.mitre.org/techniques/T1598/', label: 'MITRE T1598' },
+  wateringhole:    { mitre: 'https://attack.mitre.org/techniques/T1189/', label: 'MITRE T1189' },
+  bec:             { mitre: 'https://attack.mitre.org/techniques/T1534/', label: 'MITRE T1534' },
+  cloudmisconfig:  { mitre: 'https://attack.mitre.org/techniques/T1580/', label: 'MITRE T1580' },
+  privesc:         { mitre: 'https://attack.mitre.org/techniques/T1078/003/', label: 'MITRE T1078.003' },
+  tokentheft:      { mitre: 'https://attack.mitre.org/techniques/T1528/', label: 'MITRE T1528' },
+  containerescape: { mitre: 'https://attack.mitre.org/techniques/T1610/', label: 'MITRE T1610' },
+  secretscode:     { mitre: 'https://attack.mitre.org/techniques/T1552/', label: 'MITRE T1552' },
+  firmwareexploit: { mitre: 'https://attack.mitre.org/techniques/T1542/', label: 'MITRE T1542' },
+  defaultcreds:    { mitre: 'https://attack.mitre.org/techniques/T1078/001/', label: 'MITRE T1078.001' },
+  mqttsniff:       { mitre: 'https://attack.mitre.org/techniques/T1040/', label: 'MITRE T1040' },
+  sidechannel:     { mitre: 'https://attack.mitre.org/techniques/T1600/', label: 'MITRE T1600' },
+  rfreplay:        { mitre: 'https://attack.mitre.org/techniques/T1040/', label: 'MITRE T1040' },
+  botnets:         { mitre: 'https://attack.mitre.org/techniques/T1584/', label: 'MITRE T1584' },
+  adversarial:     { mitre: 'https://attack.mitre.org/techniques/T1565/', label: 'MITRE T1565' },
+  datapoisoning:   { mitre: 'https://attack.mitre.org/techniques/T1565/', label: 'MITRE T1565' },
+  modelinversion:  { mitre: 'https://attack.mitre.org/techniques/T1590/', label: 'MITRE T1590' },
+  promptinject:    { mitre: 'https://attack.mitre.org/techniques/T1059/', label: 'MITRE T1059' },
+  modelstealing:   { mitre: 'https://attack.mitre.org/techniques/T1590/', label: 'MITRE T1590' },
+  backdoorai:      { mitre: 'https://attack.mitre.org/techniques/T1195/', label: 'MITRE T1195' },
+  ransomware:      { mitre: 'https://attack.mitre.org/techniques/T1486/', label: 'MITRE T1486' },
+  trojan:          { mitre: 'https://attack.mitre.org/techniques/T1204/', label: 'MITRE T1204' },
+  rootkit:         { mitre: 'https://attack.mitre.org/techniques/T1014/', label: 'MITRE T1014' },
+  spyware:         { mitre: 'https://attack.mitre.org/techniques/T1056/', label: 'MITRE T1056' },
+  filelessmalware: { mitre: 'https://attack.mitre.org/techniques/T1059/', label: 'MITRE T1059' },
+  depconfusion:    { mitre: 'https://attack.mitre.org/techniques/T1195/001/', label: 'MITRE T1195.001' },
+  typosquatting:   { mitre: 'https://attack.mitre.org/techniques/T1195/001/', label: 'MITRE T1195.001' },
+  buildcompromise: { mitre: 'https://attack.mitre.org/techniques/T1195/002/', label: 'MITRE T1195.002' },
+  maliciousupdate: { mitre: 'https://attack.mitre.org/techniques/T1195/002/', label: 'MITRE T1195.002' },
+  credstuffing:    { mitre: 'https://attack.mitre.org/techniques/T1110/004/', label: 'MITRE T1110.004' },
+  passthehash:     { mitre: 'https://attack.mitre.org/techniques/T1550/002/', label: 'MITRE T1550.002' },
+  kerberoasting:   { mitre: 'https://attack.mitre.org/techniques/T1558/003/', label: 'MITRE T1558.003' },
+  goldenticket:    { mitre: 'https://attack.mitre.org/techniques/T1558/001/', label: 'MITRE T1558.001' },
+  bruteforce:      { mitre: 'https://attack.mitre.org/techniques/T1110/', label: 'MITRE T1110' },
+  mfabypass:       { mitre: 'https://attack.mitre.org/techniques/T1621/', label: 'MITRE T1621' },
+  usbdrop:         { mitre: 'https://attack.mitre.org/techniques/T1091/', label: 'MITRE T1091' },
+  evilmaid:        { mitre: 'https://attack.mitre.org/techniques/T1200/', label: 'MITRE T1200' },
+  shouldersurfing: { mitre: 'https://attack.mitre.org/techniques/T1056/', label: 'MITRE T1056' },
+  dumpsterdiving:  { mitre: 'https://attack.mitre.org/techniques/T1592/', label: 'MITRE T1592' },
+  keylogger:       { mitre: 'https://attack.mitre.org/techniques/T1056/004/', label: 'MITRE T1056.004' },
+  jtagdebug:       { mitre: 'https://attack.mitre.org/techniques/T1200/', label: 'MITRE T1200' },
+};
+
 // Update stats
 document.getElementById('stat-attacks').textContent = ATTACKS.length;
 document.getElementById('stat-cats').textContent = CATEGORIES.length;
@@ -689,12 +828,17 @@ svg.call(zoomBehavior);
 
 const sim = d3.forceSimulation(allNodes)
   .force('link', d3.forceLink(allLinks).id(d => d.id)
-    .strength(d => d.type === 'hub' ? 0.25 : 0.55)
+    .strength(d => d.type === 'hub' ? 0.18 : 0.45)
     .distance(d => d.type === 'hub' ? 200 : 95))
-  .force('charge', d3.forceManyBody().strength(d => d.type === 'atk' ? -55 : -220))
+  .force('charge', d3.forceManyBody().strength(d => d.type === 'atk' ? -40 : -180))
   .force('center', d3.forceCenter(W / 2, H / 2))
   .force('collide', d3.forceCollide(d => d.r + 9))
-  .alphaDecay(0.015)
+  .alphaDecay(0.028)
+  .velocityDecay(0.55)
+  .on('end', () => {
+    const ov = document.getElementById('loading-overlay');
+    if (ov) { ov.classList.add('hidden'); setTimeout(() => { ov.style.display = 'none'; }, 750); }
+  })
   .on('tick', () => {
     linkEls.attr('x1', d => d.source.x).attr('y1', d => d.source.y)
            .attr('x2', d => d.target.x).attr('y2', d => d.target.y);
@@ -720,7 +864,8 @@ const nodeGrps = gNodes.selectAll('g').data(allNodes).join('g')
 // CENTER
 const centerGrp = nodeGrps.filter(d => d.type === 'center');
 centerGrp.append('circle')
-  .attr('r', d => d.r).attr('fill', '#1a1d26').attr('stroke', '#00B4D8').attr('stroke-width', 2);
+  .attr('r', d => d.r).attr('fill', '#1a1d26').attr('stroke', '#00B4D8').attr('stroke-width', 2)
+  .attr('class', 'center-pulse');
 centerGrp.each(function(d) {
   const lines = d.name.split('\n');
   d3.select(this).selectAll('text').data(lines).join('text')
@@ -739,16 +884,29 @@ catGrp.append('circle')
   .attr('stroke-width', 2)
   .style('cursor', 'pointer')
   .on('click', (e, d) => { e.stopPropagation(); toggleCat(d.id); })
-  .on('mouseover', (e, d) => tip(e, d.short, '', ''))
-  .on('mouseout', () => document.getElementById('tooltip').classList.remove('show'));
+  .on('mouseover', (e, d) => {
+    tip(e, d.short, '', '');
+    d3.select(e.currentTarget.parentNode).select('.cat-hint').style('opacity', 1);
+  })
+  .on('mouseout', (e) => {
+    document.getElementById('tooltip').classList.remove('show');
+    d3.select(e.currentTarget.parentNode).select('.cat-hint').style('opacity', 0);
+  });
 
 catGrp.each(function(d) {
   const lines = d.name.split('\n');
-  d3.select(this).selectAll('text').data(lines).join('text')
+  d3.select(this).selectAll('text.cat-label').data(lines).join('text')
+    .attr('class', 'cat-label')
     .attr('y', (_, i) => (i - (lines.length - 1) / 2) * 12)
     .attr('text-anchor', 'middle').attr('dominant-baseline', 'middle')
     .attr('fill', d.color).attr('font-size', '10px').attr('font-weight', '700')
     .attr('font-family', 'General Sans, sans-serif').attr('pointer-events', 'none').text(t => t);
+  // Indicateur + visible en hover
+  d3.select(this).append('text')
+    .attr('class', 'cat-hint')
+    .attr('x', d.r - 2).attr('y', -(d.r - 2))
+    .attr('text-anchor', 'middle').attr('dominant-baseline', 'middle')
+    .attr('fill', d.color).attr('font-size', '13px').text('+');
 });
 
 // ATTACKS
@@ -760,7 +918,7 @@ atkGrp.append('circle')
   .attr('stroke-width', 1.5)
   .style('opacity', 0).style('cursor', 'pointer')
   .on('click', (e, d) => { e.stopPropagation(); openPanel(d); })
-  .on('mouseover', (e, d) => tip(e, d.name, d.mitre, SEV_LABEL[d.sev]))
+  .on('mouseover', (e, d) => tip(e, d.name, d.mitre, SEV_LABEL[d.sev], d.desc ? d.desc.substring(0, 70) + '\u2026' : ''))
   .on('mouseout', () => document.getElementById('tooltip').classList.remove('show'));
 
 atkGrp.append('text')
@@ -788,13 +946,13 @@ function expand(id) {
     if (n.type !== 'atk') return;
     if (n.cat === id) {
       n.fx = null; n.fy = null;
-      if (catNode) { n.x = catNode.x + (Math.random()-0.5)*50; n.y = catNode.y + (Math.random()-0.5)*50; }
+      if (catNode) { n.x = catNode.x + (Math.random()-0.5)*20; n.y = catNode.y + (Math.random()-0.5)*20; }
     } else {
       const cn = allNodes.find(c => c.id === n.cat);
       if (cn) { n.fx = cn.x; n.fy = cn.y; }
     }
   });
-  sim.alpha(0.5).restart();
+  sim.alpha(0.25).restart();
   updateViz();
 }
 
@@ -808,7 +966,7 @@ function collapse() {
     n.fx = cn ? cn.x : W/2;
     n.fy = cn ? cn.y : H/2;
   });
-  sim.alpha(0.3).restart();
+  sim.alpha(0.18).restart();
   updateViz();
 }
 
@@ -833,13 +991,28 @@ function updateViz() {
       return atk && expandedCat === atk.cat ? 0.45 : 0;
     });
 
-  // Category dim
+  // Category dim + fill transition
   catGrp.select('circle')
     .transition().duration(280)
-    .style('opacity', d => !expandedCat || expandedCat === d.id ? 1 : 0.3);
+    .style('opacity', d => !expandedCat || expandedCat === d.id ? 1 : 0.3)
+    .attr('fill', d => !expandedCat || expandedCat === d.id ? d.color + '35' : d.color + '10');
   catGrp.selectAll('text')
     .transition().duration(280)
     .style('opacity', d => !expandedCat || expandedCat === d.id ? 1 : 0.3);
+
+  // Stat counter header
+  const statEl = document.getElementById('stat-attacks');
+  const statCat = document.getElementById('stat-cat-name');
+  if (expandedCat) {
+    const cat = CATEGORIES.find(c => c.id === expandedCat);
+    const cnt = ATTACKS.filter(a => a.cat === expandedCat).length;
+    statEl.textContent = cnt;
+    statCat.textContent = cat ? cat.short : expandedCat;
+    statCat.style.display = 'block';
+  } else {
+    statEl.textContent = ATTACKS.length;
+    statCat.style.display = 'none';
+  }
 }
 
 // =============================================================================
@@ -866,6 +1039,27 @@ function openPanel(atk) {
     `<li><span class="counter-check">&#10003;</span><span>${c}</span></li>`
   ).join('');
 
+  // Section références
+  const ref = REFS[atk.id];
+  const refSection = document.getElementById('panel-refs-section');
+  const refsList = document.getElementById('panel-refs');
+  if (ref) {
+    refsList.innerHTML = '';
+    const aM = document.createElement('a');
+    aM.href = ref.mitre; aM.target = '_blank'; aM.rel = 'noopener noreferrer';
+    aM.className = 'ref-link'; aM.textContent = ref.label;
+    refsList.appendChild(aM);
+    if (ref.extra) {
+      const aE = document.createElement('a');
+      aE.href = ref.extra; aE.target = '_blank'; aE.rel = 'noopener noreferrer';
+      aE.className = 'ref-link ref-link-extra'; aE.textContent = ref.extraLabel;
+      refsList.appendChild(aE);
+    }
+    refSection.style.display = 'block';
+  } else {
+    refSection.style.display = 'none';
+  }
+
   document.getElementById('detail-panel').classList.add('open');
 
   // Highlight selected node
@@ -883,10 +1077,13 @@ document.getElementById('panel-close').addEventListener('click', e => { e.stopPr
 // TOOLTIP
 // =============================================================================
 const ttEl = document.getElementById('tooltip');
-function tip(e, name, mitre, sev) {
+function tip(e, name, mitre, sev, preview) {
   document.getElementById('tt-name').textContent  = name;
-  document.getElementById('tt-mitre').textContent = mitre ? mitre : '';
+  document.getElementById('tt-mitre').textContent = mitre || '';
   document.getElementById('tt-sev').textContent   = sev ? 'S\u00e9v\u00e9rit\u00e9 : ' + sev : '';
+  const ttPrev = document.getElementById('tt-preview');
+  if (preview) { ttPrev.textContent = preview; ttPrev.style.display = 'block'; }
+  else { ttPrev.style.display = 'none'; }
   ttEl.style.left = (e.clientX + 14) + 'px';
   ttEl.style.top  = (e.clientY - 10) + 'px';
   ttEl.classList.add('show');
@@ -928,6 +1125,19 @@ document.getElementById('search-input').addEventListener('input', function() {
 window.addEventListener('resize', () => {
   W = wrap.clientWidth; H = wrap.clientHeight;
   sim.force('center', d3.forceCenter(W/2, H/2)).alpha(0.2).restart();
+});
+
+// =============================================================================
+// RACCOURCI CLAVIER
+// =============================================================================
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    if (document.getElementById('detail-panel').classList.contains('open')) {
+      closePanel();
+    } else if (expandedCat) {
+      collapse();
+    }
+  }
 });
 </script>
 </body>
