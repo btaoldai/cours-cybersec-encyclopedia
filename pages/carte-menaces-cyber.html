@@ -901,6 +901,35 @@ const allLinks = [
   ...ATTACKS.map(a => ({ source: a.cat, target: a.id, type: 'atk' })),
 ];
 
+// ---- Pré-positionnement AVANT la simulation ----
+// Sans ça : D3 démarre immédiatement avec 59 nœuds au même point
+// => repulsion cumulée 59 × (-55) = -3 245 qui souffle les catégories hors écran
+
+// 1. Centre : fixé définitivement
+const centerNode = allNodes.find(n => n.id === 'center');
+centerNode.x = W / 2; centerNode.y = H / 2;
+centerNode.fx = W / 2; centerNode.fy = H / 2;
+
+// 2. Catégories : cercle régulier autour du centre, gelées au départ
+const catNodes = allNodes.filter(n => n.type === 'cat');
+catNodes.forEach((n, i) => {
+  const angle = (i / catNodes.length) * 2 * Math.PI - Math.PI / 2;
+  n.x = W / 2 + 220 * Math.cos(angle);
+  n.y = H / 2 + 220 * Math.sin(angle);
+  n.fx = n.x; n.fy = n.y;
+});
+
+// 3. Attaques : dispersées près de leur catégorie — jamais toutes au même point
+allNodes.forEach(n => {
+  if (n.type !== 'atk') return;
+  const cat = allNodes.find(c => c.id === n.cat);
+  if (cat) {
+    n.x = cat.x + (Math.random() - 0.5) * 40;
+    n.y = cat.y + (Math.random() - 0.5) * 40;
+  }
+  n.fx = n.x; n.fy = n.y;
+});
+
 const gZoom  = svg.append('g');
 const gLinks = gZoom.append('g');
 const gNodes = gZoom.append('g');
@@ -927,10 +956,8 @@ const sim = d3.forceSimulation(allNodes)
     linkEls.attr('x1', d => d.source.x).attr('y1', d => d.source.y)
            .attr('x2', d => d.target.x).attr('y2', d => d.target.y);
     nodeGrps.attr('transform', d => `translate(${d.x},${d.y})`);
-  });
-
-// Fix attack nodes initially at center
-allNodes.forEach(n => { if (n.type === 'atk') { n.fx = W / 2; n.fy = H / 2; } });
+  })
+  .stop(); // Pause — redémarre après création des éléments SVG
 
 // ---- Links ----
 const linkEls = gLinks.selectAll('line').data(allLinks).join('line')
@@ -944,6 +971,13 @@ const nodeGrps = gNodes.selectAll('g').data(allNodes).join('g')
     .on('start', (e, d) => { if (!e.active) sim.alphaTarget(0.3).restart(); d.fx = d.x; d.fy = d.y; })
     .on('drag',  (e, d) => { d.fx = e.x; d.fy = e.y; })
     .on('end',   (e, d) => { if (!e.active) sim.alphaTarget(0); if (d.type !== 'atk' || expandedCat === d.cat) { d.fx = null; d.fy = null; } }));
+
+// Démarrage simulation : libérer les catégories puis lancer doucement
+// (après création des éléments SVG pour éviter un tick à vide)
+setTimeout(() => {
+  catNodes.forEach(n => { n.fx = null; n.fy = null; });
+  sim.alpha(0.3).restart();
+}, 30);
 
 // CENTER
 const centerGrp = nodeGrps.filter(d => d.type === 'center');
@@ -1050,10 +1084,12 @@ function collapse() {
   closePanel();
   document.getElementById('instructions').style.opacity = '1';
   allNodes.forEach(n => {
-    // Relacher les categories
     if (n.type === 'cat') { n.fx = null; n.fy = null; }
-    // Ramener TOUS les noeuds d'attaque au centre de la simulation
-    if (n.type === 'atk') { n.fx = W / 2; n.fy = H / 2; }
+    // Ramener les attaques vers leur catégorie (pas au centre — évite l'explosion de charge)
+    if (n.type === 'atk') {
+      const cat = allNodes.find(c => c.id === n.cat);
+      if (cat) { n.fx = cat.x; n.fy = cat.y; }
+    }
   });
   sim.alpha(0.15).restart();
   updateViz();
