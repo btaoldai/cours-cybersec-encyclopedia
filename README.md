@@ -1,57 +1,71 @@
-# Encyclopedie Cybersecurite
+# Encyclopédie Cybersécurité — Cartes de révision interactives
 
-Ressources interactives pour le module **Securite des Infrastructures et Reseaux**.
+Outil de révision open-source pour apprendre et réviser les fondamentaux de la cybersécurité : concepts clés, recommandations ANSSI, acronymes du domaine, et quiz interactif.
 
-Chaque page est un outil de revision autonome (HTML standalone) utilisable hors ligne ou heberge via GitHub Pages.
+**Accès direct (GitHub Pages) :** [btaoldai.github.io/cours-cybersec-encyclopedia](https://btaoldai.github.io/cours-cybersec-encyclopedia)
 
+---
 
-## Pages disponibles
+## Contenu
 
-| Page | Description | Seances couvertes |
-|---|---|---|
-| [Encyclopedie](pages/encyclopedie.html) | 84 concepts, 51 recommandations ANSSI, 198 abreviations — format cartes interactives avec recherche et filtres | S1, S2, S3 |
-| RGPD *(a venir)* | Referentiel RGPD applique a la cybersecurite | - |
+**110 concepts** organisés en 11 familles thématiques, **57 recommandations ANSSI** issues de 7 guides officiels, **156 abréviations** en deux niveaux de difficulté (débutant / intermédiaire).
 
+Thèmes couverts : hardening Linux, authentification et gestion des accès, audit et journalisation, architecture réseau et segmentation, sécurité périmétrique, attaques TCP/IP, SIEM et détection d'intrusion, référentiels (ANSSI, CIS, MITRE ATT&CK, OWASP).
+
+---
+
+## Quiz — 5 modes d'entraînement
+
+- **QCM** — définitions à choix multiples sur les 110 concepts
+- **Vrai / Faux** — associations concept ↔ terme anglais à valider
+- **Texte libre** — retrouver le terme complet d'un acronyme (156 abréviations)
+- **Association** — relier chaque concept à son équivalent anglais par lot de 4
+- **Mix** — combinaison aléatoire de tous les types
+
+Options configurables : nombre de questions (5 / 10 / 20 / 30), filtre par session (S1, S2, S3 ou tout), chronomètre activable (30s par question).
+
+Raccourcis clavier : **A / B / C / D** pour les QCM, **V / F** pour Vrai/Faux, **Entrée** pour passer à la question suivante.
+
+---
 
 ## Utilisation
 
-**En ligne (GitHub Pages) :**
-Acceder directement via `https://<username>.github.io/cours-cybersec-encyclopedia/pages/encyclopedie.html`
+**En ligne :** ouvrir l'URL GitHub Pages ci-dessus, aucune installation requise.
 
-**Hors ligne :**
-Telecharger le fichier HTML et l'ouvrir dans un navigateur. Aucune dependance externe requise (polices Google Fonts chargees en ligne, mais le contenu reste lisible sans).
+**Hors ligne :** télécharger [`pages/encyclopedie.html`](pages/encyclopedie.html) et l'ouvrir directement dans un navigateur. Aucune dépendance, aucun serveur, aucun build — tout le contenu est embarqué dans un seul fichier HTML.
 
+---
 
-## Deploiement GitHub Pages
+## Déploiement GitHub Pages (fork)
 
-1. Aller dans **Settings** > **Pages** du depot
-2. Source : **Deploy from a branch**
-3. Branche : `main`, dossier : `/ (root)`
-4. Sauvegarder — le site sera accessible sous quelques minutes
+1. Forker ce dépôt
+2. Aller dans **Settings > Pages**
+3. Source : **Deploy from a branch** — branche `main`, dossier `/ (root)`
+4. Sauvegarder — le site sera en ligne sous quelques minutes
 
-> Ce depot est public. GitHub Pages est actif par defaut pour les depots publics.
+---
 
-
-## Structure du depot
+## Structure
 
 ```
 cours-cybersec-encyclopedia/
-  pages/
-    encyclopedie.html      # Encyclopedie interactive (S1-S3)
-  assets/                   # Ressources partagees (images, CSS) — a venir
-  README.md
-  LICENSE
-  .gitignore
+├── index.html              # Page d'accueil (liens vers les outils)
+├── pages/
+│   └── encyclopedie.html   # Application principale (standalone)
+├── README.md
+└── LICENSE                 # CC BY-SA 4.0
 ```
 
+---
 
 ## Licence
 
-Ce projet est distribue sous licence **Creative Commons Attribution — Partage dans les Memes Conditions 4.0 International (CC BY-SA 4.0)**.
+**CC BY-SA 4.0** — utilisation libre, y compris commerciale, sous réserve de mentionner l'auteur et de redistribuer sous la même licence.
 
-Voir le fichier [LICENSE](LICENSE) pour les details complets.
+Références ANSSI utilisées : PA-022, PG-040, PA-066, BP-033, BP-094, DAT-NT-028 (domaine public).
 
+---
 
 ## Auteur
 
-**Baptiste Ochlafen** — TheRustLab
+**Baptiste Ochlafen** — [TheRustLab](https://github.com/btaoldai)

@@ -3,279 +3,387 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Encyclopedie Cybersecurite - S1 / S2 / S3</title>
+<title>Encyclopédie Cybersécurité — TheRustLab</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 /* =============================================
-   THERUST LAB - CHARTE GRAPHIQUE
-   Bleu Abysse #132639
-   Bleu Arc Electrique #00B4D8
-   Rouille #B85C38
+   THERUST LAB — Encyclopédie Cybersécurité
+   Design System: Dark cyber palette + warm accents
    ============================================= */
 
-:root {
-  --bleu-abysse: #132639;
-  --bleu-abysse-dark: #0A1620;
-  --bleu-cyan: #00B4D8;
-  --rouille: #B85C38;
-  --gris-clair: #E8E9EB;
-  --gris-moyen: #7A7C7F;
-  --gris-fonce: #3D3E40;
-  --blanc: #FFFFFF;
-  --card-bg: #1a3350;
-  --card-hover: #1f3d5e;
-
-  /* Family colors gradient */
-  --fam-1: #00B4D8;  /* Hardening Systeme */
-  --fam-2: #0098C8;  /* Authentification et Acces */
-  --fam-3: #2080B0;  /* Audit et Journalisation */
-  --fam-4: #4070A0;  /* Integrite et Conformite */
-  --fam-5: #6862A0;  /* Architecture Reseau */
-  --fam-6: #8854A0;  /* Securite Perimetrique */
-  --fam-7: #A04678;  /* Attaques TCP/IP */
-  --fam-8: #B04050;  /* SIEM et Detection */
-  --fam-9: #B84840;  /* Referentiels et Normes */
-  --fam-10: #B85038; /* Protocoles de Securite */
-  --fam-11: #B85C38; /* Outils du Lab */
+:root, [data-theme="dark"] {
+  --color-bg: #0f1117;
+  --color-surface: #161820;
+  --color-surface-2: #1c1e28;
+  --color-surface-offset: #1a1c26;
+  --color-surface-dynamic: #22242e;
+  --color-divider: #2a2c38;
+  --color-border: #333548;
+  --color-text: #e2e4ec;
+  --color-text-muted: #8b8ea0;
+  --color-text-faint: #555770;
+  --color-text-inverse: #0f1117;
+  --color-primary: #00B4D8;
+  --color-primary-hover: #0098b8;
+  --color-primary-active: #007a96;
+  --color-primary-highlight: #00B4D820;
+  --color-accent: #B85C38;
+  --color-accent-hover: #a04e30;
+  --color-accent-highlight: #B85C3820;
+  --color-success: #4ade80;
+  --color-success-bg: #4ade8015;
+  --color-error: #f87171;
+  --color-error-bg: #f8717115;
+  --color-warning: #fbbf24;
+  --color-warning-bg: #fbbf2415;
+  --font-body: 'General Sans', -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+  --text-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.8125rem);
+  --text-sm: clamp(0.8125rem, 0.78rem + 0.2vw, 0.875rem);
+  --text-base: clamp(0.9375rem, 0.9rem + 0.2vw, 1rem);
+  --text-lg: clamp(1.125rem, 1rem + 0.5vw, 1.25rem);
+  --text-xl: clamp(1.375rem, 1.1rem + 1vw, 1.75rem);
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --transition: 180ms cubic-bezier(0.16, 1, 0.3, 1);
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.4);
+  --shadow-lg: 0 12px 40px rgba(0,0,0,0.5);
+  /* Family colors */
+  --fam-1: #00B4D8; --fam-2: #0098C8; --fam-3: #2C99D0;
+  --fam-4: #5C95CE; --fam-5: #7B7EC8; --fam-6: #9868B8;
+  --fam-7: #C05070; --fam-8: #D85858; --fam-9: #EB665D;
+  --fam-10: #E66D50; --fam-11: #DC744B;
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+[data-theme="light"] {
+  --color-bg: #f4f5f7;
+  --color-surface: #ffffff;
+  --color-surface-2: #fafafa;
+  --color-surface-offset: #eef0f4;
+  --color-surface-dynamic: #e4e6ec;
+  --color-divider: #d4d6de;
+  --color-border: #c0c2cc;
+  --color-text: #1a1c26;
+  --color-text-muted: #5a5c70;
+  --color-text-faint: #8b8ea0;
+  --color-text-inverse: #f4f5f7;
+  --color-primary: #0088a8;
+  --color-primary-hover: #006d88;
+  --color-primary-active: #005568;
+  --color-primary-highlight: #0088a818;
+  --color-accent: #a04e30;
+  --color-accent-hover: #884020;
+  --color-accent-highlight: #a04e3018;
+  --color-success: #16a34a;
+  --color-success-bg: #16a34a12;
+  --color-error: #dc2626;
+  --color-error-bg: #dc262612;
+  --color-warning: #d97706;
+  --color-warning-bg: #d9770612;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.1);
+  --shadow-lg: 0 12px 40px rgba(0,0,0,0.15);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
 }
 
 body {
-  font-family: 'Roboto', sans-serif;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 1.5;
-  background: var(--bleu-abysse-dark);
-  color: var(--blanc);
-  min-height: 100vh;
+  min-height: 100dvh;
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: 1.6;
+  color: var(--color-text);
+  background: var(--color-bg);
 }
 
-/* HEADER */
-.header {
-  background: var(--bleu-abysse);
-  border-bottom: 4px solid var(--rouille);
-  padding: 32px 40px 24px;
-  text-align: center;
+a, button, input, select { transition: all var(--transition); }
+button { cursor: pointer; background: none; border: none; font: inherit; color: inherit; }
+img { display: block; max-width: 100%; }
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
 }
 
-.header h1 {
-  font-family: 'Roboto', sans-serif;
-  font-weight: 700;
-  font-size: 40px;
-  line-height: 1.2;
-  color: var(--blanc);
-  margin-bottom: 8px;
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
 }
 
-.header .subtitle {
-  font-family: 'Roboto Mono', monospace;
-  font-weight: 400;
-  font-size: 16px;
-  color: var(--bleu-cyan);
-  letter-spacing: 1px;
+::selection {
+  background: var(--color-primary-highlight);
+  color: var(--color-text);
 }
 
-.header .meta {
-  font-size: 14px;
-  color: var(--gris-moyen);
-  margin-top: 8px;
-}
+/* =============================================
+   LAYOUT — Header, Nav, Main
+   ============================================= */
 
-/* NAVIGATION TABS */
-.nav-tabs {
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-divider);
+  padding: var(--space-4) var(--space-6);
   display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.app-logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.app-logo svg { flex-shrink: 0; }
+
+.app-logo-text h1 {
+  font-size: var(--text-lg);
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--color-text);
+}
+
+.app-logo-text span {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  letter-spacing: 0.5px;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.theme-toggle {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
   justify-content: center;
+  border-radius: var(--radius-md);
+  color: var(--color-text-muted);
+}
+
+.theme-toggle:hover {
+  background: var(--color-surface-dynamic);
+  color: var(--color-text);
+}
+
+/* NAV TABS */
+.nav-bar {
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-divider);
+  padding: 0 var(--space-6);
+  display: flex;
   gap: 0;
-  background: var(--bleu-abysse);
-  border-bottom: 2px solid var(--bleu-cyan);
-  padding: 0 20px;
-  flex-wrap: wrap;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .nav-tab {
-  padding: 12px 24px;
-  font-family: 'Roboto', sans-serif;
+  padding: var(--space-3) var(--space-5);
+  font-size: var(--text-sm);
   font-weight: 500;
-  font-size: 15px;
-  color: var(--gris-clair);
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  border-bottom: 3px solid transparent;
-  transition: all 0.2s;
-  border-radius: 2px 2px 0 0;
+  color: var(--color-text-muted);
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+  position: relative;
 }
 
-.nav-tab:hover {
-  color: var(--blanc);
-  background: rgba(0, 180, 216, 0.08);
-}
+.nav-tab:hover { color: var(--color-text); }
 
 .nav-tab.active {
-  color: var(--bleu-cyan);
-  border-bottom-color: var(--bleu-cyan);
+  color: var(--color-primary);
+  border-bottom-color: var(--color-primary);
 }
 
-.nav-tab.active-anssi {
-  color: var(--rouille);
-  border-bottom-color: var(--rouille);
+.nav-tab.active-accent {
+  color: var(--color-accent);
+  border-bottom-color: var(--color-accent);
 }
 
-.nav-tab.active-abbr {
-  color: var(--rouille);
-  border-bottom-color: var(--rouille);
-}
-
-/* SEARCH + FILTER BAR */
-.controls {
-  display: flex;
-  justify-content: center;
+.nav-tab .badge {
+  display: inline-flex;
   align-items: center;
-  gap: 16px;
-  padding: 20px 40px;
+  justify-content: center;
+  margin-left: var(--space-2);
+  padding: 1px 6px;
+  font-size: 11px;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  background: var(--color-primary-highlight);
+  color: var(--color-primary);
+  border-radius: var(--radius-sm);
+}
+
+/* CONTROLS BAR */
+.controls-bar {
+  padding: var(--space-4) var(--space-6);
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
   flex-wrap: wrap;
+  background: var(--color-bg);
 }
 
 .search-box {
   position: relative;
-  flex: 0 1 500px;
+  flex: 1;
+  min-width: 240px;
+  max-width: 480px;
 }
 
 .search-box input {
   width: 100%;
-  padding: 12px 16px 12px 44px;
-  font-family: 'Roboto', sans-serif;
-  font-size: 16px;
-  color: var(--blanc);
-  background: var(--bleu-abysse);
-  border: 2px solid var(--gris-fonce);
-  border-radius: 3px;
+  padding: var(--space-2) var(--space-4) var(--space-2) 40px;
+  font-size: var(--text-sm);
+  color: var(--color-text);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
   outline: none;
-  transition: border-color 0.2s;
 }
 
 .search-box input:focus {
-  border-color: var(--bleu-cyan);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-highlight);
 }
 
-.search-box input::placeholder {
-  color: var(--gris-moyen);
-}
+.search-box input::placeholder { color: var(--color-text-faint); }
 
 .search-icon {
   position: absolute;
-  left: 14px;
+  left: 12px;
   top: 50%;
   transform: translateY(-50%);
-  color: var(--gris-moyen);
-  font-size: 18px;
+  color: var(--color-text-faint);
   pointer-events: none;
 }
 
 .counter {
-  font-family: 'Roboto Mono', monospace;
-  font-size: 14px;
-  color: var(--gris-moyen);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+/* MAIN CONTENT */
+.main-content {
+  padding: var(--space-4) var(--space-6) var(--space-12);
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 /* VIEW TOGGLE */
-.view-section {
-  display: none;
-}
+.view-section { display: none; }
+.view-section.active { display: block; }
 
-.view-section.active {
-  display: block;
-}
+/* =============================================
+   FILTER PILLS
+   ============================================= */
 
-/* FAMILIES SECTION */
-.families-section {
-  padding: 0 40px;
-}
-
-/* FILTER PILLS */
 .filter-pills {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
-  justify-content: center;
-  padding: 8px 40px 20px;
+  gap: var(--space-2);
+  margin-bottom: var(--space-6);
 }
 
 .filter-pill {
-  padding: 8px 16px;
-  font-family: 'Roboto', sans-serif;
+  padding: 6px var(--space-3);
+  font-size: var(--text-xs);
   font-weight: 500;
-  font-size: 14px;
-  background: var(--bleu-abysse);
-  color: var(--gris-clair);
-  border: 1px solid var(--gris-fonce);
-  border-radius: 2px;
-  cursor: pointer;
-  transition: all 0.2s;
+  background: var(--color-surface);
+  color: var(--color-text-muted);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
 }
 
 .filter-pill:hover {
-  border-color: var(--bleu-cyan);
-  color: var(--blanc);
+  border-color: var(--color-primary);
+  color: var(--color-text);
 }
 
 .filter-pill.active {
-  background: var(--bleu-cyan);
-  color: var(--bleu-abysse-dark);
-  border-color: var(--bleu-cyan);
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+  border-color: var(--color-primary);
 }
 
-/* FAMILY GROUP */
-.family-group {
-  margin-bottom: 40px;
+/* =============================================
+   FAMILY GROUPS & CARDS
+   ============================================= */
+
+.family-group { margin-bottom: var(--space-8); }
+
+.family-header {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+  padding-bottom: var(--space-2);
+  border-bottom: 2px solid var(--fam-color, var(--color-divider));
 }
 
 .family-title {
-  font-family: 'Roboto', sans-serif;
+  font-size: var(--text-lg);
   font-weight: 700;
-  font-size: 26px;
-  line-height: 1.2;
-  padding: 12px 0 4px;
-  border-left: 4px solid var(--fam-color, var(--bleu-cyan));
-  padding-left: 16px;
-  margin-bottom: 6px;
-  color: var(--blanc);
+  color: var(--color-text);
 }
 
 .family-session {
-  font-family: 'Roboto Mono', monospace;
-  font-weight: 400;
-  font-size: 13px;
-  color: var(--fam-color, var(--bleu-cyan));
-  padding-left: 20px;
-  margin-bottom: 16px;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-dynamic);
 }
 
-/* CARDS GRID -- format carte a jouer */
 .cards-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr));
+  gap: var(--space-4);
 }
 
-/* CARD -- fond colore par famille */
 .card {
-  background: var(--card-bg-color, var(--card-bg));
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 3px;
-  padding: 24px 20px 20px;
-  min-height: 320px;
+  background: var(--card-bg-color, var(--color-surface));
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
   display: flex;
   flex-direction: column;
-  transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
-  cursor: default;
+  gap: var(--space-2);
+  min-height: 240px;
   position: relative;
   overflow: hidden;
 }
@@ -283,373 +391,775 @@ body {
 .card::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: var(--fam-color, var(--bleu-cyan));
-  opacity: 0.6;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--fam-color, var(--color-primary));
 }
 
 .card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
-  border-color: rgba(255, 255, 255, 0.15);
+  border-color: var(--fam-color, var(--color-primary));
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
 }
 
-.card:hover::before {
-  opacity: 1;
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-2);
 }
 
 .card-name {
-  font-family: 'Roboto', sans-serif;
+  font-size: var(--text-base);
   font-weight: 700;
-  font-size: 20px;
-  color: var(--bleu-cyan);
-  margin-bottom: 4px;
+  color: var(--color-text);
+  line-height: 1.3;
+}
+
+.card-session-tag {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--fam-color, var(--color-primary)) 15%, transparent);
+  color: var(--fam-color, var(--color-text-faint));
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .card-aka {
-  font-family: 'Roboto Mono', monospace;
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.5);
-  margin-bottom: 14px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-text-faint);
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid var(--color-divider);
 }
 
 .card-desc {
-  font-size: 15px;
+  font-size: var(--text-sm);
   line-height: 1.6;
-  color: var(--blanc);
-  margin-bottom: auto;
+  color: var(--color-text-muted);
   flex: 1;
 }
 
 .card-example {
-  font-family: 'Roboto Mono', monospace;
-  font-size: 12px;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
   line-height: 1.5;
-  color: rgba(255, 255, 255, 0.6);
-  padding: 10px 12px;
-  margin-top: 14px;
-  background: rgba(0, 0, 0, 0.25);
-  border-left: 3px solid var(--fam-color, var(--bleu-cyan));
-  border-radius: 0 2px 2px 0;
+  color: var(--color-text-faint);
+  padding: var(--space-2) var(--space-3);
+  background: var(--color-surface-offset);
+  border-radius: var(--radius-sm);
+  margin-top: auto;
 }
 
-.card-session-tag {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  font-family: 'Roboto Mono', monospace;
-  font-size: 11px;
-  font-weight: 700;
-  padding: 2px 8px;
-  border-radius: 2px;
-  background: rgba(0, 0, 0, 0.3);
-  color: rgba(255, 255, 255, 0.5);
-}
+/* =============================================
+   ANSSI TAB
+   ============================================= */
 
-/* ANSSI TAB STYLES */
-.anssi-content {
-  padding: 20px 40px;
-}
-
-.anssi-section {
-  margin-bottom: 40px;
-}
+.anssi-section { margin-bottom: var(--space-8); }
 
 .anssi-guide-header {
-  font-family: 'Roboto', sans-serif;
+  font-size: var(--text-lg);
   font-weight: 700;
-  font-size: 22px;
-  color: var(--blanc);
-  margin-bottom: 20px;
-  padding-bottom: 8px;
-  border-bottom: 2px solid var(--rouille);
+  color: var(--color-text);
+  margin-bottom: var(--space-4);
+  padding-bottom: var(--space-2);
+  border-bottom: 2px solid var(--color-accent);
 }
 
 .anssi-recommendation {
-  background: var(--card-bg);
-  border-left: 4px solid var(--rouille);
-  padding: 16px;
-  margin-bottom: 12px;
-  border-radius: 3px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  margin-bottom: var(--space-3);
   display: flex;
-  gap: 16px;
+  gap: var(--space-4);
   align-items: flex-start;
+}
+
+.anssi-recommendation:hover {
+  border-color: var(--color-accent);
 }
 
 .anssi-priority-badge {
   flex-shrink: 0;
   padding: 4px 10px;
-  font-family: 'Roboto Mono', monospace;
+  font-family: var(--font-mono);
   font-weight: 700;
   font-size: 11px;
-  border-radius: 3px;
+  border-radius: var(--radius-sm);
   text-align: center;
   min-width: 90px;
   white-space: nowrap;
 }
 
-.anssi-priority-indispensable {
-  background: #2d7d3d;
-  color: #ffffff;
-}
-
-.anssi-priority-recommande {
-  background: #2d5f8e;
-  color: #ffffff;
-}
-
-.anssi-priority-renforce {
-  background: #5a5a5a;
-  color: #ffffff;
-}
-
-.anssi-rec-content {
-  flex: 1;
-}
+.anssi-priority-indispensable { background: #166534; color: #bbf7d0; }
+.anssi-priority-recommandé { background: #1e3a5f; color: #93c5fd; }
+.anssi-priority-renforce { background: #374151; color: #d1d5db; }
 
 .anssi-rec-title {
-  font-family: 'Roboto', sans-serif;
   font-weight: 600;
-  font-size: 16px;
-  color: var(--blanc);
-  margin-bottom: 6px;
+  font-size: var(--text-sm);
+  color: var(--color-text);
+  margin-bottom: var(--space-1);
 }
 
 .anssi-rec-desc {
-  font-size: 14px;
-  color: var(--gris-clair);
-  margin-bottom: 8px;
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-2);
   line-height: 1.5;
 }
 
 .anssi-rec-ref {
-  font-family: 'Roboto Mono', monospace;
-  font-size: 12px;
-  color: var(--gris-moyen);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-text-faint);
 }
 
-/* ABBREVIATIONS SECTION */
-.abbr-section {
-  padding: 0 40px 40px;
-}
+/* =============================================
+   ABBREVIATIONS TAB
+   ============================================= */
 
-.abbr-category {
-  margin-bottom: 40px;
-}
+.abbr-category { margin-bottom: var(--space-8); }
 
 .abbr-category-title {
-  font-family: 'Roboto', sans-serif;
+  font-size: var(--text-lg);
   font-weight: 700;
-  font-size: 20px;
-  line-height: 1.2;
-  padding: 12px 0 4px;
-  border-left: 4px solid var(--bleu-cyan);
-  padding-left: 16px;
-  margin-bottom: 4px;
+  margin-bottom: var(--space-1);
 }
 
 .abbr-category-desc {
-  font-family: 'Roboto Mono', monospace;
-  font-weight: 400;
-  font-size: 13px;
-  color: var(--gris-moyen);
-  padding-left: 20px;
-  margin-bottom: 12px;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-4);
   font-style: italic;
 }
 
 .abbr-table {
   width: 100%;
   border-collapse: collapse;
-  background: var(--card-bg);
-  border: 1px solid rgba(0, 180, 216, 0.2);
-  border-radius: 3px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
   overflow: hidden;
 }
 
-.abbr-table tr {
-  border-bottom: 1px solid rgba(0, 180, 216, 0.1);
-}
-
-.abbr-table tr:last-child {
-  border-bottom: none;
-}
-
 .abbr-table th {
-  background: var(--bleu-abysse);
-  padding: 12px 16px;
+  background: var(--color-surface-offset);
+  padding: var(--space-3) var(--space-4);
   text-align: left;
-  font-family: 'Roboto', sans-serif;
+  font-size: var(--text-xs);
   font-weight: 600;
-  font-size: 14px;
-  color: var(--bleu-cyan);
-  border-bottom: 2px solid var(--bleu-cyan);
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 1px solid var(--color-divider);
 }
 
 .abbr-table td {
-  padding: 12px 16px;
-  font-size: 14px;
-  line-height: 1.4;
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--text-sm);
+  border-bottom: 1px solid var(--color-divider);
 }
+
+.abbr-table tr:last-child td { border-bottom: none; }
 
 .abbr-table td:first-child {
-  font-family: 'Roboto Mono', monospace;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: var(--color-primary);
+  white-space: nowrap;
+}
+
+.abbr-table tr:hover td {
+  background: var(--color-surface-offset);
+}
+
+.abbr-table-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin-bottom: var(--space-4);
+}
+/* =============================================
+   QUIZ TAB — Wooclap-style
+   ============================================= */
+
+.quiz-home {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-8);
+  padding: var(--space-8) 0;
+}
+
+.quiz-modes {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(260px, 100%), 1fr));
+  gap: var(--space-4);
+  width: 100%;
+}
+
+.quiz-mode-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.quiz-mode-card:hover {
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.quiz-mode-icon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-md);
+  font-size: 20px;
+}
+
+.quiz-mode-title {
+  font-size: var(--text-base);
+  font-weight: 700;
+}
+
+.quiz-mode-desc {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  line-height: 1.5;
+}
+
+.quiz-mode-meta {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-text-faint);
+}
+
+/* Quiz Config */
+.quiz-config {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  max-width: 560px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.quiz-config h3 {
+  font-size: var(--text-lg);
+  font-weight: 700;
+}
+
+.config-group { display: flex; flex-direction: column; gap: var(--space-2); }
+.config-label { font-size: var(--text-sm); font-weight: 600; color: var(--color-text); }
+
+.config-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.config-option {
+  padding: 6px var(--space-3);
+  font-size: var(--text-sm);
+  background: var(--color-surface-offset);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  color: var(--color-text-muted);
+}
+
+.config-option:hover { border-color: var(--color-primary); color: var(--color-text); }
+.config-option.active {
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+  border-color: var(--color-primary);
+}
+
+.btn-primary {
+  padding: var(--space-3) var(--space-6);
+  font-size: var(--text-sm);
   font-weight: 600;
-  color: var(--bleu-cyan);
-  width: 100px;
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+  border-radius: var(--radius-md);
+  border: none;
+  text-align: center;
 }
 
-.abbr-table td:last-child {
-  color: var(--gris-clair);
+.btn-primary:hover { background: var(--color-primary-hover); }
+
+.btn-secondary {
+  padding: var(--space-2) var(--space-4);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  background: var(--color-surface-offset);
+  color: var(--color-text-muted);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
 }
 
-.abbr-table tbody tr:hover {
-  background: rgba(0, 180, 216, 0.08);
+.btn-secondary:hover {
+  background: var(--color-surface-dynamic);
+  color: var(--color-text);
 }
+
+/* Quiz In-Progress */
+.quiz-game {
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+.quiz-progress-bar {
+  width: 100%;
+  height: 6px;
+  background: var(--color-surface-dynamic);
+  border-radius: 3px;
+  margin-bottom: var(--space-6);
+  overflow: hidden;
+}
+
+.quiz-progress-fill {
+  height: 100%;
+  background: var(--color-primary);
+  border-radius: 3px;
+  transition: width 0.4s ease;
+}
+
+.quiz-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-6);
+}
+
+.quiz-question-num {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-text-faint);
+}
+
+.quiz-timer {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-text-muted);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.quiz-timer.warning { color: var(--color-warning); }
+.quiz-timer.danger { color: var(--color-error); }
+
+.quiz-question-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  margin-bottom: var(--space-4);
+}
+
+.quiz-question-type {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-primary);
+  font-weight: 600;
+  margin-bottom: var(--space-3);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.quiz-question-text {
+  font-size: var(--text-lg);
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--color-text);
+  margin-bottom: var(--space-5);
+}
+
+.quiz-answers {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.quiz-answer-btn {
+  width: 100%;
+  padding: var(--space-4);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  text-align: left;
+  background: var(--color-surface-offset);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--color-text);
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.quiz-answer-btn:hover:not(.disabled) {
+  border-color: var(--color-primary);
+  background: var(--color-primary-highlight);
+}
+
+.quiz-answer-btn.correct {
+  border-color: var(--color-success);
+  background: var(--color-success-bg);
+  color: var(--color-success);
+}
+
+.quiz-answer-btn.wrong {
+  border-color: var(--color-error);
+  background: var(--color-error-bg);
+  color: var(--color-error);
+}
+
+.quiz-answer-btn.disabled { pointer-events: none; opacity: 0.6; }
+.quiz-answer-btn.disabled.correct { opacity: 1; }
+
+.quiz-answer-key {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-dynamic);
+  flex-shrink: 0;
+}
+
+/* Fill-in-the-blank */
+.quiz-input-answer {
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--text-base);
+  font-family: var(--font-mono);
+  background: var(--color-surface-offset);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--color-text);
+  outline: none;
+}
+
+.quiz-input-answer:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-highlight);
+}
+
+.quiz-input-answer.correct { border-color: var(--color-success); }
+.quiz-input-answer.wrong { border-color: var(--color-error); }
+
+/* Feedback */
+.quiz-feedback {
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  margin-top: var(--space-4);
+  font-size: var(--text-sm);
+  line-height: 1.5;
+  display: none;
+}
+
+.quiz-feedback.show { display: block; }
+
+.quiz-feedback.correct {
+  background: var(--color-success-bg);
+  border: 1px solid var(--color-success);
+  color: var(--color-success);
+}
+
+.quiz-feedback.wrong {
+  background: var(--color-error-bg);
+  border: 1px solid var(--color-error);
+  color: var(--color-error);
+}
+
+.quiz-next-btn {
+  display: none;
+  margin-top: var(--space-4);
+  padding: var(--space-3) var(--space-6);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+  border-radius: var(--radius-md);
+  border: none;
+  width: 100%;
+}
+
+.quiz-next-btn.show { display: block; }
+.quiz-next-btn:hover { background: var(--color-primary-hover); }
+
+/* Results */
+.quiz-results {
+  max-width: 560px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.quiz-score-circle {
+  width: 160px;
+  height: 160px;
+  margin: 0 auto var(--space-6);
+  position: relative;
+}
+
+.quiz-score-circle svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.quiz-score-circle .bg { stroke: var(--color-surface-dynamic); }
+.quiz-score-circle .fill { transition: stroke-dashoffset 1s ease; }
+
+.quiz-score-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: var(--font-mono);
+  font-size: var(--text-xl);
+  font-weight: 700;
+}
+
+.quiz-results h3 {
+  font-size: var(--text-xl);
+  font-weight: 700;
+  margin-bottom: var(--space-2);
+}
+
+.quiz-results-detail {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-6);
+}
+
+.quiz-results-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-3);
+  margin-bottom: var(--space-6);
+}
+
+.quiz-stat {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+}
+
+.quiz-stat-value {
+  font-family: var(--font-mono);
+  font-size: var(--text-lg);
+  font-weight: 700;
+}
+
+.quiz-stat-label {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  margin-top: var(--space-1);
+}
+
+.quiz-results-actions {
+  display: flex;
+  gap: var(--space-3);
+  justify-content: center;
+}
+
+/* Matching */
+.quiz-matching {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.quiz-match-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.quiz-match-left {
+  flex: 1;
+  padding: var(--space-3);
+  background: var(--color-surface-offset);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+.quiz-match-arrow {
+  color: var(--color-text-faint);
+  flex-shrink: 0;
+}
+
+.quiz-match-select {
+  flex: 1;
+  padding: var(--space-3);
+  font-size: var(--text-sm);
+  background: var(--color-surface-offset);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  color: var(--color-text);
+  appearance: auto;
+}
+
+.quiz-match-select:focus {
+  border-color: var(--color-primary);
+  outline: none;
+}
+
+.quiz-match-select.correct { border-color: var(--color-success); background: var(--color-success-bg); }
+.quiz-match-select.wrong { border-color: var(--color-error); background: var(--color-error-bg); }
+
+.quiz-submit-btn {
+  margin-top: var(--space-4);
+  padding: var(--space-3) var(--space-6);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+  border-radius: var(--radius-md);
+  border: none;
+  width: 100%;
+}
+
+.quiz-submit-btn:hover { background: var(--color-primary-hover); }
 
 /* FOOTER */
-.footer {
-  background: var(--bleu-abysse);
-  border-top: 2px solid var(--rouille);
-  padding: 20px 40px;
+.app-footer {
   text-align: center;
-  margin-top: 40px;
+  padding: var(--space-8) var(--space-6);
+  font-size: var(--text-xs);
+  color: var(--color-text-faint);
+  border-top: 1px solid var(--color-divider);
 }
 
-.footer p {
-  font-size: 12px;
-  color: var(--gris-moyen);
-  margin: 4px 0;
+.app-footer a {
+  color: var(--color-primary);
+  text-decoration: none;
 }
 
-/* PRINT STYLES */
-@media print {
-  body {
-    background: white;
-    color: black;
-  }
+/* =============================================
+   RESPONSIVE
+   ============================================= */
 
-  .header, .nav-tabs, .controls, .filter-pills, .footer {
-    display: none;
-  }
-
-  .card, .abbr-table {
-    page-break-inside: avoid;
-    background: white;
-    color: black;
-    border: 1px solid #ddd;
-  }
-
-  .card-desc, .abbr-table td:last-child {
-    color: black;
-  }
-}
-
-/* RESPONSIVE */
 @media (max-width: 768px) {
-  .header h1 {
-    font-size: 28px;
-  }
+  .app-header { padding: var(--space-3) var(--space-4); }
+  .nav-bar { padding: 0 var(--space-4); }
+  .controls-bar { padding: var(--space-3) var(--space-4); }
+  .main-content { padding: var(--space-3) var(--space-4) var(--space-8); }
+  .anssi-recommendation { flex-direction: column; gap: var(--space-2); }
+  .quiz-results-grid { grid-template-columns: 1fr; }
+  .quiz-match-row { flex-direction: column; }
+  .quiz-match-arrow { transform: rotate(90deg); }
+  .app-logo-text h1 { font-size: var(--text-base); }
+}
 
-  .nav-tabs {
-    padding: 0 10px;
-  }
+@media (max-width: 480px) {
+  .filter-pills { gap: 4px; }
+  .filter-pill { font-size: 11px; padding: 4px 8px; }
+  .quiz-question-text { font-size: var(--text-base); }
+}
 
-  .nav-tab {
-    padding: 10px 12px;
-    font-size: 13px;
-  }
-
-  .controls {
-    padding: 16px 20px;
-    gap: 8px;
-  }
-
-  .search-box {
-    flex: 0 1 300px;
-  }
-
-  .cards-grid {
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 12px;
-    padding: 0 20px;
-  }
-
-  .families-section, .abbr-section {
-    padding: 0 20px;
-  }
-
-  .counter {
-    display: none;
-  }
-
-  .anssi-recommendation {
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  .abbr-table {
-    font-size: 12px;
-  }
-
-  .abbr-table th, .abbr-table td {
-    padding: 8px 10px;
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
   }
 }
 </style>
 </head>
-
 <body>
 
+<a href="#main" class="sr-only" style="position:fixed;top:0;left:0;z-index:9999;padding:8px 16px;background:var(--color-primary);color:var(--color-text-inverse);font-weight:600;">Aller au contenu</a>
+
 <!-- HEADER -->
-<div class="header">
-  <h1>Encyclopedie Cybersecurite</h1>
-  <div class="subtitle">S1 Hardening • S2 Audit • S3 SIEM</div>
-  <div class="meta">11 families | 84 concepts | 103 abreviations | ANSSI</div>
-</div>
-
-<!-- NAVIGATION TABS -->
-<div class="nav-tabs">
-  <button class="nav-tab active" onclick="switchView('families')">Familles & Concepts</button>
-  <button class="nav-tab" onclick="switchView('anssi')">Referentiel ANSSI</button>
-  <button class="nav-tab" onclick="switchView('abbr')">Abreviations</button>
-</div>
-
-<!-- SEARCH & CONTROLS -->
-<div class="controls">
-  <div class="search-box">
-    <span class="search-icon">S</span>
-    <input type="text" id="searchInput" placeholder="Rechercher un concept, une abreviation ou une recommandation ANSSI..." onkeyup="filterContent()">
+<header class="app-header">
+  <div class="app-logo">
+    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+      <rect width="32" height="32" rx="6" fill="currentColor" style="color:var(--color-primary)"/>
+      <path d="M8 12h4v12H8z M14 8h4v16h-4z M20 14h4v10h-4z" fill="var(--color-text-inverse)"/>
+    </svg>
+    <div class="app-logo-text">
+      <h1>Encyclopédie Cybersécurité</h1>
+      <span>TheRustLab — S1 · S2 · S3</span>
+    </div>
   </div>
-  <div class="counter"><span id="resultCount">0</span> resultats</div>
+  <div class="header-actions">
+    <button class="theme-toggle" data-theme-toggle aria-label="Changer le thème">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+    </button>
+  </div>
+</header>
+
+<!-- NAVIGATION -->
+<nav class="nav-bar" aria-label="Navigation principale">
+  <button class="nav-tab active" onclick="switchView('families')" aria-current="page">Concepts</button>
+  <button class="nav-tab" onclick="switchView('anssi')">ANSSI</button>
+  <button class="nav-tab" onclick="switchView('abbr')">Abréviations</button>
+  <button class="nav-tab" onclick="switchView('quiz')">Quiz <span class="badge">NEW</span></button>
+</nav>
+
+<!-- SEARCH -->
+<div class="controls-bar" id="controlsBar">
+  <div class="search-box">
+    <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    <input type="text" id="searchInput" placeholder="Rechercher un concept, une recommandation ou une abréviation..." oninput="filterContent()" aria-label="Rechercher">
+  </div>
+  <div class="counter"><span id="resultCount">0</span> résultats</div>
 </div>
 
-<!-- ===== FAMILIES & CONCEPTS VIEW ===== -->
-<div id="families-view" class="view-section active">
-  <div class="filter-pills" id="filterPills"></div>
-  <div class="families-section" id="familiesContainer"></div>
-</div>
+<main id="main" class="main-content">
 
-<!-- ===== ANSSI REFERENTIEL VIEW ===== -->
-<div id="anssi-view" class="view-section">
-  <div class="anssi-content" id="anssiContainer"></div>
-</div>
+  <!-- FAMILIES VIEW -->
+  <section id="families-view" class="view-section active" aria-label="Concepts par famille">
+    <div class="filter-pills" id="filterPills"></div>
+    <div id="familiesContainer"></div>
+  </section>
 
-<!-- ===== ABBREVIATIONS VIEW ===== -->
-<div id="abbr-view" class="view-section">
-  <div class="abbr-section" id="abbrContainer"></div>
-</div>
+  <!-- ANSSI VIEW -->
+  <section id="anssi-view" class="view-section" aria-label="Référentiel ANSSI">
+    <div id="anssiContainer"></div>
+  </section>
 
-<!-- FOOTER -->
-<div class="footer">
-  <p>Baptiste Ochlafen • TheRustLab</p>
-  <p>Sources open-source : MIT, BSD, Apache 2.0, CC BY-SA 4.0</p>
-</div>
+  <!-- ABBREVIATIONS VIEW -->
+  <section id="abbr-view" class="view-section" aria-label="Abréviations">
+    <div id="abbrContainer"></div>
+  </section>
+
+  <!-- QUIZ VIEW -->
+  <section id="quiz-view" class="view-section" aria-label="Quiz interactif">
+    <div id="quizContainer"></div>
+  </section>
+
+</main>
+
+<footer class="app-footer">
+  <p>Baptiste Ochlafen — <a href="https://github.com/btaoldai" target="_blank" rel="noopener noreferrer">TheRustLab</a> — 2026</p>
+  <p style="margin-top:var(--space-1)">Sources open-source : MIT, BSD, Apache 2.0, CC BY-SA 4.0</p>
+</footer>
 
 <script>
 // =============================================
@@ -658,38 +1168,38 @@ body {
 
 const families = [
   {
-    name: "Hardening Systeme",
+    name: "Hardening Système",
     sessions: "S1",
     color: "#00B4D8", bg: "#0C353D",
     cards: [
-      { name: "Defense en profondeur", aka: "Defense in Depth", desc: "Strategie de securite superposant plusieurs couches de protection independantes. Si une couche echoue, les suivantes prennent le relais. Concept fondamental repris par l'ANSSI.", example: "7 couches : physique, reseau, hote, application, donnees, utilisateur, politique" },
-      { name: "Triade CIA", aka: "Confidentiality, Integrity, Availability", desc: "Les trois piliers fondamentaux de la securite de l'information : Confidentialite, Integrite, Disponibilite. Extension ANSSI : DICP (Disponibilite, Integrite, Confidentialite, Preuve).", example: "CIA + Preuve = DICP (referentiel ANSSI)" },
-      { name: "Surface d'attaque", aka: "Attack Surface", desc: "Ensemble des points d'entree exploitables sur un systeme : ports ouverts, services actifs, comptes utilisateurs, binaires SUID. Reduire la surface d'attaque est le premier objectif du hardening.", example: "ss -tlnp -> lister tous les ports TCP en ecoute" },
-      { name: "Principe du moindre privilege", aka: "Least Privilege", desc: "Chaque utilisateur, processus ou service ne doit disposer que des droits strictement necessaires a son fonctionnement. Limite l'impact en cas de compromission.", example: "visudo : restreindre les commandes autorisees par utilisateur" },
-      { name: "10 piliers du hardening", aka: "CIS / ANSSI / STIG", desc: "Les axes majeurs du durcissement Linux : installation minimale, mises a jour, comptes et mots de passe, sudo, SSH, pare-feu, sysctl, audit, integrite fichiers, services.", example: "Debian netinstall + unattended-upgrades + nftables + auditd + AIDE" },
-      { name: "Installation minimale", aka: "Minimal Install / netinstall", desc: "Installer uniquement les paquets essentiels pour reduire la surface d'attaque. Debian netinstall sans environnement de bureau. Partitionnement LVM avec separations /home, /var, /tmp.", example: "Debian 12 netinstall -> decocher 'Environnement de bureau'" },
-      { name: "Durcissement SSH", aka: "SSH Hardening", desc: "Securisation du service OpenSSH : cles Ed25519, port non standard (2222), desactivation root login, restriction des algorithmes cryptographiques (KexAlgorithms, Ciphers, MACs), banniere legale.", example: "Port 2222, PermitRootLogin no, PubkeyAuthentication yes" },
-      { name: "sysctl hardening", aka: "Kernel Parameters", desc: "Parametres noyau Linux pour la securite reseau et systeme. Configures dans /etc/sysctl.d/99-hardening.conf : SYN cookies, reverse path filtering, desactivation IP forwarding, restriction ICMP.", example: "net.ipv4.tcp_syncookies=1, kernel.dmesg_restrict=1" },
-      { name: "fail2ban", aka: "Intrusion Prevention", desc: "Outil de prevention d'intrusion analysant les logs en temps reel. Bannit temporairement les IPs apres N echecs de connexion. Action nftables-multiport en S1.", example: "fail2ban-client status sshd -> voir les IPs bannies" },
-      { name: "nftables", aka: "Netfilter Tables", desc: "Framework de filtrage de paquets Linux remplacant iptables. Politique DROP par defaut : seuls les flux explicitement autorises passent. Syntaxe structuree en tables, chaines et regles.", example: "nft list ruleset -> afficher toutes les regles actives" },
-      { name: "Options de montage securisees", aka: "Mount Options", desc: "Restrictions appliquees aux partitions via /etc/fstab : noexec (pas d'execution), nosuid (ignorer les bits SUID), nodev (pas de peripheriques). Protege /tmp et /var.", example: "/tmp : noexec,nosuid,nodev dans /etc/fstab" },
-      { name: "LUKS", aka: "Linux Unified Key Setup", desc: "Standard de chiffrement de disque sous Linux. Protege les donnees au repos (data at rest) en cas de vol physique. Compatible avec LVM.", example: "cryptsetup luksFormat /dev/sda2" },
-      { name: "Protection GRUB", aka: "Bootloader Security", desc: "Protection du chargeur d'amorcage par mot de passe pour empecher la modification des parametres de demarrage (mode single user, init=/bin/bash).", example: "grub-mkpasswd-pbkdf2 -> /etc/grub.d/40_custom" },
-      { name: "Desactivation des services inutiles", aka: "Service Minimization", desc: "Arreter et desactiver les services non necessaires pour reduire la surface d'attaque. Exemples courants : avahi-daemon, cups, bluetooth, ModemManager, exim4.", example: "systemctl disable --now avahi-daemon cups bluetooth" },
-      { name: "unattended-upgrades", aka: "Auto Security Updates", desc: "Mecanisme Debian/Ubuntu pour appliquer automatiquement les mises a jour de securite. Configure pour ne pas redemarrer automatiquement en production.", example: "apt install unattended-upgrades && dpkg-reconfigure -plow unattended-upgrades" }
+      { name: "Défense en profondeur", aka: "Defense in Depth", desc: "Stratégie de sécurité superposant plusieurs couches de protection indépendantes. Si une couche échoue, les suivantes prennent le relais. Concept fondamental repris par l'ANSSI.", example: "7 couches : physique, réseau, hote, application, données, utilisateur, politique" },
+      { name: "Triade CIA", aka: "Confidentiality, Integrity, Availability", desc: "Les trois piliers fondamentaux de la sécurité de l'information : Confidentialite, Intégrité, Disponibilite. Extension ANSSI : DICP (Disponibilite, Intégrité, Confidentialite, Preuve).", example: "CIA + Preuve = DICP (référentiel ANSSI)" },
+      { name: "Surface d'attaque", aka: "Attack Surface", desc: "Ensemble des points d'entree exploitables sur un système : ports ouverts, services actifs, comptes utilisateurs, binaires SUID. Reduire la surface d'attaque est le premier objectif du hardening.", example: "ss -tlnp -> lister tous les ports TCP en écoute" },
+      { name: "Principe du moindre privilege", aka: "Least Privilege", desc: "Chaque utilisateur, processus ou service ne doit disposer que des droits strictement nécessaires a son fonctionnement. Limite l'impact en cas de compromission.", example: "visudo : restreindre les commandes autorisées par utilisateur" },
+      { name: "10 piliers du hardening", aka: "CIS / ANSSI / STIG", desc: "Les axes majeurs du durcissement Linux : installation minimale, mises a jour, comptes et mots de passe, sudo, SSH, pare-feu, sysctl, audit, intégrité fichiers, services.", example: "Debian netinstall + unattended-upgrades + nftables + auditd + AIDE" },
+      { name: "Installation minimale", aka: "Minimal Install / netinstall", desc: "Installer uniquement les paquets essentiels pour réduire la surface d'attaque. Debian netinstall sans environnement de bureau. Partitionnement LVM avec séparations /home, /var, /tmp.", example: "Debian 12 netinstall -> decocher 'Environnement de bureau'" },
+      { name: "Durcissement SSH", aka: "SSH Hardening", desc: "Securisation du service OpenSSH : clés Ed25519, port non standard (2222), désactivation root login, restriction des algorithmes cryptographiques (KexAlgorithms, Ciphers, MACs), banniere legale.", example: "Port 2222, PermitRootLogin no, PubkeyAuthentication yes" },
+      { name: "sysctl hardening", aka: "Kernel Parameters", desc: "Parametres noyau Linux pour la sécurité réseau et système. Configures dans /etc/sysctl.d/99-hardening.conf : SYN cookies, reverse path filtering, désactivation IP forwarding, restriction ICMP.", example: "net.ipv4.tcp_syncookies=1, kernel.dmesg_restrict=1" },
+      { name: "fail2ban", aka: "Intrusion Prévention", desc: "Outil de prévention d'intrusion analysant les logs en temps reel. Bannit temporairement les IPs apres N echecs de connexion. Action nftables-multiport en S1.", example: "fail2ban-client status sshd -> voir les IPs bannies" },
+      { name: "nftables", aka: "Netfilter Tables", desc: "Framework de filtrage de paquets Linux remplacant iptables. Politique DROP par défaut : seuls les flux explicitement autorisés passent. Syntaxe structuree en tables, chaines et règles.", example: "nft list ruleset -> afficher toutes les règles actives" },
+      { name: "Options de montage sécurisées", aka: "Mount Options", desc: "Restrictions appliquees aux partitions via /etc/fstab : noexec (pas d'exécution), nosuid (ignorer les bits SUID), nodev (pas de périphériques). Protège /tmp et /var.", example: "/tmp : noexec,nosuid,nodev dans /etc/fstab" },
+      { name: "LUKS", aka: "Linux Unified Key Setup", desc: "Standard de chiffrement de disque sous Linux. Protège les données au repos (data at rest) en cas de vol physique. Compatible avec LVM.", example: "cryptsetup luksFormat /dev/sda2" },
+      { name: "Protection GRUB", aka: "Bootloader Security", desc: "Protection du chargeur d'amorcage par mot de passe pour empecher la modification des parametres de démarrage (mode single user, init=/bin/bash).", example: "grub-mkpasswd-pbkdf2 -> /etc/grub.d/40_custom" },
+      { name: "Desactivation des services inutiles", aka: "Service Minimization", desc: "Arreter et désactiver les services non nécessaires pour réduire la surface d'attaque. Exemples courants : avahi-daemon, cups, bluetooth, ModemManager, exim4.", example: "systemctl disable --now avahi-daemon cups bluetooth" },
+      { name: "unattended-upgrades", aka: "Auto Security Updates", desc: "Mecanisme Debian/Ubuntu pour appliquer automatiquement les mises a jour de sécurité. Configure pour ne pas redemarrer automatiquement en production.", example: "apt install unattended-upgrades && dpkg-reconfigure -plow unattended-upgrades" }
     ]
   },
   {
-    name: "Authentification et Acces",
+    name: "Authentification et Accès",
     sessions: "S1",
     color: "#009BCC", bg: "#0C313D",
     cards: [
       { name: "PAM", aka: "Pluggable Authentication Modules", desc: "Framework modulaire d'authentification sous Linux. Permet de configurer des politiques de mots de passe (longueur, complexite), le verrouillage de comptes et les limites de ressources.", example: "pam_pwquality.so : minlen=12, ucredit=-1, dcredit=-1" },
-      { name: "SUID / SGID", aka: "Set User/Group ID", desc: "Bits speciaux sur les fichiers executables permettant de s'executer avec les droits du proprietaire (SUID) ou du groupe (SGID). Vecteur d'escalade de privileges si mal controle.", example: "find / -perm -4000 -type f 2>/dev/null -> lister les binaires SUID" },
-      { name: "GTFOBins", aka: "Unix Binaries Exploitation", desc: "Base de donnees de binaires Unix legitimement presents sur les systemes pouvant etre exploites pour escalader les privileges, echapper a des environnements restreints ou exfiltrer des donnees.", example: "find . -exec /bin/sh \\; -> shell via find si SUID" },
-      { name: "Permissions Linux", aka: "chmod / chown", desc: "Systeme de droits POSIX : lecture (r), ecriture (w), execution (x) pour proprietaire, groupe et autres. Les fichiers critiques (/etc/shadow, /etc/ssh/) doivent avoir des permissions restrictives.", example: "chmod 600 /etc/shadow (lecture/ecriture root uniquement)" },
-      { name: "sudo", aka: "Superuser Do", desc: "Mecanisme d'elevation de privileges permettant a un utilisateur autorise d'executer des commandes en tant que root. Configurable finement dans /etc/sudoers avec log des commandes.", example: "Defaults log_input, log_output dans /etc/sudoers" },
-      { name: "Limites PAM", aka: "/etc/security/limits.conf", desc: "Configuration des limites de ressources par utilisateur ou groupe : nombre maximal de processus, taille des fichiers, memoire. Previent les fork bombs et les abus de ressources.", example: "* hard nproc 150, * hard core 0" }
+      { name: "SUID / SGID", aka: "Set User/Group ID", desc: "Bits speciaux sur les fichiers executables permettant de s'executer avec les droits du propriétaire (SUID) ou du groupe (SGID). Vecteur d'escalade de privilèges si mal contrôle.", example: "find / -perm -4000 -type f 2>/dev/null -> lister les binaires SUID" },
+      { name: "GTFOBins", aka: "Unix Binaries Exploitation", desc: "Base de données de binaires Unix legitimement presents sur les systèmes pouvant etre exploites pour escalader les privilèges, echapper a des environnements restreints ou exfiltrer des données.", example: "find . -exec /bin/sh \\; -> shell via find si SUID" },
+      { name: "Permissions Linux", aka: "chmod / chown", desc: "Système de droits POSIX : lecture (r), ecriture (w), exécution (x) pour propriétaire, groupe et autres. Les fichiers critiques (/etc/shadow, /etc/ssh/) doivent avoir des permissions restrictives.", example: "chmod 600 /etc/shadow (lecture/ecriture root uniquement)" },
+      { name: "sudo", aka: "Superuser Do", desc: "Mecanisme d'élévation de privilèges permettant a un utilisateur autorise d'executer des commandes en tant que root. Configurable finement dans /etc/sudoers avec log des commandes.", example: "Defaults log_input, log_output dans /etc/sudoers" },
+      { name: "Limites PAM", aka: "/etc/security/limits.conf", desc: "Configuration des limites de ressources par utilisateur ou groupe : nombre maximal de processus, taille des fichiers, mémoire. Previent les fork bombs et les abus de ressources.", example: "* hard nproc 150, * hard core 0" }
     ]
   },
   {
@@ -697,57 +1207,57 @@ const families = [
     sessions: "S2",
     color: "#2C99D0", bg: "#0C2C3D",
     cards: [
-      { name: "auditd", aka: "Linux Audit Daemon", desc: "Daemon d'audit du noyau Linux capturant les evenements systeme. Trois types de regles : controle (configuration), fichiers (surveillance de modifications), appels systeme (syscalls).", example: "-w /etc/passwd -p wa -k identity -> surveiller les modifications" },
-      { name: "ausearch / aureport", aka: "Audit Search & Report", desc: "Outils de recherche et de reporting dans les logs d'audit. ausearch filtre par type, cle ou date. aureport genere des rapports synthetiques (authentifications, fichiers, anomalies).", example: "ausearch -k identity --start today | aureport -f" },
-      { name: "rsyslog", aka: "Rocket-fast System Logging", desc: "Daemon de journalisation systeme Linux. Architecture a 4 couches : auditd (noyau), rsyslog/journald (systeme), logs applicatifs, AIDE/FIM. Centralisation possible vers un SIEM.", example: "/var/log/auth.log, /var/log/syslog, /var/log/kern.log" },
-      { name: "journald", aka: "systemd Journal", desc: "Systeme de journalisation binaire integre a systemd. Collecte les logs de tous les services. Complementaire a rsyslog pour le stockage persistant.", example: "journalctl -u sshd --since '1 hour ago'" },
-      { name: "logrotate", aka: "Log Rotation", desc: "Utilitaire de rotation automatique des fichiers de logs pour eviter la saturation du disque. Configuration par fichier dans /etc/logrotate.d/.", example: "logrotate -f /etc/logrotate.conf -> rotation forcee" },
-      { name: "Regles auditd hardening", aka: "Audit Rules", desc: "Ensemble de regles d'audit preconfigurees pour le hardening : surveillance des fichiers d'identite, des modifications de politique, des montages, des modules noyau et des commandes privilegiees.", example: "-a always,exit -F arch=b64 -S execve -k exec_log" }
+      { name: "auditd", aka: "Linux Audit Daemon", desc: "Daemon d'audit du noyau Linux capturant les événements système. Trois types de règles : contrôle (configuration), fichiers (surveillance de modifications), appels système (syscalls).", example: "-w /etc/passwd -p wa -k identity -> surveiller les modifications" },
+      { name: "ausearch / aureport", aka: "Audit Search & Report", desc: "Outils de recherche et de reporting dans les logs d'audit. ausearch filtre par type, clé ou date. aureport généré des rapports synthetiques (authentifications, fichiers, anomalies).", example: "ausearch -k identity --start today | aureport -f" },
+      { name: "rsyslog", aka: "Rocket-fast System Logging", desc: "Daemon de journalisation système Linux. Architecture a 4 couches : auditd (noyau), rsyslog/journald (système), logs applicatifs, AIDE/FIM. Centralisation possible vers un SIEM.", example: "/var/log/auth.log, /var/log/syslog, /var/log/kern.log" },
+      { name: "journald", aka: "systemd Journal", desc: "Système de journalisation binaire intégré a systemd. Collecte les logs de tous les services. Complementaire a rsyslog pour le stockage persistant.", example: "journalctl -u sshd --since '1 hour ago'" },
+      { name: "logrotate", aka: "Log Rotation", desc: "Utilitaire de rotation automatique des fichiers de logs pour eviter la saturation du disque. Configuration par fichier dans /etc/logrotate.d/.", example: "logrotate -f /etc/logrotate.conf -> rotation forcée" },
+      { name: "Règles auditd hardening", aka: "Audit Rules", desc: "Ensemble de règles d'audit preconfigurees pour le hardening : surveillance des fichiers d'identité, des modifications de politique, des montages, des modules noyau et des commandes privilegiees.", example: "-a always,exit -F arch=b64 -S execve -k exec_log" }
     ]
   },
   {
-    name: "Integrite et Conformite",
+    name: "Intégrité et Conformite",
     sessions: "S2",
     color: "#5C95CE", bg: "#0C253D",
     cards: [
-      { name: "AIDE", aka: "Advanced Intrusion Detection Environment", desc: "Outil de controle d'integrite des fichiers (FIM offline). Cree une base de reference des empreintes de fichiers critiques et detecte toute modification. Verification periodique via cron.", example: "aideinit -> creer la base, aide --check -> verifier" },
-      { name: "FIM", aka: "File Integrity Monitoring", desc: "Surveillance en temps reel des modifications de fichiers critiques (/etc/passwd, /etc/shadow, binaires systeme). AIDE est la version offline (S2), Wazuh la version temps reel (S3).", example: "Wazuh alerte FIM niveau 7+ si /etc/hosts est modifie" },
-      { name: "Lynis", aka: "Security Auditing Tool", desc: "Outil d'audit de securite open-source pour systemes Unix. Genere un score de durcissement (hardening index) en evaluant la configuration par rapport aux bonnes pratiques CIS et ANSSI.", example: "lynis audit system -> score attendu > 60% apres hardening S1" },
-      { name: "rkhunter", aka: "Rootkit Hunter", desc: "Outil de detection de rootkits, backdoors et exploits locaux. Verifie les binaires systeme, les permissions, les ports en ecoute et les fichiers suspects.", example: "rkhunter --check --skip-keypress" },
-      { name: "SCA", aka: "Security Configuration Assessment", desc: "Module Wazuh verifiant la conformite d'un systeme par rapport aux benchmarks CIS (Center for Internet Security). Genere un score de 0 a 100%. Score > 60% attendu apres hardening S1.", example: "Dashboard Wazuh -> SCA -> Debian CIS Benchmark" },
-      { name: "CIS Benchmarks", aka: "Center for Internet Security", desc: "Referentiels de securite detailles par systeme d'exploitation, application ou service. Standards reconnus internationalement pour l'evaluation et le durcissement des systemes.", example: "CIS Debian Linux Benchmark : 300+ controles" }
+      { name: "AIDE", aka: "Advanced Intrusion Détection Environment", desc: "Outil de contrôle d'intégrité des fichiers (FIM offline). Cree une base de référence des empreintes de fichiers critiques et détecte toute modification. Verification périodique via cron.", example: "aideinit -> creer la base, aide --check -> vérifier" },
+      { name: "FIM", aka: "File Integrity Monitoring", desc: "Surveillance en temps reel des modifications de fichiers critiques (/etc/passwd, /etc/shadow, binaires système). AIDE est la version offline (S2), Wazuh la version temps reel (S3).", example: "Wazuh alerte FIM niveau 7+ si /etc/hosts est modifie" },
+      { name: "Lynis", aka: "Security Auditing Tool", desc: "Outil d'audit de sécurité open-source pour systèmes Unix. Genere un score de durcissement (hardening index) en evaluant la configuration par rapport aux bonnes pratiques CIS et ANSSI.", example: "lynis audit system -> score attendu > 60% apres hardening S1" },
+      { name: "rkhunter", aka: "Rootkit Hunter", desc: "Outil de détection de rootkits, backdoors et exploits locaux. Verifie les binaires système, les permissions, les ports en écoute et les fichiers suspects.", example: "rkhunter --check --skip-keypress" },
+      { name: "SCA", aka: "Security Configuration Assessment", desc: "Module Wazuh verifiant la conformité d'un système par rapport aux benchmarks CIS (Center for Internet Security). Genere un score de 0 a 100%. Score > 60% attendu apres hardening S1.", example: "Dashboard Wazuh -> SCA -> Debian CIS Benchmark" },
+      { name: "CIS Benchmarks", aka: "Center for Internet Security", desc: "Référentiels de sécurité detailles par système d'exploitation, application ou service. Standards reconnus internationalement pour l'évaluation et le durcissement des systèmes.", example: "CIS Debian Linux Benchmark : 300+ contrôles" }
     ]
   },
   {
-    name: "Architecture Reseau",
+    name: "Architecture Réseau",
     sessions: "S3",
     color: "#8F88CE", bg: "#110C3D",
     cards: [
-      { name: "VLAN", aka: "Virtual Local Area Network - IEEE 802.1Q", desc: "Segmentation logique d'un reseau physique au niveau L2. Chaque VLAN est une zone de securite isolee. Marquage des trames Ethernet avec un tag VLAN ID (12 bits = 4096 VLANs max).", example: "Lab S3 : VLAN 10 Management, 20 Serveurs, 30 Users, 60 DMZ" },
-      { name: "DMZ", aka: "DeMilitarized Zone", desc: "Zone reseau intermediaire entre Internet et le LAN interne. Heberge les services accessibles depuis l'exterieur (web, mail, DNS). Les services DMZ ne peuvent pas initier de connexion vers le LAN.", example: "Internet -> [FW Ext] -> DMZ -> [FW Int] -> LAN" },
-      { name: "VRF", aka: "Virtual Routing and Forwarding", desc: "Isolation logique au niveau L3 : plusieurs tables de routage independantes sur un meme routeur. Complementaire aux VLANs (L2). Usage operateurs MPLS et industriel.", example: "VLAN = isolation L2 (trames), VRF = isolation L3 (tables IP)" },
-      { name: "Micro-segmentation", aka: "Workload Segmentation", desc: "Segmentation au niveau de chaque workload ou conteneur, pas seulement au niveau VLAN. Chaque VM ou conteneur Docker possede ses propres regles de flux. Typique des SDN et du cloud.", example: "WireGuard + mTLS, Kubernetes NetworkPolicy, Cilium, NSX" },
-      { name: "Zero Trust Network", aka: "Never Trust, Always Verify", desc: "Modele de securite ou aucune zone n'est implicitement sure, meme le LAN interne. L'authentification se fait par identite (pas par IP ou reseau). Evolution : VLAN (S3) -> Zero Trust (S6) -> PKI/mTLS (S7).", example: "Meme sur le LAN interne, authentification obligatoire" },
-      { name: "Reseau plat", aka: "Flat Network", desc: "Reseau sans segmentation ou un poste compromis peut atteindre 100% du SI. Mouvement lateral libre pour l'attaquant. La segmentation reduit le blast radius d'une intrusion.", example: "Blast radius : impact d'une compromission sur le SI" },
-      { name: "Port trunk vs access", aka: "802.1Q Tagged / Untagged", desc: "Port trunk : transporte plusieurs VLANs simultanement avec tags 802.1Q. Port access : connecte un equipement a un seul VLAN (untagged). Le switch GNS3 utilise dot1q pour le trunk.", example: "Port 0 trunk (tous VLANs) -> OPNsense, Ports 1-4 access" },
-      { name: "Routage inter-VLAN", aka: "Router on a Stick", desc: "Les VLANs ne communiquent pas sans routage explicite. OPNsense assure le routage inter-VLAN en filtrant les flux : seuls les flux autorises passent entre les zones.", example: "OPNsense : 4 sous-interfaces VLAN + regles par interface" }
+      { name: "VLAN", aka: "Virtual Local Area Network - IEEE 802.1Q", desc: "Segmentation logique d'un réseau physique au niveau L2. Chaque VLAN est une zone de sécurité isolee. Marquage des trames Ethernet avec un tag VLAN ID (12 bits = 4096 VLANs max).", example: "Lab S3 : VLAN 10 Management, 20 Serveurs, 30 Users, 60 DMZ" },
+      { name: "DMZ", aka: "DeMilitarized Zone", desc: "Zone réseau intermediaire entre Internet et le LAN interne. Heberge les services accèssibles depuis l'exterieur (web, mail, DNS). Les services DMZ ne peuvent pas initier de connexion vers le LAN.", example: "Internet -> [FW Ext] -> DMZ -> [FW Int] -> LAN" },
+      { name: "VRF", aka: "Virtual Routing and Forwarding", desc: "Isolation logique au niveau L3 : plusieurs tables de routage indépendantes sur un meme routeur. Complementaire aux VLANs (L2). Usage operateurs MPLS et industriel.", example: "VLAN = isolation L2 (trames), VRF = isolation L3 (tables IP)" },
+      { name: "Micro-segmentation", aka: "Workload Segmentation", desc: "Segmentation au niveau de chaque workload ou conteneur, pas seulement au niveau VLAN. Chaque VM ou conteneur Docker possède ses propres règles de flux. Typique des SDN et du cloud.", example: "WireGuard + mTLS, Kubernetes NetworkPolicy, Cilium, NSX" },
+      { name: "Zero Trust Network", aka: "Never Trust, Always Verify", desc: "Modèle de sécurité ou aucune zone n'est implicitement sure, meme le LAN interne. L'authentification se fait par identité (pas par IP ou réseau). Evolution : VLAN (S3) -> Zero Trust (S6) -> PKI/mTLS (S7).", example: "Meme sur le LAN interne, authentification obligatoire" },
+      { name: "Réseau plat", aka: "Flat Network", desc: "Réseau sans segmentation ou un poste compromis peut atteindre 100% du SI. Mouvement lateral libre pour l'attaquant. La segmentation réduit le blast radius d'une intrusion.", example: "Blast radius : impact d'une compromission sur le SI" },
+      { name: "Port trunk vs accèss", aka: "802.1Q Tagged / Untagged", desc: "Port trunk : transporte plusieurs VLANs simultanément avec tags 802.1Q. Port accèss : connecte un équipement a un seul VLAN (untagged). Le switch GNS3 utilise dot1q pour le trunk.", example: "Port 0 trunk (tous VLANs) -> OPNsense, Ports 1-4 accèss" },
+      { name: "Routage inter-VLAN", aka: "Router on a Stick", desc: "Les VLANs ne communiquent pas sans routage explicite. OPNsense assure le routage inter-VLAN en filtrant les flux : seuls les flux autorisés passent entre les zones.", example: "OPNsense : 4 sous-interfaces VLAN + règles par interface" }
     ]
   },
   {
-    name: "Securite Perimetrique",
+    name: "Sécurité Périmétrique",
     sessions: "S3",
     color: "#B679D3", bg: "#2D0C3D",
     cards: [
-      { name: "Pare-feu stateless", aka: "ACL L3/L4", desc: "Filtrage par IP et port sans memoire des sessions. Pas de suivi de connexion. Utilise sur les routeurs avec des ACL (Cisco). Premiere generation de pare-feu.", example: "ACL Cisco : permit tcp 192.168.1.0 0.0.0.255 any eq 80" },
-      { name: "Pare-feu stateful", aka: "Conntrack / Table d'etats", desc: "Filtrage avec suivi des sessions TCP/UDP. Autorise automatiquement les reponses aux connexions initiees. OPNsense, iptables, nftables sont des pare-feu stateful.", example: "nftables : ct state established,related accept" },
-      { name: "NGFW", aka: "Next-Generation Firewall", desc: "Pare-feu stateful + inspection L7 + IPS integre + controle applicatif. Peut identifier les applications (HTTP, DNS, SMTP) dans les flux. Palo Alto, Stormshield, Fortinet.", example: "NGFW detecte du trafic BitTorrent meme sur port 443" },
-      { name: "OPNsense", aka: "FreeBSD Firewall (BSD-2-Clause)", desc: "Pare-feu open-source base sur FreeBSD/HardenedBSD. Fonctionnalites : VLAN 802.1Q, VPN (IPsec/WireGuard/OpenVPN), IDS/IPS (Suricata), DNS Resolver, DHCP, proxy Squid, QoS.", example: "Lab S3 : OPNsense = FW stateful + routeur inter-VLAN + DHCP + DNS" },
-      { name: "Politique ANSSI 6 sections", aka: "Regles de filtrage", desc: "Structure ANSSI d'une regle de pare-feu : 1) Etat (active/inactive/test), 2) Source (interface/IP/port), 3) Destination, 4) Protocole (TCP/UDP/ICMP), 5) Action (ALLOW/DENY/LOG), 6) Commentaire obligatoire.", example: "Regle sans commentaire = regle de securite incomplete (ANSSI)" },
-      { name: "Deny-all + Whitelist", aka: "Default Deny Policy", desc: "Politique fondamentale ANSSI : tout trafic est refuse par defaut. Seuls les flux strictement necessaires sont autorises (whitelist explicite). Derniere regle : BLOCK any any.", example: "OPNsense : BLOCK any any -> any any en derniere regle par VLAN" },
-      { name: "Proxy sortant", aka: "Forward Proxy (Squid)", desc: "Intercepte les connexions CLIENT vers Internet. Fonctions : filtrage de contenu, cache, anonymisation, controle de la navigation utilisateur. Protege les CLIENTS.", example: "Squid, OPNsense Squid plugin, Bluecoat" },
-      { name: "Reverse Proxy", aka: "nginx / HAProxy", desc: "Intercepte les connexions Internet vers un SERVEUR. Fonctions : load balancing, terminaison TLS, routage applicatif. Protege les SERVEURS.", example: "nginx devant une application web en DMZ" },
-      { name: "WAF", aka: "Web Application Firewall", desc: "Inspecte le payload HTTP pour detecter les attaques applicatives : SQLi, XSS, path traversal (OWASP Top 10). Ne remplace pas un pare-feu reseau, travaille uniquement au niveau L7.", example: "ModSecurity + OWASP CRS devant une application web" },
-      { name: "UTM", aka: "Unified Threat Management", desc: "Solution tout-en-un pour PME : NGFW + antivirus + VPN + filtrage URL + anti-spam. Simplifie l'administration mais cree un point unique de defaillance.", example: "Fortinet FortiGate, Sophos UTM" }
+      { name: "Pare-feu stateless", aka: "ACL L3/L4", desc: "Filtrage par IP et port sans mémoire des sessions. Pas de suivi de connexion. Utilise sur les routeurs avec des ACL (Cisco). Première generation de pare-feu.", example: "ACL Cisco : permit tcp 192.168.1.0 0.0.0.255 any eq 80" },
+      { name: "Pare-feu stateful", aka: "Conntrack / Table d'états", desc: "Filtrage avec suivi des sessions TCP/UDP. Autorise automatiquement les réponses aux connexions initiees. OPNsense, iptables, nftables sont des pare-feu stateful.", example: "nftables : ct state established,related accept" },
+      { name: "NGFW", aka: "Next-Generation Firewall", desc: "Pare-feu stateful + inspection L7 + IPS intégré + contrôle applicatif. Peut identifier les applications (HTTP, DNS, SMTP) dans les flux. Palo Alto, Stormshield, Fortinet.", example: "NGFW détecte du trafic BitTorrent meme sur port 443" },
+      { name: "OPNsense", aka: "FreeBSD Firewall (BSD-2-Clause)", desc: "Pare-feu open-source basé sur FreeBSD/HardenedBSD. Fonctionnalites : VLAN 802.1Q, VPN (IPsec/WireGuard/OpenVPN), IDS/IPS (Suricata), DNS Resolver, DHCP, proxy Squid, QoS.", example: "Lab S3 : OPNsense = FW stateful + routeur inter-VLAN + DHCP + DNS" },
+      { name: "Politique ANSSI 6 sections", aka: "Règles de filtrage", desc: "Structure ANSSI d'une règle de pare-feu : 1) État (active/inactive/test), 2) Source (interface/IP/port), 3) Destination, 4) Protocole (TCP/UDP/ICMP), 5) Action (ALLOW/DENY/LOG), 6) Commentaire obligatoire.", example: "Règle sans commentaire = règle de sécurité incomplète (ANSSI)" },
+      { name: "Deny-all + Whitelist", aka: "Default Deny Policy", desc: "Politique fondamentale ANSSI : tout trafic est refuse par défaut. Seuls les flux strictement nécessaires sont autorisés (whitelist explicite). Derniere règle : BLOCK any any.", example: "OPNsense : BLOCK any any -> any any en dernière règle par VLAN" },
+      { name: "Proxy sortant", aka: "Forward Proxy (Squid)", desc: "Intercepte les connexions CLIENT vers Internet. Fonctions : filtrage de contenu, cache, anonymisation, contrôle de la navigation utilisateur. Protège les CLIENTS.", example: "Squid, OPNsense Squid plugin, Bluecoat" },
+      { name: "Reverse Proxy", aka: "nginx / HAProxy", desc: "Intercepte les connexions Internet vers un SERVEUR. Fonctions : load balancing, terminaison TLS, routage applicatif. Protège les SERVEURS.", example: "nginx devant une application web en DMZ" },
+      { name: "WAF", aka: "Web Application Firewall", desc: "Inspecte le payload HTTP pour détecter les attaques applicatives : SQLi, XSS, path traversal (OWASP Top 10). Ne remplace pas un pare-feu réseau, travaille uniquement au niveau L7.", example: "ModSecurity + OWASP CRS devant une application web" },
+      { name: "UTM", aka: "Unified Threat Management", desc: "Solution tout-en-un pour PME : NGFW + antivirus + VPN + filtrage URL + anti-spam. Simplifie l'administration mais crée un point unique de defaillance.", example: "Fortinet FortiGate, Sophos UTM" }
     ]
   },
   {
@@ -755,54 +1265,54 @@ const families = [
     sessions: "S1+S3",
     color: "#D96BA8", bg: "#3D0C27",
     cards: [
-      { name: "ARP Spoofing", aka: "ARP Poisoning (L2)", desc: "Attaque L2 : envoi de fausses reponses ARP pour empoisonner les caches des victimes. Resultat : Man-in-the-Middle au niveau L2, tout le trafic passe par l'attaquant.", example: "Contre-mesure : DAI (Dynamic ARP Inspection) sur le switch" },
+      { name: "ARP Spoofing", aka: "ARP Poisoning (L2)", desc: "Attaque L2 : envoi de fausses réponses ARP pour empoisonner les caches des victimes. Resultat : Man-in-the-Middle au niveau L2, tout le trafic passe par l'attaquant.", example: "Contre-mesure : DAI (Dynamic ARP Inspection) sur le switch" },
       { name: "SYN Flood", aka: "TCP DoS (L4)", desc: "Attaque L4 : envoi massif de paquets SYN sans jamais envoyer le ACK final. Sature la table des connexions TCP half-open du serveur. Amplification DDoS possible via botnet.", example: "Contre-mesure : SYN Cookies (net.ipv4.tcp_syncookies=1)" },
-      { name: "DNS Cache Poisoning", aka: "Attaque Kaminsky (L7)", desc: "Injection de fausses reponses DNS dans le cache d'un resolver. Les victimes sont redirigees vers des serveurs malveillants. Transparent pour l'utilisateur.", example: "Contre-mesures : DNSSEC, DoT (port 853), DoH (port 443)" },
-      { name: "IP Spoofing", aka: "Falsification d'adresse source (L3)", desc: "Falsification de l'adresse IP source pour masquer l'identite de l'attaquant ou contourner les ACL. Contre-mesure : RPF (Reverse Path Forwarding) via sysctl rp_filter + BCP38.", example: "net.ipv4.conf.all.rp_filter=1 (active en S1)" },
+      { name: "DNS Cache Poisoning", aka: "Attaque Kaminsky (L7)", desc: "Injection de fausses réponses DNS dans le cache d'un resolver. Les victimes sont redirigees vers des serveurs malveillants. Transparent pour l'utilisateur.", example: "Contre-mesures : DNSSEC, DoT (port 853), DoH (port 443)" },
+      { name: "IP Spoofing", aka: "Falsification d'adresse source (L3)", desc: "Falsification de l'adresse IP source pour masquer l'identité de l'attaquant ou contourner les ACL. Contre-mesure : RPF (Reverse Path Forwarding) via sysctl rp_filter + BCP38.", example: "net.ipv4.conf.all.rp_filter=1 (active en S1)" },
       { name: "Man-in-the-Middle", aka: "MITM (toutes couches)", desc: "Attaque ou l'adversaire s'interpose entre deux parties communicantes. Peut intercepter, modifier ou injecter du trafic. Contre-mesures : chiffrement TLS 1.3 + HSTS.", example: "ARP Spoofing (L2) + DNS Poisoning (L7) = MITM complet" },
-      { name: "DAI", aka: "Dynamic ARP Inspection", desc: "Mesure de securite L2 sur les commutateurs (Cisco/OPNsense). Valide chaque paquet ARP contre la table DHCP Snooping Binding. Empeche l'ARP Spoofing.", example: "ip arp inspection vlan 10 + ip dhcp snooping (Cisco)" },
-      { name: "DHCP Snooping", aka: "DHCP Security (L2)", desc: "Securite L2 sur les commutateurs : distingue les ports trusted (serveur DHCP) des ports untrusted (clients). Prerequis pour DAI. Empeche les serveurs DHCP non autorises.", example: "ANSSI BP-033/BP-094 : activer sur tous les commutateurs" }
+      { name: "DAI", aka: "Dynamic ARP Inspection", desc: "Mesure de sécurité L2 sur les commutateurs (Cisco/OPNsense). Valide chaque paquet ARP contre la table DHCP Snooping Binding. Empeche l'ARP Spoofing.", example: "ip arp inspection vlan 10 + ip dhcp snooping (Cisco)" },
+      { name: "DHCP Snooping", aka: "DHCP Security (L2)", desc: "Sécurité L2 sur les commutateurs : distingue les ports trusted (serveur DHCP) des ports untrusted (clients). Prerequis pour DAI. Empeche les serveurs DHCP non autorisés.", example: "ANSSI BP-033/BP-094 : activer sur tous les commutateurs" }
     ]
   },
   {
-    name: "SIEM et Detection",
+    name: "SIEM et Détection",
     sessions: "S3",
     color: "#EB6376", bg: "#3D0C13",
     cards: [
-      { name: "SIEM", aka: "Security Information and Event Management", desc: "Plateforme centralisant, normalisant et correlant les evenements de securite de toutes les sources. Transforme le bruit (millions de logs/jour) en signal (alertes coherentes).", example: "Connexion SSH + modif /etc/passwd + nouveau service = chaine d'alerte" },
-      { name: "Wazuh", aka: "SIEM/XDR Open-Source", desc: "Solution open-source combinant SIEM et XDR. Trois composants : Manager (analyse, 3000+ regles MITRE ATT&CK), Indexer (OpenSearch, stockage), Dashboard (interface web Kibana-like).", example: "Wazuh OVA all-in-one : Manager + Indexer + Dashboard" },
-      { name: "Agent Wazuh", aka: "HIDS Agent (~35 Mo RAM)", desc: "Processus leger installe sur chaque hote surveille. Collecte les logs, surveille les fichiers (FIM), inventorie les paquets et execute les politiques SCA. Moins de 1% CPU.", example: "WAZUH_MANAGER='192.168.10.50' apt-get install wazuh-agent" },
-      { name: "IDS vs IPS", aka: "Detection vs Prevention", desc: "IDS (Intrusion Detection System) : detecte et alerte, mode passif. IPS (Intrusion Prevention System) : detecte, alerte ET bloque, mode actif inline. Suricata dans OPNsense peut faire les deux.", example: "IDS = alarme, IPS = alarme + porte blindee automatique" },
-      { name: "HIDS vs NIDS", aka: "Host vs Network IDS", desc: "HIDS (Wazuh) : installe sur chaque machine, surveille les evenements locaux (logs, fichiers, processus). Voit le trafic chiffre TLS. NIDS (Suricata) : sur le reseau, analyse les paquets en transit.", example: "HIDS Wazuh voit les modifications de /etc/shadow, le NIDS non" },
-      { name: "Correlation SIEM", aka: "Temporal & Contextual", desc: "Mise en relation d'evenements isoles pour detecter des attaques multi-etapes. Sans SIEM : impossible de correler des logs eparpilles entre silos. Qualite des regles = qualite des alertes.", example: "SolarWinds (2020) : 9 mois non detecte dans des centaines d'orgs" },
-      { name: "OpenSearch", aka: "Wazuh Indexer (Fork Elasticsearch)", desc: "Moteur de recherche et d'indexation des evenements de securite. Composant Indexer de Wazuh. Stockage des alertes et des logs. Necessite 4+ Go de RAM (8 Go recommandes).", example: "systemctl status wazuh-indexer -> doit etre Active (running)" },
-      { name: "GNS3", aka: "Graphical Network Simulator 3", desc: "Emulateur de reseau open-source (GPL v3) permettant de simuler des equipements reels (routeurs, pare-feu) via QEMU/VirtualBox. Lab reseau complet sans materiel physique.", example: "Topologie S3 : Cloud NAT + OPNsense + Switch L2 + 4 VMs" }
+      { name: "SIEM", aka: "Security Information and Event Management", desc: "Plateforme centralisant, normalisant et correlant les événements de sécurité de toutes les sources. Transforme le bruit (millions de logs/jour) en signal (alertes coherentes).", example: "Connexion SSH + modif /etc/passwd + nouveau service = chaine d'alerte" },
+      { name: "Wazuh", aka: "SIEM/XDR Open-Source", desc: "Solution open-source combinant SIEM et XDR. Trois composants : Manager (analyse, 3000+ règles MITRE ATT&CK), Indexer (OpenSearch, stockage), Dashboard (interface web Kibana-like).", example: "Wazuh OVA all-in-one : Manager + Indexer + Dashboard" },
+      { name: "Agent Wazuh", aka: "HIDS Agent (~35 Mo RAM)", desc: "Processus léger installe sur chaque hote surveille. Collecte les logs, surveille les fichiers (FIM), inventorie les paquets et execute les politiques SCA. Moins de 1% CPU.", example: "WAZUH_MANAGER='192.168.10.50' apt-get install wazuh-agent" },
+      { name: "IDS vs IPS", aka: "Détection vs Prévention", desc: "IDS (Intrusion Détection System) : détecte et alerte, mode passif. IPS (Intrusion Prévention System) : détecte, alerte ET bloque, mode actif inline. Suricata dans OPNsense peut faire les deux.", example: "IDS = alarme, IPS = alarme + porte blindee automatique" },
+      { name: "HIDS vs NIDS", aka: "Host vs Network IDS", desc: "HIDS (Wazuh) : installe sur chaque machine, surveille les événements locaux (logs, fichiers, processus). Voit le trafic chiffre TLS. NIDS (Suricata) : sur le réseau, analyse les paquets en transit.", example: "HIDS Wazuh voit les modifications de /etc/shadow, le NIDS non" },
+      { name: "Correlation SIEM", aka: "Temporal & Contextual", desc: "Mise en relation d'événements isoles pour détecter des attaques multi-étapes. Sans SIEM : impossible de correler des logs éparpillés entre silos. Qualite des règles = qualite des alertes.", example: "SolarWinds (2020) : 9 mois non détecte dans des centaines d'orgs" },
+      { name: "OpenSearch", aka: "Wazuh Indexer (Fork Elasticsearch)", desc: "Moteur de recherche et d'indexation des événements de sécurité. Composant Indexer de Wazuh. Stockage des alertes et des logs. Nécessite 4+ Go de RAM (8 Go recommandés).", example: "systemctl status wazuh-indexer -> doit etre Active (running)" },
+      { name: "GNS3", aka: "Graphical Network Simulator 3", desc: "Emulateur de réseau open-source (GPL v3) permettant de simuler des équipements reels (routeurs, pare-feu) via QEMU/VirtualBox. Lab réseau complet sans materiel physique.", example: "Topologie S3 : Cloud NAT + OPNsense + Switch L2 + 4 VMs" }
     ]
   },
   {
-    name: "Referentiels et Normes",
+    name: "Référentiels et Normes",
     sessions: "S1+S2+S3",
     color: "#EB665D", bg: "#3D0F0C",
     cards: [
-      { name: "ANSSI", aka: "Agence Nationale SSI (France)", desc: "Autorite nationale en matiere de securite des systemes d'information. Publie des guides de reference : PG-040 (cloisonnement), PA-066 (DMZ), PA-105 (DNS), BP-033/BP-094 (commutateurs).", example: "ANSSI PG-040 : la segmentation est un principe fondamental" },
-      { name: "CIS", aka: "Center for Internet Security", desc: "Organisation internationale publiant des benchmarks de securite par OS, application et service. Utilise par le module SCA de Wazuh pour evaluer la conformite.", example: "CIS Debian Linux Benchmark -> score SCA Wazuh" },
-      { name: "MITRE ATT&CK", aka: "Adversarial Tactics & Techniques", desc: "Framework de tactiques et techniques d'attaque. Base de regles Wazuh (3000+). Reference mondiale pour la classification des comportements adverses.", example: "T1078 Valid Accounts, T1059 Command and Scripting Interpreter" },
-      { name: "STIG / DISA", aka: "Security Technical Implementation Guides", desc: "Guides de securite du Department of Defense americain. Regles de durcissement detaillees par technologie. Plus strict que les benchmarks CIS.", example: "STIG Debian : restrictions supplementaires sur les services" },
-      { name: "OWASP Top 10", aka: "Web Application Security Risks", desc: "Classification des 10 risques de securite les plus critiques pour les applications web. Reference pour les WAF et les audits applicatifs. Inclut SQLi, XSS, CSRF.", example: "A01:2021 Broken Access Control, A03:2021 Injection" },
+      { name: "ANSSI", aka: "Agence Nationale SSI (France)", desc: "Autorite nationale en matiere de sécurité des systèmes d'information. Publie des guides de référence : PG-040 (cloisonnement), PA-066 (DMZ), PA-105 (DNS), BP-033/BP-094 (commutateurs).", example: "ANSSI PG-040 : la segmentation est un principe fondamental" },
+      { name: "CIS", aka: "Center for Internet Security", desc: "Organisation internationale publiant des benchmarks de sécurité par OS, application et service. Utilise par le module SCA de Wazuh pour évaluer la conformité.", example: "CIS Debian Linux Benchmark -> score SCA Wazuh" },
+      { name: "MITRE ATT&CK", aka: "Adversarial Tactics & Techniques", desc: "Framework de tactiques et techniques d'attaque. Base de règles Wazuh (3000+). Reference mondiale pour la classification des comportements adverses.", example: "T1078 Valid Accounts, T1059 Command and Scripting Interpreter" },
+      { name: "STIG / DISA", aka: "Security Technical Implémentation Guides", desc: "Guides de sécurité du Department of Defense américain. Règles de durcissement détaillées par technologie. Plus strict que les benchmarks CIS.", example: "STIG Debian : restrictions supplémentaires sur les services" },
+      { name: "OWASP Top 10", aka: "Web Application Security Risks", desc: "Classification des 10 risques de sécurité les plus critiques pour les applications web. Reference pour les WAF et les audits applicatifs. Inclut SQLi, XSS, CSRF.", example: "A01:2021 Broken Accèss Control, A03:2021 Injection" },
       { name: "RFC", aka: "Request for Comments (IETF)", desc: "Documents de specification des protocoles Internet. Definissent les standards techniques : ARP (RFC 826), TCP (RFC 793), DNS (RFC 1035), TLS 1.3 (RFC 8446).", example: "RFC 826 : specification ARP -> contexte attaque ARP Spoofing" }
     ]
   },
   {
-    name: "Protocoles de Securite",
+    name: "Protocoles de Sécurité",
     sessions: "S1+S3",
     color: "#E66D50", bg: "#3D160C",
     cards: [
-      { name: "TLS 1.3", aka: "Transport Layer Security", desc: "Protocole de chiffrement des communications. Version 1.3 : handshake en 1 round-trip, forward secrecy obligatoire, algorithmes obsoletes supprimes. Contre-mesure MITM.", example: "HSTS force le navigateur a utiliser TLS (pas de downgrade)" },
-      { name: "DNSSEC", aka: "DNS Security Extensions", desc: "Signatures cryptographiques sur les zones DNS. Chaine de confiance depuis la racine (.). Empeche le DNS Cache Poisoning en authentifiant les reponses.", example: "DNSKEY + RRSIG sur chaque zone DNS signee" },
-      { name: "DoT / DoH", aka: "DNS over TLS / DNS over HTTPS", desc: "Protocoles de chiffrement des requetes DNS. DoT (port 853) : chiffrement TLS dedie. DoH (port 443) : encapsulation DNS dans HTTPS, traverse les pare-feux. Cloisonnement ANSSI PA-105.", example: "OPNsense : resolver DNS interne + forwarder chiffre" },
+      { name: "TLS 1.3", aka: "Transport Layer Security", desc: "Protocole de chiffrement des communications. Version 1.3 : handshake en 1 round-trip, forward secrecy obligatoire, algorithmes obsolètes supprimes. Contre-mesure MITM.", example: "HSTS force le navigateur a utiliser TLS (pas de downgrade)" },
+      { name: "DNSSEC", aka: "DNS Security Extensions", desc: "Signatures cryptographiques sur les zones DNS. Chaine de confiance depuis la racine (.). Empeche le DNS Cache Poisoning en authentifiant les réponses.", example: "DNSKEY + RRSIG sur chaque zone DNS signee" },
+      { name: "DoT / DoH", aka: "DNS over TLS / DNS over HTTPS", desc: "Protocoles de chiffrement des requetes DNS. DoT (port 853) : chiffrement TLS dédié. DoH (port 443) : encapsulation DNS dans HTTPS, traverse les pare-feux. Cloisonnement ANSSI PA-105.", example: "OPNsense : resolver DNS interne + forwarder chiffre" },
       { name: "IPsec / WireGuard", aka: "VPN Protocols", desc: "Protocoles de tunnel VPN. IPsec : standard industriel, complexe. WireGuard : moderne, plus simple, performant. Les deux disponibles dans OPNsense.", example: "WireGuard + mTLS : base de la micro-segmentation Zero Trust" },
       { name: "HSTS", aka: "HTTP Strict Transport Security", desc: "En-tete HTTP forcant le navigateur a utiliser HTTPS exclusivement. Empeche les attaques de downgrade SSL/TLS et le SSL stripping.", example: "Strict-Transport-Security: max-age=31536000; includeSubDomains" },
-      { name: "mTLS", aka: "Mutual TLS Authentication", desc: "TLS avec authentification mutuelle : le serveur ET le client presentent un certificat. Base du Zero Trust : chaque service prouve son identite. Perspective S7 (PKI).", example: "Kubernetes : communication inter-services securisee par mTLS" }
+      { name: "mTLS", aka: "Mutual TLS Authentication", desc: "TLS avec authentification mutuelle : le serveur ET le client presentent un certificat. Base du Zero Trust : chaque service prouve son identité. Perspective S7 (PKI).", example: "Kubernetes : communication inter-services sécurisée par mTLS" }
     ]
   },
   {
@@ -810,12 +1320,12 @@ const families = [
     sessions: "S1+S2+S3",
     color: "#DC744B", bg: "#3D1A0C",
     cards: [
-      { name: "Debian 12", aka: "Stable / Bookworm", desc: "Distribution Linux de reference pour le serveur. Installation minimale (netinstall) comme base de hardening. VM durcie en S1 reutilisee comme agent Wazuh en S3.", example: "Debian 12.9.0 netinst amd64 -> 2 Go RAM, 20 Go disque" },
-      { name: "QEMU / QCOW2", aka: "Quick Emulator", desc: "Hyperviseur d'emulation/virtualisation utilise par GNS3. Format de disque QCOW2 : snapshots, compression, copy-on-write. La VM Debian est exportee en QCOW2 pour GNS3.", example: "qemu-img convert -f vdi -O qcow2 Debian.vdi debian-hardened.qcow2" },
-      { name: "VirtualBox / VMware", aka: "Hyperviseurs Desktop", desc: "Hyperviseurs de type 2 pour creer les VMs avant export GNS3. VirtualBox (GPLv2) recommande pour Wazuh OVA. VMware Workstation comme alternative.", example: "VBoxManage clonemedium disk --format QCOW Debian.vdi debian.qcow2" },
-      { name: "nmcli", aka: "NetworkManager CLI", desc: "Outil en ligne de commande pour configurer le reseau sous Linux. Utilise dans la Wazuh OVA pour configurer l'IP statique (192.168.10.50/24).", example: "nmcli con mod 'Wired connection 1' ipv4.addresses 192.168.10.50/24" },
-      { name: "Suricata", aka: "IDS/IPS Engine", desc: "Moteur IDS/IPS open-source integre a OPNsense. Analyse le trafic reseau en temps reel. Peut fonctionner en mode detection (IDS) ou prevention (IPS inline).", example: "OPNsense -> Services -> Intrusion Detection -> Enable Suricata" },
-      { name: "VPCS", aka: "Virtual PC Simulator", desc: "Simulateur de PC leger dans GNS3. Permet de tester la connectivite reseau (ping, traceroute) sans deployer de VM complete. Utilise pour les tests d'isolation VLAN.", example: "ip 192.168.30.100 255.255.255.0 192.168.30.1 -> test VLAN 30" }
+      { name: "Debian 12", aka: "Stable / Bookworm", desc: "Distribution Linux de référence pour le serveur. Installation minimale (netinstall) comme base de hardening. VM durcie en S1 reutilisee comme agent Wazuh en S3.", example: "Debian 12.9.0 netinst amd64 -> 2 Go RAM, 20 Go disque" },
+      { name: "QEMU / QCOW2", aka: "Quick Emulator", desc: "Hyperviseur d'émulation/virtualisation utilise par GNS3. Format de disque QCOW2 : snapshots, compression, copy-on-write. La VM Debian est exportee en QCOW2 pour GNS3.", example: "qemu-img convert -f vdi -O qcow2 Debian.vdi debian-hardened.qcow2" },
+      { name: "VirtualBox / VMware", aka: "Hyperviseurs Desktop", desc: "Hyperviseurs de type 2 pour creer les VMs avant export GNS3. VirtualBox (GPLv2) recommandé pour Wazuh OVA. VMware Workstation comme alternative.", example: "VBoxManage clonemedium disk --format QCOW Debian.vdi debian.qcow2" },
+      { name: "nmcli", aka: "NetworkManager CLI", desc: "Outil en ligne de commande pour configurer le réseau sous Linux. Utilise dans la Wazuh OVA pour configurer l'IP statique (192.168.10.50/24).", example: "nmcli con mod 'Wired connection 1' ipv4.addresses 192.168.10.50/24" },
+      { name: "Suricata", aka: "IDS/IPS Engine", desc: "Moteur IDS/IPS open-source intégré a OPNsense. Analyse le trafic réseau en temps reel. Peut fonctionner en mode détection (IDS) ou prévention (IPS inline).", example: "OPNsense -> Services -> Intrusion Détection -> Enable Suricata" },
+      { name: "VPCS", aka: "Virtual PC Simulator", desc: "Simulateur de PC léger dans GNS3. Permet de tester la connectivite réseau (ping, traceroute) sans déployer de VM complète. Utilise pour les tests d'isolation VLAN.", example: "ip 192.168.30.100 255.255.255.0 192.168.30.1 -> test VLAN 30" }
     ]
   }
 ];
@@ -829,26 +1339,26 @@ const anssiGuides = [
     guide: "A",
     title: "Hygiene Informatique",
     recommendations: [
-      { title: "Inventorier tous les equipements et logiciels", desc: "Maintenir un registre a jour de tous les actifs IT (materiel, logiciels, versions). Prerequis pour une securite effective.", ref: "ANSSI - Guide Hygiene", priority: "Indispensable" },
-      { title: "Appliquer les mises a jour de securite sans delai", desc: "Deployer les patches de securite sur tous les systemes dans un delai maximal de 30 jours pour les vulnerabilites critiques.", ref: "ANSSI - Guide Hygiene", priority: "Indispensable" },
-      { title: "Definir et verifier les regles de filtrage des pare-feux", desc: "Mettre en place des politiques de filtrage claires, documenter chaque regle et les tester regulierement.", ref: "ANSSI - Guide Hygiene", priority: "Indispensable" },
-      { title: "Segmenter le reseau et controller les flux", desc: "Diviser le reseau en zones de securite et controler les communications entre les zones via pare-feu.", ref: "ANSSI - Guide Hygiene", priority: "Indispensable" },
-      { title: "Proteger les acces d'administration", desc: "Limiter l'acces root/administrateur, utiliser des comptes dedies, journaliser les actions privilegiees.", ref: "ANSSI - Guide Hygiene", priority: "Indispensable" },
-      { title: "Gerer les droits selon le principe du moindre privilege", desc: "Attribuer a chaque utilisateur/processus les droits minimums necessaires a son fonctionnement.", ref: "ANSSI - Guide Hygiene", priority: "Indispensable" },
+      { title: "Inventorier tous les équipements et logiciels", desc: "Maintenir un registre a jour de tous les actifs IT (materiel, logiciels, versions). Prerequis pour une sécurité effective.", ref: "ANSSI - Guide Hygiene", priority: "Indispensable" },
+      { title: "Appliquer les mises a jour de sécurité sans délai", desc: "Déployer les patches de sécurité sur tous les systèmes dans un délai maximal de 30 jours pour les vulnérabilités critiques.", ref: "ANSSI - Guide Hygiene", priority: "Indispensable" },
+      { title: "Définir et vérifier les règles de filtrage des pare-feux", desc: "Mettre en place des politiques de filtrage claires, documenter chaque règle et les tester régulièrement.", ref: "ANSSI - Guide Hygiene", priority: "Indispensable" },
+      { title: "Segmenter le réseau et controller les flux", desc: "Diviser le réseau en zones de sécurité et contrôler les communications entre les zones via pare-feu.", ref: "ANSSI - Guide Hygiene", priority: "Indispensable" },
+      { title: "Protèger les accès d'administration", desc: "Limiter l'accès root/administrateur, utiliser des comptes dédiés, journaliser les actions privilegiees.", ref: "ANSSI - Guide Hygiene", priority: "Indispensable" },
+      { title: "Gerer les droits selon le principe du moindre privilege", desc: "Attribuer a chaque utilisateur/processus les droits minimums nécessaires a son fonctionnement.", ref: "ANSSI - Guide Hygiene", priority: "Indispensable" },
       { title: "Mettre en place une journalisation centralisee", desc: "Collecter les logs de toutes les sources vers un SIEM central pour analyse et correlation.", ref: "ANSSI - Guide Hygiene", priority: "Indispensable" },
-      { title: "Sauvegarder regulierement les donnees critiques", desc: "Executer des sauvegardes quotidiennes des donnees critiques avec tests periodiques de restauration.", ref: "ANSSI - Guide Hygiene", priority: "Indispensable" }
+      { title: "Sauvegarder régulièrement les données critiques", desc: "Executer des sauvegardes quotidiennes des données critiques avec tests périodiques de restauration.", ref: "ANSSI - Guide Hygiene", priority: "Indispensable" }
     ]
   },
   {
     guide: "B",
     title: "Cloisonnement et Architecture",
     recommendations: [
-      { title: "Segmenter le reseau en zones de securite", desc: "Utiliser les VLANs (L2) ou VRF (L3) pour isoler les flux selon leur sensibilite (management, production, users, DMZ).", ref: "ANSSI PG-040", priority: "Indispensable" },
-      { title: "Placer les services publics en DMZ double pare-feu", desc: "Heberger les services accessibles depuis Internet (web, mail) en DMZ avec pare-feu interne et externe.", ref: "ANSSI PA-066", priority: "Indispensable" },
-      { title: "Isoler le reseau de management dans un VLAN dedie", desc: "Separer physiquement le reseau d'administration du reseau de production pour empecher les mouvements lateraux.", ref: "ANSSI PG-040", priority: "Indispensable" },
-      { title: "Controler les flux inter-zones par pare-feu stateful", desc: "Utiliser un pare-feu avec inspection d'etat (OPNsense, iptables, nftables) entre chaque zone.", ref: "ANSSI PG-040", priority: "Indispensable" },
-      { title: "Utiliser des technologies de segmentation adaptees", desc: "Employer des VLANs (L2) pour les reseaux clos, VRF (L3) pour les gros operateurs, SDN pour le cloud.", ref: "ANSSI PG-040", priority: "Recommande" },
-      { title: "Ne jamais connecter directement un reseau interne a Internet", desc: "Toute connexion Internet doit transiter par un pare-feu perimetrique (DMZ double FW).", ref: "ANSSI PA-066", priority: "Indispensable" },
+      { title: "Segmenter le réseau en zones de sécurité", desc: "Utiliser les VLANs (L2) ou VRF (L3) pour isoler les flux selon leur sensibilite (management, production, users, DMZ).", ref: "ANSSI PG-040", priority: "Indispensable" },
+      { title: "Placer les services publics en DMZ double pare-feu", desc: "Heberger les services accèssibles depuis Internet (web, mail) en DMZ avec pare-feu interne et externe.", ref: "ANSSI PA-066", priority: "Indispensable" },
+      { title: "Isoler le réseau de management dans un VLAN dédié", desc: "Séparer physiquement le réseau d'administration du réseau de production pour empecher les mouvements lateraux.", ref: "ANSSI PG-040", priority: "Indispensable" },
+      { title: "Contrôler les flux inter-zones par pare-feu stateful", desc: "Utiliser un pare-feu avec inspection d'etat (OPNsense, iptables, nftables) entre chaque zone.", ref: "ANSSI PG-040", priority: "Indispensable" },
+      { title: "Utiliser des technologies de segmentation adaptees", desc: "Employer des VLANs (L2) pour les réseaux clos, VRF (L3) pour les gros operateurs, SDN pour le cloud.", ref: "ANSSI PG-040", priority: "Recommande" },
+      { title: "Ne jamais connecter directement un réseau interne a Internet", desc: "Toute connexion Internet doit transiter par un pare-feu perimetrique (DMZ double FW).", ref: "ANSSI PA-066", priority: "Indispensable" },
       { title: "Placer le SIEM dans la zone de management", desc: "Le SIEM collecte les logs de toutes les zones mais doit etre physiquement isole (non expose a Internet).", ref: "ANSSI PG-040", priority: "Recommande" }
     ]
   },
@@ -856,66 +1366,66 @@ const anssiGuides = [
     guide: "C",
     title: "Mots de Passe et Authentification",
     recommendations: [
-      { title: "Minimum 12 caracteres pour un mot de passe utilisateur", desc: "Exiger une longueur minimale de 12 caracteres pour les mots de passe ordinaires. Preferer les phrases de passe.", ref: "ANSSI PA-022", priority: "Indispensable" },
-      { title: "Minimum 15 caracteres pour un compte administrateur", desc: "Les comptes root/administrateur doivent utiliser des mots de passe de 15+ caracteres ou des cles SSH.", ref: "ANSSI PA-022", priority: "Indispensable" },
-      { title: "Privilegier les phrases de passe", desc: "Les phrases de passe (longueur > complexite) sont plus memorizables et plus resilientes aux attaques.", ref: "ANSSI PA-022", priority: "Recommande" },
-      { title: "Imposer le MFA pour les acces d'administration", desc: "L'authentification multifacteur (MFA) est obligatoire pour tous les acces privilegies (root, administrateur).", ref: "ANSSI PA-022", priority: "Indispensable" },
-      { title: "Ne jamais stocker les mots de passe en clair", desc: "Utiliser des fonctions de hachage (bcrypt, scrypt, argon2) pour stocker les mots de passe de facon irreversible.", ref: "ANSSI PA-022", priority: "Indispensable" },
-      { title: "Verrouiller les comptes apres echecs repetes", desc: "Apres 5 echecs de connexion, verrouiller temporairement le compte (15 minutes) pour prevenir le bruteforce.", ref: "ANSSI PA-022", priority: "Indispensable" },
-      { title: "Changer les mots de passe par defaut avant mise en production", desc: "Tous les equipements et services doivent avoir leurs mots de passe par defaut changes avant deployment en production.", ref: "ANSSI PA-022", priority: "Indispensable" },
-      { title: "Utiliser des gestionnaires de mots de passe", desc: "Employer des solutions de gestion des secrets (Vault, LastPass, KeePass) pour les acces administratifs.", ref: "ANSSI PA-022", priority: "Recommande" }
+      { title: "Minimum 12 caractères pour un mot de passe utilisateur", desc: "Exiger une longueur minimale de 12 caractères pour les mots de passe ordinaires. Preferer les phrases de passe.", ref: "ANSSI PA-022", priority: "Indispensable" },
+      { title: "Minimum 15 caractères pour un compte administrateur", desc: "Les comptes root/administrateur doivent utiliser des mots de passe de 15+ caractères ou des clés SSH.", ref: "ANSSI PA-022", priority: "Indispensable" },
+      { title: "Privilégier les phrases de passe", desc: "Les phrases de passe (longueur > complexite) sont plus mémorisables et plus résilientes aux attaques.", ref: "ANSSI PA-022", priority: "Recommande" },
+      { title: "Imposer le MFA pour les accès d'administration", desc: "L'authentification multifacteur (MFA) est obligatoire pour tous les accès privilégiés (root, administrateur).", ref: "ANSSI PA-022", priority: "Indispensable" },
+      { title: "Ne jamais stocker les mots de passe en clair", desc: "Utiliser des fonctions de hachage (bcrypt, scrypt, argon2) pour stocker les mots de passe de facon irréversible.", ref: "ANSSI PA-022", priority: "Indispensable" },
+      { title: "Verrouiller les comptes apres echecs répétés", desc: "Apres 5 echecs de connexion, verrouiller temporairement le compte (15 minutes) pour prévenir le bruteforce.", ref: "ANSSI PA-022", priority: "Indispensable" },
+      { title: "Changer les mots de passe par défaut avant mise en production", desc: "Tous les équipements et services doivent avoir leurs mots de passe par défaut changes avant déploiement en production.", ref: "ANSSI PA-022", priority: "Indispensable" },
+      { title: "Utiliser des gestionnaires de mots de passe", desc: "Employer des solutions de gestion des secrets (Vault, LastPass, KeePass) pour les accès administratifs.", ref: "ANSSI PA-022", priority: "Recommande" }
     ]
   },
   {
     guide: "D",
-    title: "Hardening Systeme",
+    title: "Hardening Système",
     recommendations: [
-      { title: "Installer uniquement les paquets necessaires", desc: "Installation minimale (netinstall) : ne selectionner que les paquets essentiels pour la fonction du serveur.", ref: "ANSSI - Guide Linux", priority: "Indispensable" },
-      { title: "Desactiver les services non utilises", desc: "Arreter et desactiver tous les services inutiles (cups, avahi, bluetooth) pour reduire la surface d'attaque.", ref: "ANSSI - Guide Linux", priority: "Indispensable" },
-      { title: "Configurer le pare-feu local en politique deny-all", desc: "Politique par defaut : tout trafic refuse. Seules les connexions explicitement autorisees passent (nftables, iptables).", ref: "ANSSI - Guide Linux", priority: "Indispensable" },
-      { title: "Durcir la configuration SSH", desc: "Port non standard, cles Ed25519, desactivation root login, algorithmes cryptographiques restrictifs (KexAlgorithms, Ciphers, MACs).", ref: "ANSSI DAT-NT-028", priority: "Indispensable" },
-      { title: "Activer et configurer auditd pour la tracabilite", desc: "Audit noyau Linux pour enregistrer les acces critiques, modifications de fichiers et appels systeme privilegies.", ref: "ANSSI - Guide Linux", priority: "Indispensable" },
-      { title: "Proteger le chargeur d'amorcage par mot de passe", desc: "GRUB : definir un mot de passe pour empecher la modification des parametres de demarrage (single user, init=/bin/bash).", ref: "ANSSI - Guide Linux", priority: "Recommande" },
-      { title: "Appliquer les options de montage restrictives", desc: "Partitions /tmp, /var, /home avec options noexec, nosuid, nodev pour prevenir l'execution de code malveillant.", ref: "ANSSI - Guide Linux", priority: "Indispensable" },
-      { title: "Configurer les parametres sysctl de securite", desc: "SYN cookies, reverse path filtering, desactivation IP forwarding, restriction ICMP, dmesg_restrict.", ref: "ANSSI - Guide Linux", priority: "Indispensable" },
-      { title: "Mettre en place le controle d'integrite", desc: "AIDE/FIM pour verifier l'integrite des fichiers critiques et detecter les modifications non autorisees.", ref: "ANSSI - Guide Linux", priority: "Recommande" }
+      { title: "Installer uniquement les paquets nécessaires", desc: "Installation minimale (netinstall) : ne sélectionner que les paquets essentiels pour la fonction du serveur.", ref: "ANSSI - Guide Linux", priority: "Indispensable" },
+      { title: "Désactivér les services non utilises", desc: "Arreter et désactiver tous les services inutiles (cups, avahi, bluetooth) pour réduire la surface d'attaque.", ref: "ANSSI - Guide Linux", priority: "Indispensable" },
+      { title: "Configurer le pare-feu local en politique deny-all", desc: "Politique par défaut : tout trafic refuse. Seules les connexions explicitement autorisées passent (nftables, iptables).", ref: "ANSSI - Guide Linux", priority: "Indispensable" },
+      { title: "Durcir la configuration SSH", desc: "Port non standard, clés Ed25519, désactivation root login, algorithmes cryptographiques restrictifs (KexAlgorithms, Ciphers, MACs).", ref: "ANSSI DAT-NT-028", priority: "Indispensable" },
+      { title: "Activer et configurer auditd pour la traçabilité", desc: "Audit noyau Linux pour enregistrer les accès critiques, modifications de fichiers et appels système privilégiés.", ref: "ANSSI - Guide Linux", priority: "Indispensable" },
+      { title: "Protèger le chargeur d'amorcage par mot de passe", desc: "GRUB : définir un mot de passe pour empecher la modification des parametres de démarrage (single user, init=/bin/bash).", ref: "ANSSI - Guide Linux", priority: "Recommande" },
+      { title: "Appliquer les options de montage restrictives", desc: "Partitions /tmp, /var, /home avec options noexec, nosuid, nodev pour prévenir l'exécution de code malveillant.", ref: "ANSSI - Guide Linux", priority: "Indispensable" },
+      { title: "Configurer les parametres sysctl de sécurité", desc: "SYN cookies, reverse path filtering, désactivation IP forwarding, restriction ICMP, dmesg_restrict.", ref: "ANSSI - Guide Linux", priority: "Indispensable" },
+      { title: "Mettre en place le contrôle d'intégrité", desc: "AIDE/FIM pour vérifier l'intégrité des fichiers critiques et détecter les modifications non autorisées.", ref: "ANSSI - Guide Linux", priority: "Recommande" }
     ]
   },
   {
     guide: "E",
-    title: "Filtrage Reseau",
+    title: "Filtrage Réseau",
     recommendations: [
-      { title: "Structurer chaque regle selon les 6 sections ANSSI", desc: "1) Etat, 2) Source (IP/port), 3) Destination (IP/port), 4) Protocole, 5) Action, 6) Commentaire (obligatoire).", ref: "ANSSI - Guide Pare-feu", priority: "Indispensable" },
-      { title: "Appliquer la politique deny-all sur toutes les interfaces", desc: "Politique par defaut : tout trafic refuse. Seuls les flux strictement autorises sont acceptes (whitelist).", ref: "ANSSI - Guide Pare-feu", priority: "Indispensable" },
-      { title: "Documenter chaque regle avec un commentaire obligatoire", desc: "Tout regle sans commentaire ne doit pas etre activee. Facilite la maintenance et l'audit.", ref: "ANSSI - Guide Pare-feu", priority: "Indispensable" },
-      { title: "Logger les regles de blocage (DENY) pour l'audit", desc: "Tous les paquets rejetes doivent etre journalises pour detection d'anomalies et investigation d'incidents.", ref: "ANSSI - Guide Pare-feu", priority: "Recommande" },
-      { title: "Separer les flux d'administration des flux de production", desc: "Trafic admin (SSH, management) ne doit jamais melanger le trafic applicatif pour des raisons de securite.", ref: "ANSSI - Guide Pare-feu", priority: "Indispensable" },
-      { title: "Verifier regulierement la coherence des regles", desc: "Audit trimestriel du ruleset pare-feu pour identifier les regles obsoletes, dupliquees ou redundantes.", ref: "ANSSI - Guide Pare-feu", priority: "Recommande" }
+      { title: "Structurer chaque règle selon les 6 sections ANSSI", desc: "1) État, 2) Source (IP/port), 3) Destination (IP/port), 4) Protocole, 5) Action, 6) Commentaire (obligatoire).", ref: "ANSSI - Guide Pare-feu", priority: "Indispensable" },
+      { title: "Appliquer la politique deny-all sur toutes les interfaces", desc: "Politique par défaut : tout trafic refuse. Seuls les flux strictement autorisés sont acceptes (whitelist).", ref: "ANSSI - Guide Pare-feu", priority: "Indispensable" },
+      { title: "Documenter chaque règle avec un commentaire obligatoire", desc: "Tout règle sans commentaire ne doit pas etre activée. Facilite la maintenance et l'audit.", ref: "ANSSI - Guide Pare-feu", priority: "Indispensable" },
+      { title: "Logger les règles de blocage (DENY) pour l'audit", desc: "Tous les paquets rejetes doivent etre journalises pour détection d'anomalies et investigation d'incidents.", ref: "ANSSI - Guide Pare-feu", priority: "Recommande" },
+      { title: "Séparer les flux d'administration des flux de production", desc: "Trafic admin (SSH, management) ne doit jamais melanger le trafic applicatif pour des raisons de sécurité.", ref: "ANSSI - Guide Pare-feu", priority: "Indispensable" },
+      { title: "Verifier régulièrement la coherence des règles", desc: "Audit trimestriel du ruleset pare-feu pour identifier les règles obsolètes, dupliquees ou redondantes.", ref: "ANSSI - Guide Pare-feu", priority: "Recommande" }
     ]
   },
   {
     guide: "F",
-    title: "Securite des Commutateurs",
+    title: "Sécurité des Commutateurs",
     recommendations: [
-      { title: "Activer le DHCP Snooping sur tous les VLANs", desc: "Distinguer les ports trusted (serveur DHCP) des ports untrusted (clients) pour prevenir les serveurs DHCP rogues.", ref: "ANSSI BP-033", priority: "Indispensable" },
-      { title: "Activer le DAI sur les ports access", desc: "Dynamic ARP Inspection : valider chaque ARP contre la table DHCP Snooping Binding pour empecher l'ARP Spoofing.", ref: "ANSSI BP-094", priority: "Indispensable" },
-      { title: "Configurer les ports en mode access par defaut", desc: "Tous les ports physiques doivent etre en mode access (untagged). Seuls les ports montantes de switch doivent etre trunk.", ref: "ANSSI BP-033", priority: "Indispensable" },
-      { title: "Desactiver les ports physiques non utilises", desc: "Ports inactifs doivent etre desactives ou configures dans un VLAN d'isolation pour prevenir les connexions non autorisees.", ref: "ANSSI BP-033", priority: "Recommande" },
-      { title: "Utiliser 802.1X pour l'authentification sur port", desc: "Authentification par port via RADIUS pour verifier l'identite de chaque equipement se connectant au switch (perspective S6).", ref: "ANSSI BP-033", priority: "Renforce" }
+      { title: "Activer le DHCP Snooping sur tous les VLANs", desc: "Distinguer les ports trusted (serveur DHCP) des ports untrusted (clients) pour prévenir les serveurs DHCP rogues.", ref: "ANSSI BP-033", priority: "Indispensable" },
+      { title: "Activer le DAI sur les ports accèss", desc: "Dynamic ARP Inspection : valider chaque ARP contre la table DHCP Snooping Binding pour empecher l'ARP Spoofing.", ref: "ANSSI BP-094", priority: "Indispensable" },
+      { title: "Configurer les ports en mode accèss par défaut", desc: "Tous les ports physiques doivent etre en mode accèss (untagged). Seuls les ports montantes de switch doivent etre trunk.", ref: "ANSSI BP-033", priority: "Indispensable" },
+      { title: "Désactivér les ports physiques non utilises", desc: "Ports inactifs doivent etre desactives ou configures dans un VLAN d'isolation pour prévenir les connexions non autorisées.", ref: "ANSSI BP-033", priority: "Recommande" },
+      { title: "Utiliser 802.1X pour l'authentification sur port", desc: "Authentification par port via RADIUS pour vérifier l'identité de chaque équipement se connectant au switch (perspective S6).", ref: "ANSSI BP-033", priority: "Renforce" }
     ]
   },
   {
     guide: "G",
     title: "PSSI et Gouvernance",
     recommendations: [
-      { title: "Definir une PSSI formelle", desc: "Politique de Securite des Systemes d'Information documentee, approuvee par la direction, communiquee a tous les utilisateurs.", ref: "ANSSI - PSSI", priority: "Indispensable" },
-      { title: "Identifier les actifs critiques et les risques associes", desc: "Inventorier les systemes critiques, evaluer leurs risques (threats, vulnerabilites, impact) et prioritiser les mesures.", ref: "ANSSI - PSSI", priority: "Indispensable" },
-      { title: "Definir les roles et responsabilites securite", desc: "Nommer un responsable securite, definir les equipes (CISO, SOC, audit), clarifier les responsabilites de chacun.", ref: "ANSSI - PSSI", priority: "Indispensable" },
-      { title: "Etablir un PCA - Plan de Continuite d'Activite", desc: "Plan decrivant comment maintenir les operations critiques en cas de sinistre (pannes, attaques, desastres).", ref: "ANSSI - PSSI", priority: "Indispensable" },
-      { title: "Etablir un PRA - Plan de Reprise d'Activite", desc: "Plan decrivant comment restaurer les systemes apres un incident. Inclut RTO (Recovery Time Objective) et RPO (Recovery Point Objective).", ref: "ANSSI - PSSI", priority: "Indispensable" },
-      { title: "Realiser des audits de securite reguliers", desc: "Audits internes/externes annuels pour evaluer la conformite aux normes et identifier les gaps de securite.", ref: "ANSSI - PSSI", priority: "Recommande" },
-      { title: "Sensibiliser les utilisateurs aux bonnes pratiques", desc: "Formation annuelle sur la securite, phishing, gestion des mots de passe, gestion des donnees sensibles.", ref: "ANSSI - PSSI", priority: "Indispensable" },
-      { title: "Definir une procedure de gestion des incidents", desc: "Processus formel pour detecter, signaler, investiguer et resoudre les incidents de securite. Inclut une escalade.", ref: "ANSSI - PSSI", priority: "Indispensable" }
+      { title: "Définir une PSSI formelle", desc: "Politique de Sécurité des Systèmes d'Information documentee, approuvee par la direction, communiquee a tous les utilisateurs.", ref: "ANSSI - PSSI", priority: "Indispensable" },
+      { title: "Identifier les actifs critiques et les risques associes", desc: "Inventorier les systèmes critiques, évaluer leurs risques (threats, vulnérabilités, impact) et prioritiser les mesures.", ref: "ANSSI - PSSI", priority: "Indispensable" },
+      { title: "Définir les roles et responsabilites sécurité", desc: "Nommer un responsable sécurité, définir les equipes (CISO, SOC, audit), clarifier les responsabilites de chacun.", ref: "ANSSI - PSSI", priority: "Indispensable" },
+      { title: "Etablir un PCA - Plan de Continuite d'Activite", desc: "Plan décrivant comment maintenir les opérations critiques en cas de sinistre (pannes, attaques, desastres).", ref: "ANSSI - PSSI", priority: "Indispensable" },
+      { title: "Etablir un PRA - Plan de Reprise d'Activite", desc: "Plan décrivant comment restaurer les systèmes apres un incident. Inclut RTO (Recovery Time Objective) et RPO (Recovery Point Objective).", ref: "ANSSI - PSSI", priority: "Indispensable" },
+      { title: "Realiser des audits de sécurité réguliers", desc: "Audits internes/externes annuels pour évaluer la conformité aux normes et identifier les gaps de sécurité.", ref: "ANSSI - PSSI", priority: "Recommande" },
+      { title: "Sensibiliser les utilisateurs aux bonnes pratiques", desc: "Formation annuelle sur la sécurité, phishing, gestion des mots de passe, gestion des données sensibles.", ref: "ANSSI - PSSI", priority: "Indispensable" },
+      { title: "Définir une procédure de gestion des incidents", desc: "Processus formel pour détecter, signaler, investiguer et resoudre les incidents de sécurité. Inclut une escalade.", ref: "ANSSI - PSSI", priority: "Indispensable" }
     ]
   }
 ];
@@ -927,492 +1437,1069 @@ const anssiGuides = [
 const abbreviations = {
   facile: {
     label: "Facile",
-    desc: "Termes de base en informatique et reseaux, vus des le premier cours.",
+    desc: "Termes de base en informatique et réseaux, vus des le premier cours.",
     items: [
       { abbr: "ACK", full: "Acknowledge", ctx: "Flag TCP confirmant la reception d'un segment" },
       { abbr: "CLI", full: "Command Line Interface", ctx: "Interface en ligne de commande (terminal)" },
       { abbr: "CPU", full: "Central Processing Unit", ctx: "Processeur de la machine" },
       { abbr: "DHCP", full: "Dynamic Host Configuration Protocol", ctx: "Attribution automatique d'adresses IP" },
       { abbr: "DNS", full: "Domain Name System", ctx: "Traduction noms de domaine -> adresses IP" },
-      { abbr: "FW", full: "Firewall", ctx: "Pare-feu (filtrage du trafic reseau)" },
+      { abbr: "FW", full: "Firewall", ctx: "Pare-feu (filtrage du trafic réseau)" },
       { abbr: "GUI", full: "Graphical User Interface", ctx: "Interface graphique utilisateur" },
-      { abbr: "HTTP", full: "HyperText Transfer Protocol", ctx: "Protocole web non chiffre (port 80)" },
-      { abbr: "HTTPS", full: "HyperText Transfer Protocol Secure", ctx: "HTTP chiffre via TLS (port 443)" },
-      { abbr: "ICMP", full: "Internet Control Message Protocol", ctx: "Protocole de diagnostic reseau (ping)" },
-      { abbr: "IP", full: "Internet Protocol", ctx: "Protocole d'adressage reseau (IPv4, IPv6)" },
+      { abbr: "HTTP", full: "HyperText Transfer Protocol", ctx: "Protocole web non chiffré (port 80)" },
+      { abbr: "HTTPS", full: "HyperText Transfer Protocol Secure", ctx: "HTTP chiffré via TLS (port 443)" },
+      { abbr: "ICMP", full: "Internet Control Message Protocol", ctx: "Protocole de diagnostic réseau (ping)" },
+      { abbr: "IP", full: "Internet Protocol", ctx: "Protocole d'adressage réseau (IPv4, IPv6)" },
       { abbr: "ISO", full: "Image disque / International Organization for Standardization", ctx: "Fichier image d'installation (Debian, OPNsense)" },
-      { abbr: "LAN", full: "Local Area Network", ctx: "Reseau local (ex : reseau interne entreprise)" },
-      { abbr: "MAC", full: "Media Access Control (adresse)", ctx: "Adresse physique d'une interface reseau (L2)" },
+      { abbr: "LAN", full: "Local Area Network", ctx: "Réseau local (ex : réseau interne entreprise)" },
+      { abbr: "MAC", full: "Media Accèss Control (adresse)", ctx: "Adresse physique d'une interface réseau (L2)" },
       { abbr: "NAT", full: "Network Address Translation", ctx: "Traduction d'adresses IP (privees <-> publiques)" },
-      { abbr: "OS", full: "Operating System", ctx: "Systeme d'exploitation (Linux, Windows)" },
-      { abbr: "RAM", full: "Random Access Memory", ctx: "Memoire vive de la machine" },
-      { abbr: "SSH", full: "Secure Shell", ctx: "Protocole d'acces distant chiffre (port 22/2222)" },
+      { abbr: "OS", full: "Operating System", ctx: "Système d'exploitation (Linux, Windows)" },
+      { abbr: "RAM", full: "Random Accèss Memory", ctx: "Mémoire vive de la machine" },
+      { abbr: "SSH", full: "Secure Shell", ctx: "Protocole d'accès distant chiffré (port 22/2222)" },
       { abbr: "SYN", full: "Synchronize", ctx: "Flag TCP d'initiation de connexion (3-way handshake)" },
-      { abbr: "TCP", full: "Transmission Control Protocol", ctx: "Protocole de transport fiable (connexion orientee)" },
+      { abbr: "TCP", full: "Transmission Control Protocol", ctx: "Protocole de transport fiable (connexion-orientée)" },
       { abbr: "UDP", full: "User Datagram Protocol", ctx: "Protocole de transport sans connexion" },
-      { abbr: "URL", full: "Uniform Resource Locator", ctx: "Adresse web complete" },
-      { abbr: "USB", full: "Universal Serial Bus", ctx: "Port de connexion peripheriques" },
+      { abbr: "URL", full: "Uniform Resource Locator", ctx: "Adresse web complète" },
+      { abbr: "USB", full: "Universal Serial Bus", ctx: "Port de connexion périphériques" },
       { abbr: "VM", full: "Virtual Machine", ctx: "Machine virtuelle (VirtualBox, QEMU)" },
-      { abbr: "VPN", full: "Virtual Private Network", ctx: "Tunnel chiffre entre deux reseaux" },
-      { abbr: "WAN", full: "Wide Area Network", ctx: "Reseau etendu (ex : Internet)" }
+      { abbr: "VPN", full: "Virtual Private Network", ctx: "Tunnel chiffre entre deux réseaux" },
+      { abbr: "WAN", full: "Wide Area Network", ctx: "Réseau étendu (ex : Internet)" }
     ]
   },
   moyen: {
     label: "Moyen",
-    desc: "Termes d'infrastructure et securite, specifiques aux domaines du hardening et reseaux.",
+    desc: "Termes d'infrastructure et sécurité, spécifiques aux domaines du hardening et réseaux.",
     items: [
-      { abbr: "AIDE", full: "Advanced Intrusion Detection Environment", ctx: "Outil de controle d'integrite des fichiers offline" },
-      { abbr: "ANSSI", full: "Agence Nationale de la Securite des Systemes d'Information", ctx: "Autorite francaise de la cybersecurite" },
+      { abbr: "AIDE", full: "Advanced Intrusion Détection Environment", ctx: "Outil de contrôle d'intégrité des fichiers offline" },
+      { abbr: "ANSSI", full: "Agence Nationale de la Sécurité des Systèmes d'Information", ctx: "Autorite française de la cybersécurité" },
       { abbr: "ARP", full: "Address Resolution Protocol", ctx: "Traduction adresses IP -> adresses MAC (L2)" },
       { abbr: "API", full: "Application Programming Interface", ctx: "Interface de programmation pour interagir avec un service" },
       { abbr: "BCP38", full: "Best Current Practice 38 (RFC 2827)", ctx: "Filtre Ingress pour empecher l'IP Spoofing" },
-      { abbr: "CERT", full: "Computer Emergency Response Team", ctx: "Equipe de reponse aux incidents de securite" },
+      { abbr: "CERT", full: "Computer Emergency Response Team", ctx: "Equipe de réponse aux incidents de sécurité" },
       { abbr: "CNAME", full: "Canonical Name (DNS)", ctx: "Alias DNS vers un autre nom de domaine" },
-      { abbr: "CIS", full: "Center for Internet Security", ctx: "Organisation publiant des benchmarks de securite" },
-      { abbr: "CMDB", full: "Configuration Management Database", ctx: "Base de donnees des elements de configuration IT" },
+      { abbr: "CIS", full: "Center for Internet Security", ctx: "Organisation publiant des benchmarks de sécurité" },
+      { abbr: "CMDB", full: "Configuration Management Database", ctx: "Base de données des elements de configuration IT" },
       { abbr: "CTI", full: "Cyber Threat Intelligence", ctx: "Intelligence sur les menaces, acteurs et techniques d'attaque" },
-      { abbr: "CVE", full: "Common Vulnerabilities and Exposures", ctx: "Identifiant unique pour une vulnerabilite publiquement connue" },
-      { abbr: "DAI", full: "Dynamic ARP Inspection", ctx: "Securite L2 : validation des paquets ARP sur le switch" },
+      { abbr: "CVE", full: "Common Vulnerabilities and Exposures", ctx: "Identifiant unique pour une vulnérabilité publiquement connue" },
+      { abbr: "DAI", full: "Dynamic ARP Inspection", ctx: "Sécurité L2 : validation des paquets ARP sur le switch" },
       { abbr: "DDoS", full: "Distributed Denial of Service", ctx: "Attaque distribuee visant a saturer un service" },
       { abbr: "DKIM", full: "DomainKeys Identified Mail", ctx: "Signature cryptographique sur les emails" },
       { abbr: "DMARC", full: "Domain-based Message Authentication", ctx: "Politique d'authentification des emails par domaine" },
-      { abbr: "DMZ", full: "DeMilitarized Zone", ctx: "Zone reseau intermediaire entre Internet et le LAN interne" },
+      { abbr: "DMZ", full: "DeMilitarized Zone", ctx: "Zone réseau intermediaire entre Internet et le LAN interne" },
       { abbr: "DNSSEC", full: "DNS Security Extensions", ctx: "Signatures cryptographiques sur les zones DNS" },
-      { abbr: "DoH", full: "DNS over HTTPS", ctx: "Requetes DNS chiffrees via HTTPS (port 443)" },
-      { abbr: "DoT", full: "DNS over TLS", ctx: "Requetes DNS chiffrees via TLS (port 853)" },
-      { abbr: "DPIA", full: "Data Protection Impact Assessment", ctx: "Evaluation d'impact sur la protection des donnees (RGPD)" },
-      { abbr: "DSA", full: "Digital Services Act", ctx: "Regulation europeenne sur les services numeriques" },
-      { abbr: "DSOS", full: "Duty to Secure Our Systems", ctx: "Obligation de securiser les systemes (NIS2, RGPD)" },
-      { abbr: "ED25519", full: "Edwards-curve Digital Signature Algorithm", ctx: "Algorithme de signature cryptographique moderne (recommande pour SSH)" },
-      { abbr: "EFS", full: "Encrypting File System", ctx: "Chiffrement de fichiers au niveau du systeme de fichiers (Windows, Linux)" },
+      { abbr: "DoH", full: "DNS over HTTPS", ctx: "Requetes DNS chiffrées via HTTPS (port 443)" },
+      { abbr: "DoT", full: "DNS over TLS", ctx: "Requetes DNS chiffrées via TLS (port 853)" },
+      { abbr: "DPIA", full: "Data Protection Impact Assessment", ctx: "Evaluation d'impact sur la protection des données (RGPD)" },
+      { abbr: "DSA", full: "Digital Services Act", ctx: "Regulation européenne sur les services numériques" },
+      { abbr: "DSOS", full: "Duty to Secure Our Systems", ctx: "Obligation de sécurisér les systèmes (NIS2, RGPD)" },
+      { abbr: "ED25519", full: "Edwards-curve Digital Signature Algorithm", ctx: "Algorithme de signature cryptographique moderne (recommandé pour SSH)" },
+      { abbr: "EFS", full: "Encrypting File System", ctx: "Chiffrement de fichiers au niveau du système de fichiers (Windows, Linux)" },
       { abbr: "FQDN", full: "Fully Qualified Domain Name", ctx: "Nom de domaine complet incluant les sous-domaines" },
-      { abbr: "FTP", full: "File Transfer Protocol", ctx: "Protocole de transfert de fichiers non securise (port 20/21)" },
-      { abbr: "GDPR", full: "General Data Protection Regulation", ctx: "Regulation europeenne sur la protection des donnees (RGPD en francais)" },
+      { abbr: "FTP", full: "File Transfer Protocol", ctx: "Protocole de transfert de fichiers non sécurisé (port 20/21)" },
+      { abbr: "GDPR", full: "General Data Protection Regulation", ctx: "Regulation européenne sur la protection des données (RGPD en français)" },
       { abbr: "GnuPG", full: "GNU Privacy Guard", ctx: "Implémentation open-source de PGP pour chiffrement et signature" },
       { abbr: "GPG", full: "GNU Privacy Guard", ctx: "Alias de GnuPG" },
       { abbr: "GPT", full: "GUID Partition Table", ctx: "Format de table de partitions pour disques modernes (remplace MBR)" },
       { abbr: "GRUB", full: "GRand Unified Bootloader", ctx: "Chargeur d'amorcage Linux standard" },
-      { abbr: "GTFOBins", full: "GTFOBins", ctx: "Base de donnees de binaires exploitables pour escalade de privileges" },
+      { abbr: "GTFOBins", full: "GTFOBins", ctx: "Base de données de binaires exploitables pour escalade de privilèges" },
       { abbr: "HA", full: "High Availability", ctx: "Architecture redondante garantissant la continuite de service" },
-      { abbr: "HIDS", full: "Host Intrusion Detection System", ctx: "Systeme de detection d'intrusion sur hote (ex: Wazuh agent)" },
+      { abbr: "HIDS", full: "Host Intrusion Détection System", ctx: "Système de détection d'intrusion sur hote (ex: Wazuh agent)" },
       { abbr: "HMAC", full: "Hash Message Authentication Code", ctx: "Code d'authentification par hash cryptographique" },
       { abbr: "HSTS", full: "HTTP Strict Transport Security", ctx: "En-tete HTTP forcant l'usage de TLS" },
       { abbr: "IANA", full: "Internet Assigned Numbers Authority", ctx: "Organisme allouant les adresses IP, ports et autres ressources" },
-      { abbr: "ICMP", full: "Internet Control Message Protocol", ctx: "Protocole de diagnostic reseau (ping, traceroute)" },
+      { abbr: "ICMP", full: "Internet Control Message Protocol", ctx: "Protocole de diagnostic réseau (ping, traceroute)" },
       { abbr: "ICP", full: "Internet Content Provider", ctx: "Fournisseur de contenu Internet" },
-      { abbr: "IDS", full: "Intrusion Detection System", ctx: "Systeme de detection d'intrusion (mode passif)" },
-      { abbr: "IETF", full: "Internet Engineering Task Force", ctx: "Organisme definissant les standards Internet (RFC)" },
+      { abbr: "IDS", full: "Intrusion Détection System", ctx: "Système de détection d'intrusion (mode passif)" },
+      { abbr: "IETF", full: "Internet Engineering Task Force", ctx: "Organisme définissant les standards Internet (RFC)" },
       { abbr: "IPSEC", full: "Internet Protocol Security", ctx: "Protocole de tunnel VPN au niveau L3" },
-      { abbr: "IPS", full: "Intrusion Prevention System", ctx: "Systeme de prevention d'intrusion (mode actif)" },
+      { abbr: "IPS", full: "Intrusion Prévention System", ctx: "Système de prévention d'intrusion (mode actif)" },
       { abbr: "IPv4", full: "Internet Protocol version 4", ctx: "Version 4 du protocole IP (adresses 32 bits)" },
       { abbr: "IPv6", full: "Internet Protocol version 6", ctx: "Version 6 du protocole IP (adresses 128 bits)" },
-      { abbr: "ISCSI", full: "Internet Small Computer Systems Interface", ctx: "Protocole de stockage reseau (bloc)" },
-      { abbr: "ISP", full: "Internet Service Provider", ctx: "Fournisseur d'acces Internet" },
-      { abbr: "ITK", full: "Insight Segmentation and Registration Toolkit", ctx: "Librairie de traitement d'images (non securite)" },
-      { abbr: "L2", full: "Layer 2 (Data Link)", ctx: "Couche 2 du modele OSI (adresses MAC, VLAN)" },
-      { abbr: "L3", full: "Layer 3 (Network)", ctx: "Couche 3 du modele OSI (adresses IP, routage)" },
-      { abbr: "L7", full: "Layer 7 (Application)", ctx: "Couche 7 du modele OSI (HTTP, DNS, SMTP)" },
-      { abbr: "LDAP", full: "Lightweight Directory Access Protocol", ctx: "Protocole d'acces aux annuaires d'utilisateurs (Active Directory)" },
+      { abbr: "ISCSI", full: "Internet Small Computer Systems Interface", ctx: "Protocole de stockage réseau (bloc)" },
+      { abbr: "ISP", full: "Internet Service Provider", ctx: "Fournisseur d'accès Internet" },
+      { abbr: "ITK", full: "Insight Segmentation and Registration Toolkit", ctx: "Librairie de traitement d'images (non sécurité)" },
+      { abbr: "L2", full: "Layer 2 (Data Link)", ctx: "Couche 2 du modèle OSI (adresses MAC, VLAN)" },
+      { abbr: "L3", full: "Layer 3 (Network)", ctx: "Couche 3 du modèle OSI (adresses IP, routage)" },
+      { abbr: "L7", full: "Layer 7 (Application)", ctx: "Couche 7 du modèle OSI (HTTP, DNS, SMTP)" },
+      { abbr: "LDAP", full: "Lightweight Directory Accèss Protocol", ctx: "Protocole d'accès aux annuaires d'utilisateurs (Active Directory)" },
       { abbr: "LVM", full: "Logical Volume Manager", ctx: "Gestionnaire de volumes logiques pour partitionnement flexible" },
-      { abbr: "MAC", full: "Media Access Control", ctx: "Adresse physique d'une interface reseau (48 bits)" },
-      { abbr: "MBR", full: "Master Boot Record", ctx: "Secteur d'amorce classique (remplace par GPT)" },
-      { abbr: "MD5", full: "Message Digest 5", ctx: "Fonction de hachage (DEPRECIE, ne pas utiliser pour la securite)" },
-      { abbr: "MFA", full: "Multi-Factor Authentication", ctx: "Authentification multifacteur (au moins 2 methodes)" },
+      { abbr: "MAC", full: "Media Accèss Control", ctx: "Adresse physique d'une interface réseau (48 bits)" },
+      { abbr: "MBR", full: "Master Boot Record", ctx: "Secteur d'amorce classique (remplacé par GPT)" },
+      { abbr: "MD5", full: "Message Digest 5", ctx: "Fonction de hachage (DEPRECIÉ, ne pas utiliser pour la sécurité)" },
+      { abbr: "MFA", full: "Multi-Factor Authentication", ctx: "Authentification multifacteur (au moins 2 méthodes)" },
       { abbr: "MITM", full: "Man-in-the-Middle", ctx: "Attaque d'interception entre deux parties communicantes" },
       { abbr: "MITRE", full: "Adversarial Tactics, Techniques, and Common Knowledge", ctx: "Framework de classification des techniques d'attaque" },
-      { abbr: "MQTT", full: "Message Queuing Telemetry Transport", ctx: "Protocole leger de messagerie pub/sub (IoT)" },
+      { abbr: "MQTT", full: "Message Queuing Telemetry Transport", ctx: "Protocole léger de messagerie pub/sub (IoT)" },
       { abbr: "MX", full: "Mail Exchange (DNS)", ctx: "Enregistrement DNS pointant vers le serveur de mail" },
-      { abbr: "NAC", full: "Network Access Control", ctx: "Controle d'acces au reseau basee sur l'authenticite de l'equipement" },
+      { abbr: "NAC", full: "Network Accèss Control", ctx: "Contrôle d'accès au réseau basée sur l'authenticite de l'équipement" },
       { abbr: "NAT", full: "Network Address Translation", ctx: "Traduction d'adresses IP (privees <-> publiques)" },
-      { abbr: "NIDS", full: "Network Intrusion Detection System", ctx: "Systeme de detection d'intrusion sur le reseau (ex: Suricata)" },
-      { abbr: "NIST", full: "National Institute of Standards and Technology", ctx: "Institut americain de normalisation et securite" },
-      { abbr: "NTP", full: "Network Time Protocol", ctx: "Protocole de synchronisation horaire sur le reseau" },
-      { abbr: "NXDOMAIN", full: "Non-Existent Domain", ctx: "Reponse DNS indiquant qu'un domaine n'existe pas" },
+      { abbr: "NIDS", full: "Network Intrusion Détection System", ctx: "Système de détection d'intrusion sur le réseau (ex: Suricata)" },
+      { abbr: "NIST", full: "National Institute of Standards and Technology", ctx: "Institut américain de normalisation et sécurité" },
+      { abbr: "NTP", full: "Network Time Protocol", ctx: "Protocole de synchronisation horaire sur le réseau" },
+      { abbr: "NXDOMAIN", full: "Non-Existent Domain", ctx: "Réponse DNS indiquant qu'un domaine n'existe pas" },
       { abbr: "OATH", full: "Open Authentication", ctx: "Standard d'authentification (OTP, TOTP)" },
-      { abbr: "OCSP", full: "Online Certificate Status Protocol", ctx: "Protocole de verification de l'etat d'un certificat" },
+      { abbr: "OCSP", full: "Online Certificate Status Protocol", ctx: "Protocole de vérification de l'état d'un certificat" },
       { abbr: "OID", full: "Object Identifier", ctx: "Identifiant unique pour un objet (X.509, ASN.1)" },
-      { abbr: "OWASP", full: "Open Web Application Security Project", ctx: "Organisation promouveant la securite des applications web" },
+      { abbr: "OWASP", full: "Open Web Application Security Project", ctx: "Organisation promouveant la sécurité des applications web" },
       { abbr: "PAM", full: "Pluggable Authentication Modules", ctx: "Framework d'authentification modulaire sous Linux" },
-      { abbr: "PII", full: "Personally Identifiable Information", ctx: "Donnees personnelles permettant d'identifier un individu" },
-      { abbr: "PKI", full: "Public Key Infrastructure", ctx: "Infrastructure de gestion des certificats et cles publiques" },
+      { abbr: "PII", full: "Personally Identifiable Information", ctx: "Données personnelles permettant d'identifier un individu" },
+      { abbr: "PKI", full: "Public Key Infrastructure", ctx: "Infrastructure de gestion des certificats et clés publiques" },
       { abbr: "POP3", full: "Post Office Protocol 3", ctx: "Protocole de reception d'emails (port 110/995)" },
       { abbr: "PQC", full: "Post-Quantum Cryptography", ctx: "Algorithmes cryptographiques resistants aux ordinateurs quantiques" },
       { abbr: "PSK", full: "Pre-Shared Key", ctx: "Cle partagee a l'avance pour authentifier les parties" },
-      { abbr: "PSSI", full: "Politique de Securite des Systemes d'Information", ctx: "Politique formelle de securite dans une organisation" },
+      { abbr: "PSSI", full: "Politique de Sécurité des Systèmes d'Information", ctx: "Politique formelle de sécurité dans une organisation" },
       { abbr: "PTR", full: "Pointer (DNS reverse)", ctx: "Enregistrement DNS pour traduction inverse IP -> FQDN" },
-      { abbr: "PXE", full: "Preboot Execution Environment", ctx: "Boot par reseau, permet de charger un systeme depuis un serveur DHCP" },
-      { abbr: "QEMU", full: "Quick Emulator", ctx: "Hyperviseur d'emulation/virtualisation open-source" },
+      { abbr: "PXE", full: "Preboot Execution Environment", ctx: "Boot par réseau, permet de charger un système depuis un serveur DHCP" },
+      { abbr: "QEMU", full: "Quick Emulator", ctx: "Hyperviseur d'émulation/virtualisation open-source" },
       { abbr: "QoS", full: "Quality of Service", ctx: "Qualite de service : gestion de la bande passante et des priorites" },
-      { abbr: "RADIUS", full: "Remote Authentication Dial In User Service", ctx: "Protocole d'authentification centralisee pour acces reseau" },
-      { abbr: "RAT", full: "Remote Access Trojan", ctx: "Malware permettant l'acces distant non autorise" },
-      { abbr: "RBAC", full: "Role-Based Access Control", ctx: "Controle d'acces base sur les roles (administrateur, user, invitee)" },
-      { abbr: "RFC", full: "Request for Comments", ctx: "Documents IETF definissant les standards Internet" },
-      { abbr: "RFI", full: "Remote File Inclusion", ctx: "Vulnerabilite permettant d'inclure un fichier distant (PHP)" },
-      { abbr: "RIPEMD", full: "RACE Integrity Primitive Evaluation Message Digest", ctx: "Fonction de hachage (remplacee par SHA)" },
-      { abbr: "RKHUNTER", full: "Rootkit Hunter", ctx: "Outil de detection de rootkits et backdoors" },
+      { abbr: "RADIUS", full: "Remote Authentication Dial In User Service", ctx: "Protocole d'authentification centralisee pour accès réseau" },
+      { abbr: "RAT", full: "Remote Accèss Trojan", ctx: "Malware permettant l'accès distant non autorise" },
+      { abbr: "RBAC", full: "Role-Based Accèss Control", ctx: "Contrôle d'accès basé sur les roles (administrateur, user, invitee)" },
+      { abbr: "RFC", full: "Request for Comments", ctx: "Documents IETF définissant les standards Internet" },
+      { abbr: "RFI", full: "Remote File Inclusion", ctx: "Vulnérabilité permettant d'inclure un fichier distant (PHP)" },
+      { abbr: "RIPEMD", full: "RACE Integrity Primitive Evaluation Message Digest", ctx: "Fonction de hachage (remplacée par SHA)" },
+      { abbr: "RKHUNTER", full: "Rootkit Hunter", ctx: "Outil de détection de rootkits et backdoors" },
       { abbr: "RDNS", full: "Reverse DNS (DNS reverse)", ctx: "Resolution inverse : IP -> FQDN (opposite de DNS)" },
       { abbr: "RPF", full: "Reverse Path Forwarding", ctx: "Filtre contre l'IP Spoofing (verifie que la source provient du bon lien)" },
-      { abbr: "RPM", full: "RedHat Package Manager", ctx: "Gestionnaire de paquets pour systemes basés RedHat" },
+      { abbr: "RPM", full: "RedHat Package Manager", ctx: "Gestionnaire de paquets pour systèmes basés RedHat" },
       { abbr: "RRset", full: "Resource Record Set", ctx: "Ensemble de ressources DNS identiques (A, MX, TXT)" },
       { abbr: "RRSIG", full: "DNSSEC Signature (Resource Record Signature)", ctx: "Signature cryptographique d'un enregistrement DNS" },
-      { abbr: "RSA", full: "Rivest-Shamir-Adleman", ctx: "Algorithme de chiffrement asymetrique (remplace par ECC)" },
-      { abbr: "RSYSLOG", full: "Rocket-fast System Logging", ctx: "Daemon de journalisation systeme sous Linux" },
+      { abbr: "RSA", full: "Rivest-Shamir-Adleman", ctx: "Algorithme de chiffrement asymetrique (remplacé par ECC)" },
+      { abbr: "RSYSLOG", full: "Rocket-fast System Logging", ctx: "Daemon de journalisation système sous Linux" },
       { abbr: "RTMP", full: "Real-Time Messaging Protocol", ctx: "Protocole de streaming video (Adobe Flash)" },
       { abbr: "RTO", full: "Recovery Time Objective", ctx: "Delai maximum acceptable pour restaurer un service (PRA)" },
-      { abbr: "RPO", full: "Recovery Point Objective", ctx: "Volume maximal de donnees perdues tolere (PRA)" },
-      { abbr: "SA", full: "Security Association", ctx: "Accord de securite pour une connexion IPSec ou IKE" },
-      { abbr: "SACT", full: "Security Assessment and Configuration Tool", ctx: "Outil d'evaluation de la securite" },
-      { abbr: "SAM", full: "Security Accounts Manager", ctx: "Base de donnees des comptes locaux sous Windows" },
-      { abbr: "SAP", full: "Systems, Applications, and Products", ctx: "ERP d'entreprise pour gestion integrale (non securite directe)" },
-      { abbr: "SANS", full: "SysAdmin, Audit, Network, Security", ctx: "Institut de formation en cybersecurite americain" },
-      { abbr: "SCA", full: "Security Configuration Assessment", ctx: "Module Wazuh d'evaluation de conformite CIS" },
-      { abbr: "SCP", full: "Secure Copy Protocol", ctx: "Protocole de copie sécurisée par SSH (remplace par SFTP)" },
-      { abbr: "SCRAM", full: "Salted Challenge Response Authentication Mechanism", ctx: "Methode d'authentification avec salt contre le precompute" },
-      { abbr: "SDN", full: "Software Defined Networking", ctx: "Architecture reseau programmable (OpenFlow, Kubernetes NetworkPolicy)" },
-      { abbr: "SECP256K1", full: "Standards for Efficient Cryptography 256-bit", ctx: "Courbe elliptique utilisee par Bitcoin (non recommandee pour SSH)" },
-      { abbr: "SFTP", full: "SSH File Transfer Protocol", ctx: "Protocole de transfert de fichiers securise par SSH" },
+      { abbr: "RPO", full: "Recovery Point Objective", ctx: "Volume maximal de données perdues tolere (PRA)" },
+      { abbr: "SA", full: "Security Association", ctx: "Accord de sécurité pour une connexion IPSec ou IKE" },
+      { abbr: "SACT", full: "Security Assessment and Configuration Tool", ctx: "Outil d'évaluation de la sécurité" },
+      { abbr: "SAM", full: "Security Accounts Manager", ctx: "Base de données des comptes locaux sous Windows" },
+      { abbr: "SAP", full: "Systems, Applications, and Products", ctx: "ERP d'entreprise pour gestion intégrale (non sécurité directe)" },
+      { abbr: "SANS", full: "SysAdmin, Audit, Network, Security", ctx: "Institut de formation en cybersécurité américain" },
+      { abbr: "SCA", full: "Security Configuration Assessment", ctx: "Module Wazuh d'évaluation de conformité CIS" },
+      { abbr: "SCP", full: "Secure Copy Protocol", ctx: "Protocole de copie sécurisée par SSH (remplacé par SFTP)" },
+      { abbr: "SCRAM", full: "Salted Challenge Response Authentication Mechanism", ctx: "Méthode d'authentification avec salt contre le précalcul" },
+      { abbr: "SDN", full: "Software Defined Networking", ctx: "Architecture réseau programmable (OpenFlow, Kubernetes NetworkPolicy)" },
+      { abbr: "SECP256K1", full: "Standards for Efficient Cryptography 256-bit", ctx: "Courbe elliptique utilisee par Bitcoin (non recommandée pour SSH)" },
+      { abbr: "SFTP", full: "SSH File Transfer Protocol", ctx: "Protocole de transfert de fichiers sécurisé par SSH" },
       { abbr: "SHA", full: "Secure Hash Algorithm", ctx: "Famille de fonctions de hachage (SHA-1, SHA-256, SHA-512)" },
-      { abbr: "SLA", full: "Service Level Agreement", ctx: "Accord de niveau de service definissant les garanties" },
-      { abbr: "SLDAP", full: "Secure LDAP", ctx: "LDAP chiffre par TLS (port 636)" },
+      { abbr: "SLA", full: "Service Level Agreement", ctx: "Accord de niveau de service définissant les garanties" },
+      { abbr: "SLDAP", full: "Secure LDAP", ctx: "LDAP chiffré par TLS (port 636)" },
       { abbr: "SMB", full: "Server Message Block", ctx: "Protocole de partage de fichiers Windows (ports 139/445)" },
       { abbr: "SMTP", full: "Simple Mail Transfer Protocol", ctx: "Protocole d'envoi d'emails (port 25/587/465)" },
-      { abbr: "SNMP", full: "Simple Network Management Protocol", ctx: "Protocole de gestion de peripheriques reseau (port 161/162)" },
+      { abbr: "SNMP", full: "Simple Network Management Protocol", ctx: "Protocole de gestion de périphériques réseau (port 161/162)" },
       { abbr: "SNI", full: "Server Name Indication", ctx: "Extension TLS permettant plusieurs certificats par IP" },
-      { abbr: "SOA", full: "Start of Authority (DNS)", ctx: "Enregistrement DNS definissant l'autorite d'une zone" },
-      { abbr: "SOC", full: "Security Operations Center", ctx: "Centre de surveillance de la securite 24/7" },
-      { abbr: "SOCMINT", full: "Social Media Intelligence", ctx: "Renseignement basé sur les reseaux sociaux (OSINT)" },
-      { abbr: "SOD", full: "Separation of Duties", ctx: "Principe de separation des fonctions pour eviter les abus" },
-      { abbr: "SOP", full: "Standard Operating Procedure", ctx: "Procedure standard d'exploitation" },
-      { abbr: "SPDY", full: "Speedy", ctx: "Protocole de compression HTTP (remplace par HTTP/2)" },
-      { abbr: "SPF", full: "Sender Policy Framework", ctx: "Enregistrement DNS validant les serveurs SMTP autorises" },
-      { abbr: "SQL", full: "Structured Query Language", ctx: "Langage de requete pour bases de donnees" },
-      { abbr: "SQLI", full: "SQL Injection", ctx: "Injection SQL via donnees non validees (OWASP Top 10)" },
-      { abbr: "SRV", full: "Service (DNS)", ctx: "Enregistrement DNS definissant l'emplacement d'un service" },
-      { abbr: "SSH", full: "Secure Shell", ctx: "Protocole d'acces distant chiffre (port 22)" },
-      { abbr: "SSID", full: "Service Set Identifier", ctx: "Nom du reseau WiFi (WLAN)" },
-      { abbr: "SSL", full: "Secure Sockets Layer", ctx: "Protocole de chiffrement (deprecie, remplace par TLS)" },
+      { abbr: "SOA", full: "Start of Authority (DNS)", ctx: "Enregistrement DNS définissant l'autorite d'une zone" },
+      { abbr: "SOC", full: "Security Operations Center", ctx: "Centre de surveillance de la sécurité 24/7" },
+      { abbr: "SOCMINT", full: "Social Media Intelligence", ctx: "Renseignement basé sur les réseaux sociaux (OSINT)" },
+      { abbr: "SOD", full: "Separation of Duties", ctx: "Principe de séparation des fonctions pour eviter les abus" },
+      { abbr: "SOP", full: "Standard Operating Procédure", ctx: "Procédure standard d'exploitation" },
+      { abbr: "SPDY", full: "Speedy", ctx: "Protocole de compression HTTP (remplacé par HTTP/2)" },
+      { abbr: "SPF", full: "Sender Policy Framework", ctx: "Enregistrement DNS validant les serveurs SMTP autorisés" },
+      { abbr: "SQL", full: "Structured Query Language", ctx: "Langage de requete pour bases de données" },
+      { abbr: "SQLI", full: "SQL Injection", ctx: "Injection SQL via données non validees (OWASP Top 10)" },
+      { abbr: "SRV", full: "Service (DNS)", ctx: "Enregistrement DNS définissant l'emplacement d'un service" },
+      { abbr: "SSH", full: "Secure Shell", ctx: "Protocole d'accès distant chiffré (port 22)" },
+      { abbr: "SSID", full: "Service Set Identifier", ctx: "Nom du réseau WiFi (WLAN)" },
+      { abbr: "SSL", full: "Secure Sockets Layer", ctx: "Protocole de chiffrement (déprécié, remplacé par TLS)" },
       { abbr: "SSO", full: "Single Sign-On", ctx: "Authentification unique pour plusieurs services" },
       { abbr: "SSRF", full: "Server-Side Request Forgery", ctx: "Attaque forcant le serveur a faire des requetes (OWASP)" },
       { abbr: "SSTI", full: "Server-Side Template Injection", ctx: "Injection dans les templates serveur" },
-      { abbr: "STIG", full: "Security Technical Implementation Guides (DISA)", ctx: "Guides de durcissement du DoD americain" },
-      { abbr: "SUDO", full: "Superuser Do", ctx: "Mecanisme d'elevation de privileges sous Linux" },
-      { abbr: "SUID", full: "Set User ID", ctx: "Bit special permettant execution avec droits du proprietaire" },
+      { abbr: "STIG", full: "Security Technical Implémentation Guides (DISA)", ctx: "Guides de durcissement du DoD américain" },
+      { abbr: "SUDO", full: "Superuser Do", ctx: "Mecanisme d'élévation de privilèges sous Linux" },
+      { abbr: "SUID", full: "Set User ID", ctx: "Bit special permettant exécution avec droits du propriétaire" },
       { abbr: "SYSCTL", full: "System Control", ctx: "Outil de configuration des parametres noyau Linux" },
-      { abbr: "TACACS", full: "Terminal Access Controller Access Control System", ctx: "Protocole d'authentification centralisee (RADIUS+)" },
-      { abbr: "TANDBERG", full: "Video Conferencing Systems", ctx: "Systeme de visioconference (non securite directe)" },
-      { abbr: "TCAM", full: "Ternary Content Addressable Memory", ctx: "Memoire de recherche rapide dans les switchs (regles ACL)" },
-      { abbr: "TCP", full: "Transmission Control Protocol", ctx: "Protocole de transport fiable, connexion-orientee" },
-      { abbr: "TCPDump", full: "TCP Packet Sniffer", ctx: "Outil de capture de paquets reseau (Linux)" },
-      { abbr: "TFP", full: "Trivial File Transfer Protocol", ctx: "Protocole leger de transfert de fichiers (non securise)" },
-      { abbr: "TFSM", full: "Threat Focused Security Model", ctx: "Modele de securite orienté sur les menaces" },
+      { abbr: "TACACS", full: "Terminal Accèss Controller Accèss Control System", ctx: "Protocole d'authentification centralisee (RADIUS+)" },
+      { abbr: "TANDBERG", full: "Video Conferencing Systems", ctx: "Système de visioconference (non sécurité directe)" },
+      { abbr: "TCAM", full: "Ternary Content Addressable Memory", ctx: "Mémoire de recherche rapide dans les switchs (règles ACL)" },
+      { abbr: "TCP", full: "Transmission Control Protocol", ctx: "Protocole de transport fiable, connexion-orientée" },
+      { abbr: "TCPDump", full: "TCP Packet Sniffer", ctx: "Outil de capture de paquets réseau (Linux)" },
+      { abbr: "TFP", full: "Trivial File Transfer Protocol", ctx: "Protocole léger de transfert de fichiers (non sécurisé)" },
+      { abbr: "TFSM", full: "Threat Focused Security Model", ctx: "Modèle de sécurité orienté sur les menaces" },
       { abbr: "TLS", full: "Transport Layer Security", ctx: "Protocole de chiffrement des communications (remplace SSL)" },
-      { abbr: "TOFU", full: "Trust On First Use", ctx: "Modele de confiance : faire confiance a la premiere connexion" },
-      { abbr: "TOTP", full: "Time-based One-Time Password", ctx: "Mot de passe temporaire base sur l'heure (Google Authenticator)" },
-      { abbr: "TRACE", full: "HTTP TRACE Method", ctx: "Methode HTTP dangereuse (XST - Cross-Site Tracing)" },
-      { abbr: "TRUNCATION", full: "DNS Truncation", ctx: "Reponse DNS tronquee, signalant de basculer vers TCP (port 53)" },
-      { abbr: "TTL", full: "Time To Live", ctx: "Duree de vie des enregistrements DNS et des paquets IP" },
+      { abbr: "TOFU", full: "Trust On First Use", ctx: "Modèle de confiance : faire confiance a la première connexion" },
+      { abbr: "TOTP", full: "Time-based One-Time Password", ctx: "Mot de passe temporaire basé sur l'heure (Google Authenticator)" },
+      { abbr: "TRACE", full: "HTTP TRACE Method", ctx: "Méthode HTTP dangereuse (XST - Cross-Site Tracing)" },
+      { abbr: "TRUNCATION", full: "DNS Truncation", ctx: "Réponse DNS tronquee, signalant de basculer vers TCP (port 53)" },
+      { abbr: "TTL", full: "Time To Live", ctx: "Durée de vie des enregistrements DNS et des paquets IP" },
       { abbr: "TXT", full: "Text (DNS)", ctx: "Enregistrement DNS de texte (SPF, DKIM, DMARC)" },
       { abbr: "UDP", full: "User Datagram Protocol", ctx: "Protocole de transport sans connexion (non fiable)" },
-      { abbr: "VLAN", full: "Virtual Local Area Network", ctx: "Segmentation logique L2 d'un reseau physique" },
+      { abbr: "VLAN", full: "Virtual Local Area Network", ctx: "Segmentation logique L2 d'un réseau physique" },
       { abbr: "VLANF", full: "VLAN Filtering", ctx: "Filtrage basé sur les VLANs au niveau L2" },
-      { abbr: "VRF", full: "Virtual Routing and Forwarding", ctx: "Isolation logique L3 : tables de routage independantes" },
+      { abbr: "VRF", full: "Virtual Routing and Forwarding", ctx: "Isolation logique L3 : tables de routage indépendantes" },
       { abbr: "VPP", full: "Vector Packet Processing", ctx: "Moteur haute-performance de traitement de paquets (FD.io)" },
       { abbr: "WAF", full: "Web Application Firewall", ctx: "Pare-feu applicatif (L7) pour les applications web" },
-      { abbr: "WAN", full: "Wide Area Network", ctx: "Reseau etendu (ex : Internet, connexion inter-sites)" },
-      { abbr: "WARP", full: "Webassembly Runtime for Python", ctx: "Runtime WebAssembly (non securite directe)" },
-      { abbr: "WAZUH", full: "SIEM/XDR Open-Source", ctx: "Plateforme de securite combinant SIEM et XDR" },
-      { abbr: "WEP", full: "Wired Equivalent Privacy", ctx: "Chiffrement WiFi ancien (DEPRECIE)" },
+      { abbr: "WAN", full: "Wide Area Network", ctx: "Réseau étendu (ex : Internet, connexion inter-sites)" },
+      { abbr: "WARP", full: "Webassembly Runtime for Python", ctx: "Runtime WebAssembly (non sécurité directe)" },
+      { abbr: "WAZUH", full: "SIEM/XDR Open-Source", ctx: "Plateforme de sécurité combinant SIEM et XDR" },
+      { abbr: "WEP", full: "Wired Equivalent Privacy", ctx: "Chiffrement WiFi ancien (DEPRECIÉ)" },
       { abbr: "WHOIS", full: "WHOIS Protocol", ctx: "Protocole de recherche d'information sur les domaines (port 43)" },
       { abbr: "WSGI", full: "Web Server Gateway Interface", ctx: "Interface Python pour serveurs web" },
       { abbr: "X.509", full: "X.509 Certificate Standard", ctx: "Standard de certificats digitaux (PKI)" },
       { abbr: "XFF", full: "X-Forwarded-For", ctx: "En-tete HTTP indiquant l'IP cliente derriere un proxy" },
       { abbr: "XSS", full: "Cross-Site Scripting", ctx: "Injection de code JavaScript dans une page (OWASP Top 10)" },
-      { abbr: "XST", full: "Cross-Site Tracing", ctx: "Attaque exploitant la methode TRACE (heritiere de XSS)" },
+      { abbr: "XST", full: "Cross-Site Tracing", ctx: "Attaque exploitant la méthode TRACE (héritière de XSS)" },
       { abbr: "YAML", full: "YAML Ain't Markup Language", ctx: "Format de fichier de configuration (human-readable)" },
-      { abbr: "YARA", full: "Yet Another Recursive Acronym", ctx: "Langage de detection d'patterns de malwares (Wazuh, MISP)" },
-      { abbr: "ZEN", full: "Zen IDS/IPS Ruleset", ctx: "Ensemble de regles pour Suricata (IDS/IPS)" },
-      { abbr: "ZERO-DAY", full: "Vulnerability Not Yet Patched", ctx: "Vulnerabilite inconnue du vendeur (exploit anonyme)" },
-      { abbr: "ZONING", full: "Network Zoning", ctx: "Division du reseau en zones de securite basees sur VLAN/DMZ" }
+      { abbr: "YARA", full: "Yet Another Recursive Acronym", ctx: "Langage de détection d'patterns de malwares (Wazuh, MISP)" },
+      { abbr: "ZEN", full: "Zen IDS/IPS Ruleset", ctx: "Ensemble de règles pour Suricata (IDS/IPS)" },
+      { abbr: "ZERO-DAY", full: "Vulnerability Not Yet Patched", ctx: "Vulnérabilité inconnue du vendeur (exploit anonyme)" },
+      { abbr: "ZONING", full: "Network Zoning", ctx: "Division du réseau en zones de sécurité basees sur VLAN/DMZ" }
     ]
   }
 };
 
+
+
 // =============================================
-// RENDERING FUNCTIONS
+// RENDERING — Families, ANSSI, Abbreviations
 // =============================================
 
 function renderFamilies() {
   const container = document.getElementById('familiesContainer');
   container.innerHTML = '';
+  families.forEach((family) => {
+    const group = document.createElement('div');
+    group.className = 'family-group';
+    group.setAttribute('data-family', family.name);
+    group.style.setProperty('--fam-color', family.color);
 
-  families.forEach((family, index) => {
-    const groupDiv = document.createElement('div');
-    groupDiv.className = 'family-group';
-    groupDiv.setAttribute('data-family', family.name);
+    const header = document.createElement('div');
+    header.className = 'family-header';
+    const title = document.createElement('h2');
+    title.className = 'family-title';
+    title.textContent = family.name;
+    title.style.color = family.color;
+    header.appendChild(title);
+    const session = document.createElement('span');
+    session.className = 'family-session';
+    session.textContent = family.sessions;
+    session.style.color = family.color;
+    header.appendChild(session);
+    group.appendChild(header);
 
-    const titleDiv = document.createElement('div');
-    titleDiv.className = 'family-title';
-    titleDiv.setAttribute('style', `--fam-color: ${family.color}`);
-    titleDiv.textContent = family.name;
-    groupDiv.appendChild(titleDiv);
-
-    const sessionDiv = document.createElement('div');
-    sessionDiv.className = 'family-session';
-    sessionDiv.setAttribute('style', `color: ${family.color}`);
-    sessionDiv.textContent = family.sessions;
-    groupDiv.appendChild(sessionDiv);
-
-    const cardsGrid = document.createElement('div');
-    cardsGrid.className = 'cards-grid';
+    const grid = document.createElement('div');
+    grid.className = 'cards-grid';
 
     family.cards.forEach(card => {
-      const cardDiv = document.createElement('div');
-      cardDiv.className = 'card';
-      cardDiv.setAttribute('style', `--fam-color: ${family.color}; --card-bg-color: ${family.bg}`);
-      cardDiv.setAttribute('data-search', `${card.name} ${card.aka} ${card.desc} ${card.example}`.toLowerCase());
+      const el = document.createElement('article');
+      el.className = 'card';
+      el.style.setProperty('--fam-color', family.color);
+      if (family.bg) el.style.setProperty('--card-bg-color', family.bg + '55'); // 55 = ~33% opacity hex
+      el.setAttribute('data-search', (card.name + ' ' + card.aka + ' ' + card.desc + ' ' + card.example).toLowerCase());
 
-      const tagDiv = document.createElement('div');
-      tagDiv.className = 'card-session-tag';
-      tagDiv.textContent = family.sessions;
-      cardDiv.appendChild(tagDiv);
+      const top = document.createElement('div');
+      top.className = 'card-top';
+      const name = document.createElement('div');
+      name.className = 'card-name';
+      name.textContent = card.name;
+      top.appendChild(name);
+      const tag = document.createElement('span');
+      tag.className = 'card-session-tag';
+      tag.textContent = family.sessions;
+      top.appendChild(tag);
+      el.appendChild(top);
 
-      const nameDiv = document.createElement('div');
-      nameDiv.className = 'card-name';
-      nameDiv.textContent = card.name;
-      cardDiv.appendChild(nameDiv);
+      const aka = document.createElement('div');
+      aka.className = 'card-aka';
+      aka.textContent = card.aka;
+      el.appendChild(aka);
 
-      const akaDiv = document.createElement('div');
-      akaDiv.className = 'card-aka';
-      akaDiv.textContent = card.aka;
-      cardDiv.appendChild(akaDiv);
+      const desc = document.createElement('div');
+      desc.className = 'card-desc';
+      desc.textContent = card.desc;
+      el.appendChild(desc);
 
-      const descDiv = document.createElement('div');
-      descDiv.className = 'card-desc';
-      descDiv.textContent = card.desc;
-      cardDiv.appendChild(descDiv);
+      if (card.example) {
+        const ex = document.createElement('div');
+        ex.className = 'card-example';
+        ex.textContent = card.example;
+        el.appendChild(ex);
+      }
 
-      const exampleDiv = document.createElement('div');
-      exampleDiv.className = 'card-example';
-      exampleDiv.textContent = card.example;
-      cardDiv.appendChild(exampleDiv);
-
-      cardsGrid.appendChild(cardDiv);
+      grid.appendChild(el);
     });
 
-    groupDiv.appendChild(cardsGrid);
-    container.appendChild(groupDiv);
+    group.appendChild(grid);
+    container.appendChild(group);
   });
-
   renderFilterPills();
 }
 
 function renderFilterPills() {
-  const pillsDiv = document.getElementById('filterPills');
-  pillsDiv.innerHTML = '';
+  const pills = document.getElementById('filterPills');
+  pills.innerHTML = '';
+  const allPill = document.createElement('button');
+  allPill.className = 'filter-pill active';
+  allPill.textContent = 'Toutes';
+  allPill.onclick = () => {
+    document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+    allPill.classList.add('active');
+    filterContent();
+  };
+  pills.appendChild(allPill);
 
   families.forEach(family => {
     const pill = document.createElement('button');
     pill.className = 'filter-pill';
     pill.textContent = family.name;
-    pill.onclick = () => filterByFamily(family.name, pill);
-    pillsDiv.appendChild(pill);
+    pill.onclick = () => {
+      document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+      filterContent();
+    };
+    pills.appendChild(pill);
   });
 }
 
 function renderANSSI() {
   const container = document.getElementById('anssiContainer');
   container.innerHTML = '';
-
   anssiGuides.forEach(guide => {
-    const sectionDiv = document.createElement('div');
-    sectionDiv.className = 'anssi-section';
-    sectionDiv.setAttribute('data-search', guide.title.toLowerCase());
-
-    const headerDiv = document.createElement('div');
-    headerDiv.className = 'anssi-guide-header';
-    headerDiv.textContent = `Guide ${guide.guide}: ${guide.title}`;
-    sectionDiv.appendChild(headerDiv);
+    const section = document.createElement('div');
+    section.className = 'anssi-section';
+    section.setAttribute('data-search', guide.title.toLowerCase());
+    const header = document.createElement('h2');
+    header.className = 'anssi-guide-header';
+    header.textContent = 'Guide ' + guide.guide + ' — ' + guide.title;
+    section.appendChild(header);
 
     guide.recommendations.forEach(rec => {
-      const recDiv = document.createElement('div');
-      recDiv.className = 'anssi-recommendation';
-      recDiv.setAttribute('data-search', `${rec.title} ${rec.desc} ${rec.ref}`.toLowerCase());
-
-      const priorityBadge = document.createElement('div');
-      priorityBadge.className = `anssi-priority-badge anssi-priority-${rec.priority.toLowerCase().replace('-', '')}`;
-      priorityBadge.textContent = rec.priority;
-      recDiv.appendChild(priorityBadge);
-
-      const contentDiv = document.createElement('div');
-      contentDiv.className = 'anssi-rec-content';
-
-      const titleDiv = document.createElement('div');
-      titleDiv.className = 'anssi-rec-title';
-      titleDiv.textContent = rec.title;
-      contentDiv.appendChild(titleDiv);
-
-      const descDiv = document.createElement('div');
-      descDiv.className = 'anssi-rec-desc';
-      descDiv.textContent = rec.desc;
-      contentDiv.appendChild(descDiv);
-
-      const refDiv = document.createElement('div');
-      refDiv.className = 'anssi-rec-ref';
-      refDiv.textContent = rec.ref;
-      contentDiv.appendChild(refDiv);
-
-      recDiv.appendChild(contentDiv);
-      sectionDiv.appendChild(recDiv);
+      const el = document.createElement('div');
+      el.className = 'anssi-recommendation';
+      el.setAttribute('data-search', (rec.title + ' ' + rec.desc + ' ' + rec.ref).toLowerCase());
+      const badge = document.createElement('div');
+      badge.className = 'anssi-priority-badge anssi-priority-' + rec.priority.toLowerCase().replace('-', '');
+      badge.textContent = rec.priority.replace('Recommande', 'Recommandé').replace('Renforce', 'Renforcé');
+      el.appendChild(badge);
+      const content = document.createElement('div');
+      const t = document.createElement('div'); t.className = 'anssi-rec-title'; t.textContent = rec.title;
+      const d = document.createElement('div'); d.className = 'anssi-rec-desc'; d.textContent = rec.desc;
+      const r = document.createElement('div'); r.className = 'anssi-rec-ref'; r.textContent = rec.ref;
+      content.appendChild(t); content.appendChild(d); content.appendChild(r);
+      el.appendChild(content);
+      section.appendChild(el);
     });
-
-    container.appendChild(sectionDiv);
+    container.appendChild(section);
   });
 }
 
 function renderAbbreviations() {
   const container = document.getElementById('abbrContainer');
   container.innerHTML = '';
-
   Object.entries(abbreviations).forEach(([key, category]) => {
-    const categoryDiv = document.createElement('div');
-    categoryDiv.className = 'abbr-category';
-    categoryDiv.setAttribute('data-search', category.label.toLowerCase());
+    const div = document.createElement('div');
+    div.className = 'abbr-category';
+    div.setAttribute('data-search', category.label.toLowerCase());
+    const title = document.createElement('h2'); title.className = 'abbr-category-title'; title.textContent = category.label;
+    const desc = document.createElement('div'); desc.className = 'abbr-category-desc'; desc.textContent = category.desc;
+    div.appendChild(title); div.appendChild(desc);
 
-    const titleDiv = document.createElement('div');
-    titleDiv.className = 'abbr-category-title';
-    titleDiv.textContent = category.label;
-    categoryDiv.appendChild(titleDiv);
-
-    const descDiv = document.createElement('div');
-    descDiv.className = 'abbr-category-desc';
-    descDiv.textContent = category.desc;
-    categoryDiv.appendChild(descDiv);
-
-    const table = document.createElement('table');
-    table.className = 'abbr-table';
-
+    const tableWrap = document.createElement('div'); tableWrap.className = 'abbr-table-wrap';
+    const table = document.createElement('table'); table.className = 'abbr-table';
     const thead = document.createElement('thead');
-    const headerRow = document.createElement('tr');
-    const headers = ['Abreviation', 'Terme Complet', 'Contexte'];
-    headers.forEach(h => {
-      const th = document.createElement('th');
-      th.textContent = h;
-      headerRow.appendChild(th);
-    });
-    thead.appendChild(headerRow);
-    table.appendChild(thead);
-
+    const hr = document.createElement('tr');
+    ['Abréviation','Terme Complet','Contexte'].forEach(h => { const th = document.createElement('th'); th.textContent = h; hr.appendChild(th); });
+    thead.appendChild(hr); table.appendChild(thead);
     const tbody = document.createElement('tbody');
     category.items.forEach(item => {
       const row = document.createElement('tr');
-      row.setAttribute('data-search', `${item.abbr} ${item.full} ${item.ctx}`.toLowerCase());
-
-      const abbrTd = document.createElement('td');
-      abbrTd.textContent = item.abbr;
-      row.appendChild(abbrTd);
-
-      const fullTd = document.createElement('td');
-      fullTd.textContent = item.full;
-      row.appendChild(fullTd);
-
-      const ctxTd = document.createElement('td');
-      ctxTd.textContent = item.ctx;
-      row.appendChild(ctxTd);
-
+      row.setAttribute('data-search', (item.abbr + ' ' + item.full + ' ' + item.ctx).toLowerCase());
+      [item.abbr, item.full, item.ctx].forEach(val => { const td = document.createElement('td'); td.textContent = val; row.appendChild(td); });
       tbody.appendChild(row);
     });
-    table.appendChild(tbody);
-
-    categoryDiv.appendChild(table);
-    container.appendChild(categoryDiv);
+    table.appendChild(tbody); tableWrap.appendChild(table); div.appendChild(tableWrap);
+    container.appendChild(div);
   });
 }
+
+// =============================================
+// NAVIGATION & FILTERING
+// =============================================
+
+let currentView = 'families';
 
 function switchView(viewName) {
-  const views = document.querySelectorAll('.view-section');
-  views.forEach(v => v.classList.remove('active'));
+  currentView = viewName;
+  document.querySelectorAll('.view-section').forEach(v => v.classList.remove('active'));
   document.getElementById(viewName + '-view').classList.add('active');
-
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active', 'active-accent'));
   const tabs = document.querySelectorAll('.nav-tab');
-  tabs.forEach(t => {
-    t.classList.remove('active', 'active-anssi', 'active-abbr');
-  });
+  if (viewName === 'families') tabs[0].classList.add('active');
+  else if (viewName === 'anssi') tabs[1].classList.add('active-accent');
+  else if (viewName === 'abbr') tabs[2].classList.add('active');
+  else if (viewName === 'quiz') tabs[3].classList.add('active');
 
-  if (viewName === 'families') {
-    tabs[0].classList.add('active');
-  } else if (viewName === 'anssi') {
-    tabs[1].classList.add('active-anssi');
-  } else if (viewName === 'abbr') {
-    tabs[2].classList.add('active-abbr');
+  const controlsBar = document.getElementById('controlsBar');
+  controlsBar.style.display = (viewName === 'quiz') ? 'none' : 'flex';
+
+  if (viewName === 'quiz' && !quizInitialized) {
+    renderQuizHome();
+    quizInitialized = true;
   }
-
-  filterContent();
-}
-
-function filterByFamily(familyName, pillElement) {
-  const pills = document.querySelectorAll('.filter-pill');
-  pills.forEach(p => p.classList.remove('active'));
-  pillElement.classList.add('active');
-  filterContent();
+  if (viewName !== 'quiz') filterContent();
 }
 
 function filterContent() {
-  const searchQuery = document.getElementById('searchInput').value.toLowerCase();
-  const activeView = document.querySelector('.view-section.active').id;
-  let visibleCount = 0;
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  const view = document.querySelector('.view-section.active').id;
+  let count = 0;
 
-  if (activeView === 'families-view') {
+  if (view === 'families-view') {
     const activePill = document.querySelector('.filter-pill.active');
-    const selectedFamily = activePill ? activePill.textContent : null;
-
+    const selected = activePill ? activePill.textContent : 'Toutes';
     document.querySelectorAll('.family-group').forEach(group => {
-      const familyName = group.getAttribute('data-family');
-      let isVisible = !selectedFamily || familyName === selectedFamily;
-
-      if (isVisible) {
+      const fname = group.getAttribute('data-family');
+      let vis = (selected === 'Toutes' || fname === selected);
+      if (vis) {
         group.querySelectorAll('.card').forEach(card => {
-          const searchAttr = card.getAttribute('data-search');
-          const matches = !searchQuery || searchAttr.includes(searchQuery);
-          card.style.display = matches ? '' : 'none';
-          if (matches) visibleCount++;
+          const m = !q || card.getAttribute('data-search').includes(q);
+          card.style.display = m ? '' : 'none';
+          if (m) count++;
         });
         group.style.display = group.querySelectorAll('.card:not([style*="none"])').length > 0 ? '' : 'none';
       } else {
         group.style.display = 'none';
       }
     });
-  } else if (activeView === 'anssi-view') {
+  } else if (view === 'anssi-view') {
     document.querySelectorAll('.anssi-recommendation').forEach(rec => {
-      const searchAttr = rec.getAttribute('data-search');
-      const matches = !searchQuery || searchAttr.includes(searchQuery);
-      rec.style.display = matches ? '' : 'none';
-      if (matches) visibleCount++;
+      const m = !q || rec.getAttribute('data-search').includes(q);
+      rec.style.display = m ? '' : 'none';
+      if (m) count++;
     });
-
-    document.querySelectorAll('.anssi-section').forEach(section => {
-      const hasVisibleRecs = section.querySelectorAll('.anssi-recommendation:not([style*="none"])').length > 0;
-      section.style.display = hasVisibleRecs ? '' : 'none';
+    document.querySelectorAll('.anssi-section').forEach(s => {
+      s.style.display = s.querySelectorAll('.anssi-recommendation:not([style*="none"])').length > 0 ? '' : 'none';
     });
-  } else if (activeView === 'abbr-view') {
-    document.querySelectorAll('.abbr-category').forEach(category => {
-      category.querySelectorAll('tbody tr').forEach(row => {
-        const searchAttr = row.getAttribute('data-search');
-        const matches = !searchQuery || searchAttr.includes(searchQuery);
-        row.style.display = matches ? 'table-row' : 'none';
-        if (matches) visibleCount++;
+  } else if (view === 'abbr-view') {
+    document.querySelectorAll('.abbr-category').forEach(cat => {
+      cat.querySelectorAll('tbody tr').forEach(row => {
+        const m = !q || row.getAttribute('data-search').includes(q);
+        row.style.display = m ? 'table-row' : 'none';
+        if (m) count++;
       });
-
-      const hasVisibleRows = category.querySelectorAll('tbody tr:not([style*="none"])').length > 0;
-      category.style.display = hasVisibleRows ? '' : 'none';
+      cat.style.display = cat.querySelectorAll('tbody tr:not([style*="none"])').length > 0 ? '' : 'none';
     });
   }
-
-  document.getElementById('resultCount').textContent = visibleCount;
+  document.getElementById('resultCount').textContent = count;
 }
+
+// =============================================
+// QUIZ ENGINE — Wooclap-style local quiz
+// =============================================
+
+let quizInitialized = false;
+let quizState = {
+  mode: null,
+  questions: [],
+  currentIndex: 0,
+  score: 0,
+  answers: [],
+  timer: null,
+  timeLeft: 0,
+  questionCount: 10,
+  sessionFilter: 'all',
+  timerEnabled: true
+};
+
+function getAllCards() {
+  let cards = [];
+  families.forEach(f => {
+    f.cards.forEach(c => {
+      cards.push({ ...c, family: f.name, sessions: f.sessions, color: f.color });
+    });
+  });
+  return cards;
+}
+
+function getAllAbbreviations() {
+  let abbrs = [];
+  Object.values(abbreviations).forEach(cat => {
+    cat.items.forEach(item => abbrs.push({ ...item, level: cat.label }));
+  });
+  return abbrs;
+}
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function filterBySession(items) {
+  if (quizState.sessionFilter === 'all') return items;
+  return items.filter(item => {
+    const s = item.sessions || '';
+    return s.includes(quizState.sessionFilter);
+  });
+}
+
+// Generate questions based on mode
+function generateMCQ(count) {
+  const cards = shuffle(filterBySession(getAllCards()));
+  const questions = [];
+  for (let i = 0; i < Math.min(count, cards.length); i++) {
+    const card = cards[i];
+    const others = cards.filter(c => c.name !== card.name);
+    const distractors = shuffle(others).slice(0, 3).map(c => c.desc.split('.')[0]);
+    const correctAnswer = card.desc.split('.')[0];
+    const options = shuffle([
+      { text: correctAnswer, correct: true },
+      ...distractors.map(d => ({ text: d, correct: false }))
+    ]);
+    questions.push({
+      type: 'mcq',
+      question: 'Quelle est la définition de "' + card.name + '" (' + card.aka + ') ?',
+      options,
+      explanation: card.desc,
+      family: card.family
+    });
+  }
+  return questions;
+}
+
+function generateTrueFalse(count) {
+  const cards = shuffle(filterBySession(getAllCards()));
+  const questions = [];
+  for (let i = 0; i < Math.min(count, cards.length); i++) {
+    const card = cards[i];
+    const isTrue = Math.random() > 0.5;
+    let statement, correct;
+    if (isTrue) {
+      statement = '"' + card.name + '" correspond à : ' + card.aka;
+      correct = true;
+    } else {
+      const other = cards.find(c => c.name !== card.name);
+      if (!other) continue;
+      statement = '"' + card.name + '" correspond à : ' + other.aka;
+      correct = false;
+    }
+    questions.push({
+      type: 'truefalse',
+      question: statement,
+      correct,
+      explanation: card.name + ' = ' + card.aka + '. ' + card.desc.split('.')[0] + '.',
+      family: card.family
+    });
+  }
+  return questions;
+}
+
+function generateFillBlank(count) {
+  const abbrs = shuffle(getAllAbbreviations());
+  const questions = [];
+  for (let i = 0; i < Math.min(count, abbrs.length); i++) {
+    const abbr = abbrs[i];
+    questions.push({
+      type: 'fillblank',
+      question: 'À quoi correspond l\'abréviation "' + abbr.abbr + '" ?',
+      answer: abbr.full,
+      acceptedAnswers: [abbr.full.toLowerCase(), abbr.abbr.toLowerCase()],
+      hint: abbr.ctx,
+      level: abbr.level
+    });
+  }
+  return questions;
+}
+
+function generateMatching(count) {
+  const cards = shuffle(filterBySession(getAllCards()));
+  const questions = [];
+  const batchSize = 4;
+  const batches = Math.min(count, Math.floor(cards.length / batchSize));
+  for (let b = 0; b < batches; b++) {
+    const batch = cards.slice(b * batchSize, (b + 1) * batchSize);
+    questions.push({
+      type: 'matching',
+      question: 'Associez chaque concept à son equivalent anglais :',
+      pairs: batch.map(c => ({ left: c.name, right: c.aka })),
+    });
+  }
+  return questions;
+}
+
+function generateMixed(count) {
+  const perType = Math.ceil(count / 4);
+  const all = [
+    ...generateMCQ(perType),
+    ...generateTrueFalse(perType),
+    ...generateFillBlank(perType),
+    ...generateMatching(Math.max(2, Math.floor(perType / 2)))
+  ];
+  return shuffle(all).slice(0, count);
+}
+
+// =============================================
+// QUIZ UI
+// =============================================
+
+function renderQuizHome() {
+  const container = document.getElementById('quizContainer');
+  container.innerHTML = `
+    <div class="quiz-home">
+      <div style="text-align:center;max-width:500px;">
+        <h2 style="font-size:var(--text-xl);font-weight:700;margin-bottom:var(--space-2);">Quiz Cybersécurité</h2>
+        <p style="color:var(--color-text-muted);font-size:var(--text-sm);">
+          Testez vos connaissances sur les concepts, abréviations et recommandations ANSSI.
+          Les questions sont générées automatiquement depuis l'encyclopédie.
+        </p>
+      </div>
+      <div class="quiz-modes">
+        <button class="quiz-mode-card" onclick="showQuizConfig('mcq')">
+          <div class="quiz-mode-icon" style="background:var(--color-primary-highlight);color:var(--color-primary);">✦</div>
+          <div class="quiz-mode-title">QCM</div>
+          <div class="quiz-mode-desc">Questions à choix multiples sur les définitions des concepts.</div>
+          <div class="quiz-mode-meta">${getAllCards().length} concepts disponibles</div>
+        </button>
+        <button class="quiz-mode-card" onclick="showQuizConfig('truefalse')">
+          <div class="quiz-mode-icon" style="background:var(--color-success-bg);color:var(--color-success);">⇌</div>
+          <div class="quiz-mode-title">Vrai / Faux</div>
+          <div class="quiz-mode-desc">Validez si une association concept ↔ terme anglais est correcte.</div>
+          <div class="quiz-mode-meta">Rapide et efficace</div>
+        </button>
+        <button class="quiz-mode-card" onclick="showQuizConfig('fillblank')">
+          <div class="quiz-mode-icon" style="background:var(--color-warning-bg);color:var(--color-warning);">_</div>
+          <div class="quiz-mode-title">Texte libre</div>
+          <div class="quiz-mode-desc">Retrouvez le terme complet d'une abréviation (${getAllAbbreviations().length} acronymes).</div>
+          <div class="quiz-mode-meta">Niveau expert</div>
+        </button>
+        <button class="quiz-mode-card" onclick="showQuizConfig('matching')">
+          <div class="quiz-mode-icon" style="background:var(--color-accent-highlight);color:var(--color-accent);">≡</div>
+          <div class="quiz-mode-title">Association</div>
+          <div class="quiz-mode-desc">Reliez chaque concept à son equivalent anglais par lot de 4.</div>
+          <div class="quiz-mode-meta">Matching interactif</div>
+        </button>
+        <button class="quiz-mode-card" onclick="showQuizConfig('mixed')" style="grid-column:1/-1;">
+          <div class="quiz-mode-icon" style="background:oklch(0.5 0.15 280 / 0.15);color:oklch(0.7 0.15 280);">⚡</div>
+          <div class="quiz-mode-title">Mix — Toutes les questions</div>
+          <div class="quiz-mode-desc">Un mélange aléatoire de tous les types de questions. Le défi ultime !</div>
+          <div class="quiz-mode-meta">QCM + Vrai/Faux + Texte libre + Association</div>
+        </button>
+      </div>
+    </div>
+  `;
+}
+
+function showQuizConfig(mode) {
+  quizState.mode = mode;
+  const container = document.getElementById('quizContainer');
+  const modeNames = { mcq: 'QCM', truefalse: 'Vrai / Faux', fillblank: 'Texte libre', matching: 'Association', mixed: 'Mix' };
+  container.innerHTML = `
+    <div class="quiz-config">
+      <div style="display:flex;align-items:center;gap:var(--space-3);">
+        <button class="btn-secondary" onclick="renderQuizHome()" aria-label="Retour">← Retour</button>
+        <h3>${modeNames[mode]}</h3>
+      </div>
+      <div class="config-group">
+        <div class="config-label">Nombre de questions</div>
+        <div class="config-options" id="countOptions">
+          <button class="config-option" onclick="selectOption(this,'count','5')">5</button>
+          <button class="config-option active" onclick="selectOption(this,'count','10')">10</button>
+          <button class="config-option" onclick="selectOption(this,'count','20')">20</button>
+          <button class="config-option" onclick="selectOption(this,'count','30')">30</button>
+        </div>
+      </div>
+      <div class="config-group">
+        <div class="config-label">Session</div>
+        <div class="config-options" id="sessionOptions">
+          <button class="config-option active" onclick="selectOption(this,'session','all')">Toutes</button>
+          <button class="config-option" onclick="selectOption(this,'session','S1')">S1</button>
+          <button class="config-option" onclick="selectOption(this,'session','S2')">S2</button>
+          <button class="config-option" onclick="selectOption(this,'session','S3')">S3</button>
+        </div>
+      </div>
+      <div class="config-group">
+        <div class="config-label">Chronomètre (30s par question)</div>
+        <div class="config-options" id="timerOptions">
+          <button class="config-option active" onclick="selectOption(this,'timer','on')">Actif</button>
+          <button class="config-option" onclick="selectOption(this,'timer','off')">Désactivé</button>
+        </div>
+      </div>
+      <button class="btn-primary" onclick="startQuiz()" style="margin-top:var(--space-2);">Lancer le Quiz →</button>
+    </div>
+  `;
+}
+
+function selectOption(btn, type, value) {
+  const parent = btn.parentElement;
+  parent.querySelectorAll('.config-option').forEach(o => o.classList.remove('active'));
+  btn.classList.add('active');
+  if (type === 'count') quizState.questionCount = parseInt(value);
+  else if (type === 'session') quizState.sessionFilter = value;
+  else if (type === 'timer') quizState.timerEnabled = (value === 'on');
+}
+
+function startQuiz() {
+  const mode = quizState.mode;
+  const count = quizState.questionCount;
+  let questions;
+  if (mode === 'mcq') questions = generateMCQ(count);
+  else if (mode === 'truefalse') questions = generateTrueFalse(count);
+  else if (mode === 'fillblank') questions = generateFillBlank(count);
+  else if (mode === 'matching') questions = generateMatching(count);
+  else questions = generateMixed(count);
+
+  if (questions.length === 0) {
+    alert('Pas assez de données pour ce filtre. Essayez "Toutes" les sessions.');
+    return;
+  }
+
+  quizState.questions = questions;
+  quizState.currentIndex = 0;
+  quizState.score = 0;
+  quizState.answers = [];
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const q = quizState.questions[quizState.currentIndex];
+  const total = quizState.questions.length;
+  const progress = ((quizState.currentIndex) / total) * 100;
+  const container = document.getElementById('quizContainer');
+
+  let timerHTML = '';
+  if (quizState.timerEnabled) {
+    timerHTML = '<div class="quiz-timer" id="quizTimer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> <span id="timerDisplay">30</span>s</div>';
+  }
+
+  let answersHTML = '';
+  if (q.type === 'mcq') {
+    const keys = ['A', 'B', 'C', 'D'];
+    answersHTML = '<div class="quiz-answers">' + q.options.map((opt, i) =>
+      '<button class="quiz-answer-btn" onclick="answerMCQ(this,' + i + ')" data-correct="' + opt.correct + '">' +
+      '<span class="quiz-answer-key" title="Raccourci : ' + keys[i] + '">' + keys[i] + '</span>' + opt.text + '</button>'
+    ).join('') + '</div>';
+  } else if (q.type === 'truefalse') {
+    answersHTML = '<div class="quiz-answers">' +
+      '<button class="quiz-answer-btn" onclick="answerTF(this,true)" data-correct="' + q.correct + '"><span class="quiz-answer-key">V</span>Vrai</button>' +
+      '<button class="quiz-answer-btn" onclick="answerTF(this,false)" data-correct="' + (!q.correct) + '"><span class="quiz-answer-key">F</span>Faux</button>' +
+      '</div>';
+  } else if (q.type === 'fillblank') {
+    answersHTML = '<div class="quiz-answers">' +
+      '<input type="text" class="quiz-input-answer" id="fillInput" placeholder="Tapez votre réponse..." onkeydown="if(event.key===\'Enter\')answerFill()">' +
+      '<p style="font-size:var(--text-xs);color:var(--color-text-faint);margin-top:var(--space-1);">Indice : ' + (q.hint || '') + '</p>' +
+      '<button class="quiz-submit-btn" onclick="answerFill()">Valider</button>' +
+      '</div>';
+  } else if (q.type === 'matching') {
+    const shuffledRights = shuffle(q.pairs.map(p => p.right));
+    answersHTML = '<div class="quiz-matching">' +
+      q.pairs.map((p, i) =>
+        '<div class="quiz-match-row">' +
+        '<div class="quiz-match-left">' + p.left + '</div>' +
+        '<span class="quiz-match-arrow">→</span>' +
+        '<select class="quiz-match-select" data-answer="' + p.right + '">' +
+        '<option value="">Choisir...</option>' +
+        shuffledRights.map(r => '<option value="' + r + '">' + r + '</option>').join('') +
+        '</select></div>'
+      ).join('') +
+      '<button class="quiz-submit-btn" onclick="answerMatching()">Valider</button>' +
+      '</div>';
+  }
+
+  const typeLabels = { mcq: 'QCM', truefalse: 'Vrai / Faux', fillblank: 'Texte libre', matching: 'Association' };
+
+  container.innerHTML = `
+    <div class="quiz-game">
+      <div class="quiz-progress-bar"><div class="quiz-progress-fill" style="width:${progress}%"></div></div>
+      <div class="quiz-header">
+        <span class="quiz-question-num">Question ${quizState.currentIndex + 1} / ${total}</span>
+        ${timerHTML}
+      </div>
+      <div class="quiz-question-card">
+        <div class="quiz-question-type">${typeLabels[q.type] || q.type}</div>
+        <div class="quiz-question-text">${q.question}</div>
+        ${answersHTML}
+        <div class="quiz-feedback" id="quizFeedback"></div>
+        <button class="quiz-next-btn" id="quizNextBtn" onclick="nextQuestion()">
+          ${quizState.currentIndex < total - 1 ? 'Question suivante →' : 'Voir les résultats →'}
+        </button>
+      </div>
+    </div>
+  `;
+
+  if (quizState.timerEnabled) startTimer();
+  if (q.type === 'fillblank') {
+    setTimeout(() => { const inp = document.getElementById('fillInput'); if (inp) inp.focus(); }, 100);
+  }
+}
+
+// Timer
+function startTimer() {
+  quizState.timeLeft = 30;
+  clearInterval(quizState.timer);
+  const display = document.getElementById('timerDisplay');
+  const timerEl = document.getElementById('quizTimer');
+  if (!display) return;
+
+  quizState.timer = setInterval(() => {
+    quizState.timeLeft--;
+    if (display) display.textContent = quizState.timeLeft;
+    if (timerEl) {
+      timerEl.classList.remove('warning', 'danger');
+      if (quizState.timeLeft <= 5) timerEl.classList.add('danger');
+      else if (quizState.timeLeft <= 10) timerEl.classList.add('warning');
+    }
+    if (quizState.timeLeft <= 0) {
+      clearInterval(quizState.timer);
+      timeUp();
+    }
+  }, 1000);
+}
+
+function timeUp() {
+  const q = quizState.questions[quizState.currentIndex];
+  showFeedback(false, 'Temps écoulé ! ' + getExplanation(q));
+  quizState.answers.push(false);
+  disableAnswers();
+  // Auto-avance après 2.5 secondes
+  setTimeout(() => {
+    const nextBtn = document.getElementById('quizNextBtn');
+    if (nextBtn && nextBtn.classList.contains('show')) nextQuestion();
+  }, 2500);
+}
+
+function getExplanation(q) {
+  if (q.explanation) return q.explanation;
+  if (q.answer) return 'Réponse : ' + q.answer;
+  if (q.pairs) return 'Associations : ' + q.pairs.map(p => p.left + ' → ' + p.right).join(', ');
+  return '';
+}
+
+// Answer handlers
+function answerMCQ(btn, index) {
+  clearInterval(quizState.timer);
+  const q = quizState.questions[quizState.currentIndex];
+  const isCorrect = q.options[index].correct;
+  btn.classList.add(isCorrect ? 'correct' : 'wrong');
+  if (!isCorrect) {
+    document.querySelectorAll('.quiz-answer-btn').forEach(b => {
+      if (b.getAttribute('data-correct') === 'true') b.classList.add('correct');
+    });
+  }
+  disableAnswers();
+  if (isCorrect) quizState.score++;
+  quizState.answers.push(isCorrect);
+  showFeedback(isCorrect, isCorrect ? 'Bonne réponse !' : 'Mauvaise réponse. ' + q.explanation);
+}
+
+function answerTF(btn, answer) {
+  clearInterval(quizState.timer);
+  const q = quizState.questions[quizState.currentIndex];
+  const isCorrect = (answer === q.correct);
+  btn.classList.add(isCorrect ? 'correct' : 'wrong');
+  if (!isCorrect) {
+    document.querySelectorAll('.quiz-answer-btn').forEach(b => {
+      if (b.getAttribute('data-correct') === 'true') b.classList.add('correct');
+    });
+  }
+  disableAnswers();
+  if (isCorrect) quizState.score++;
+  quizState.answers.push(isCorrect);
+  showFeedback(isCorrect, isCorrect ? 'Bonne réponse !' : 'Mauvaise réponse. ' + q.explanation);
+}
+
+function answerFill() {
+  clearInterval(quizState.timer);
+  const q = quizState.questions[quizState.currentIndex];
+  const input = document.getElementById('fillInput');
+  if (!input) return;
+  const userAnswer = input.value.trim().toLowerCase();
+  const isCorrect = q.acceptedAnswers.some(a => {
+    const target = a.toLowerCase();
+    if (userAnswer === target) return true;
+    // partial match: at least 80% of words match
+    const userWords = userAnswer.split(/\s+/);
+    const targetWords = target.split(/\s+/);
+    let matches = 0;
+    targetWords.forEach(tw => { if (userWords.some(uw => tw.includes(uw) || uw.includes(tw))) matches++; });
+    return matches / targetWords.length >= 0.7;
+  });
+
+  input.classList.add(isCorrect ? 'correct' : 'wrong');
+  input.readOnly = true;
+  if (isCorrect) quizState.score++;
+  quizState.answers.push(isCorrect);
+  showFeedback(isCorrect, isCorrect ? 'Bonne réponse !' : 'Réponse attendue : ' + q.answer);
+}
+
+function answerMatching() {
+  clearInterval(quizState.timer);
+  const q = quizState.questions[quizState.currentIndex];
+  const selects = document.querySelectorAll('.quiz-match-select');
+  let allCorrect = true;
+  let correctCount = 0;
+  selects.forEach(select => {
+    const expected = select.getAttribute('data-answer');
+    const isCorrect = select.value === expected;
+    select.classList.add(isCorrect ? 'correct' : 'wrong');
+    select.disabled = true;
+    if (isCorrect) correctCount++;
+    else allCorrect = false;
+  });
+  const partialScore = correctCount / selects.length;
+  if (partialScore >= 0.5) quizState.score++;
+  quizState.answers.push(allCorrect);
+  const msg = allCorrect ? 'Parfait, toutes les associations sont correctes !' :
+    correctCount + '/' + selects.length + ' correct(es). ' + getExplanation(q);
+  showFeedback(allCorrect, msg);
+}
+
+function disableAnswers() {
+  document.querySelectorAll('.quiz-answer-btn').forEach(b => b.classList.add('disabled'));
+}
+
+function showFeedback(isCorrect, message) {
+  const fb = document.getElementById('quizFeedback');
+  if (fb) {
+    fb.className = 'quiz-feedback show ' + (isCorrect ? 'correct' : 'wrong');
+    fb.innerHTML = (isCorrect ? '✓ ' : '✗ ') + message;
+  }
+  const btn = document.getElementById('quizNextBtn');
+  if (btn) btn.classList.add('show');
+}
+
+function nextQuestion() {
+  quizState.currentIndex++;
+  if (quizState.currentIndex >= quizState.questions.length) {
+    renderResults();
+  } else {
+    renderQuestion();
+  }
+}
+
+function renderResults() {
+  clearInterval(quizState.timer);
+  const total = quizState.questions.length;
+  const score = quizState.score;
+  const pct = Math.round((score / total) * 100);
+  const circumference = 2 * Math.PI * 68;
+  const offset = circumference - (pct / 100) * circumference;
+  let color = 'var(--color-error)';
+  if (pct >= 80) color = 'var(--color-success)';
+  else if (pct >= 50) color = 'var(--color-warning)';
+
+  let grade = '';
+  if (pct >= 90) grade = 'Excellent !';
+  else if (pct >= 75) grade = 'Très bien !';
+  else if (pct >= 50) grade = 'Peut mieux faire';
+  else grade = 'À réviser...';
+
+  const container = document.getElementById('quizContainer');
+  container.innerHTML = `
+    <div class="quiz-results">
+      <div class="quiz-score-circle">
+        <svg viewBox="0 0 160 160">
+          <circle class="bg" cx="80" cy="80" r="68" fill="none" stroke-width="10"/>
+          <circle class="fill" cx="80" cy="80" r="68" fill="none" stroke="${color}" stroke-width="10"
+            stroke-dasharray="${circumference}" stroke-dashoffset="${offset}" stroke-linecap="round"/>
+        </svg>
+        <div class="quiz-score-text" style="color:${color}">${pct}%</div>
+      </div>
+      <h3>${grade}</h3>
+      <p class="quiz-results-detail">${score} bonne(s) réponse(s) sur ${total} questions</p>
+      <div class="quiz-results-grid">
+        <div class="quiz-stat">
+          <div class="quiz-stat-value" style="color:var(--color-success)">${score}</div>
+          <div class="quiz-stat-label">Correctes</div>
+        </div>
+        <div class="quiz-stat">
+          <div class="quiz-stat-value" style="color:var(--color-error)">${total - score}</div>
+          <div class="quiz-stat-label">Incorrectes</div>
+        </div>
+        <div class="quiz-stat">
+          <div class="quiz-stat-value">${pct}%</div>
+          <div class="quiz-stat-label">Score</div>
+        </div>
+      </div>
+      <div class="quiz-results-actions">
+        <button class="btn-primary" onclick="startQuiz()">Recommencer</button>
+        <button class="btn-secondary" onclick="renderQuizHome()">Autre mode</button>
+      </div>
+    </div>
+  `;
+}
+
+// =============================================
+// THEME TOGGLE
+// =============================================
+
+(function(){
+  const toggle = document.querySelector('[data-theme-toggle]');
+  const root = document.documentElement;
+  let theme = matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+  root.setAttribute('data-theme', theme);
+  updateToggleIcon();
+
+  toggle.addEventListener('click', () => {
+    theme = theme === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', theme);
+    updateToggleIcon();
+  });
+
+  function updateToggleIcon() {
+    toggle.innerHTML = theme === 'dark'
+      ? '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>'
+      : '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+    toggle.setAttribute('aria-label', 'Passer en mode ' + (theme === 'dark' ? 'clair' : 'sombre'));
+  }
+})();
 
 // =============================================
 // INITIALIZATION
 // =============================================
+
+
+
+// Keyboard shortcuts for quiz
+document.addEventListener('keydown', function(e) {
+  // Only active during quiz game
+  const gameEl = document.querySelector('.quiz-game');
+  if (!gameEl) return;
+  
+  const q = quizState.questions[quizState.currentIndex];
+  if (!q) return;
+  
+  // Check if answers are already disabled (question already answered)
+  const answered = document.querySelector('.quiz-answer-btn.disabled') || 
+                   document.querySelector('.quiz-input-answer[readonly]') ||
+                   document.querySelector('.quiz-match-select[disabled]');
+  
+  // Next question shortcut (Enter or Space when next button is visible)
+  const nextBtn = document.getElementById('quizNextBtn');
+  if (nextBtn && nextBtn.classList.contains('show') && (e.key === 'Enter' || e.key === ' ') && q.type !== 'fillblank') {
+    e.preventDefault();
+    nextQuestion();
+    return;
+  }
+  
+  if (answered) return;
+  
+  // MCQ: A/B/C/D or 1/2/3/4
+  if (q.type === 'mcq') {
+    const keyMap = { 'a': 0, 'b': 1, 'c': 2, 'd': 3, '1': 0, '2': 1, '3': 2, '4': 3 };
+    const idx = keyMap[e.key.toLowerCase()];
+    if (idx !== undefined && idx < q.options.length) {
+      e.preventDefault();
+      const btns = document.querySelectorAll('.quiz-answer-btn');
+      if (btns[idx]) answerMCQ(btns[idx], idx);
+    }
+  }
+  
+  // True/False: V/F or T/F
+  if (q.type === 'truefalse') {
+    const key = e.key.toLowerCase();
+    if (key === 'v' || key === 't') {
+      e.preventDefault();
+      const btns = document.querySelectorAll('.quiz-answer-btn');
+      if (btns[0]) answerTF(btns[0], true);
+    } else if (key === 'f') {
+      e.preventDefault();
+      const btns = document.querySelectorAll('.quiz-answer-btn');
+      if (btns[1]) answerTF(btns[1], false);
+    }
+  }
+});
 
 document.addEventListener('DOMContentLoaded', () => {
   renderFamilies();
@@ -1421,6 +2508,5 @@ document.addEventListener('DOMContentLoaded', () => {
   filterContent();
 });
 </script>
-
 </body>
 </html>
