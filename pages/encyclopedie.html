@@ -1192,7 +1192,7 @@ const families = [
     color: "#00B4D8", bg: "#0C353D",
     cards: [
       { name: "Défense en profondeur", aka: "Defense in Depth", desc: "Stratégie de sécurité superposant plusieurs couches de protection indépendantes. Si une couche échoue, les suivantes prennent le relais. Concept fondamental repris par l'ANSSI.", example: "7 couches : physique, réseau, hote, application, données, utilisateur, politique" },
-      { name: "Triade CIA", aka: "Confidentiality, Integrity, Availability", desc: "Les trois piliers fondamentaux de la sécurité de l'information : Confidentialite, Intégrité, Disponibilite. Extension ANSSI : DICP (Disponibilite, Intégrité, Confidentialite, Preuve).", example: "CIA + Preuve = DICP (référentiel ANSSI)" },
+      { name: "Triade CIA", aka: "Confidentiality, Integrity, Availability", desc: "Les trois piliers fondamentaux de la sécurité de l'information : Confidentialité, Intégrité, Disponibilité. Extension ANSSI : DICP (Disponibilité, Intégrité, Confidentialité, Preuve).", example: "CIA + Preuve = DICP (référentiel ANSSI)" },
       { name: "Surface d'attaque", aka: "Attack Surface", desc: "Ensemble des points d'entree exploitables sur un système : ports ouverts, services actifs, comptes utilisateurs, binaires SUID. Reduire la surface d'attaque est le premier objectif du hardening.", example: "ss -tlnp -> lister tous les ports TCP en écoute" },
       { name: "Principe du moindre privilege", aka: "Least Privilege", desc: "Chaque utilisateur, processus ou service ne doit disposer que des droits strictement nécessaires a son fonctionnement. Limite l'impact en cas de compromission.", example: "visudo : restreindre les commandes autorisées par utilisateur" },
       { name: "10 piliers du hardening", aka: "CIS / ANSSI / STIG", desc: "Les axes majeurs du durcissement Linux : installation minimale, mises a jour, comptes et mots de passe, sudo, SSH, pare-feu, sysctl, audit, intégrité fichiers, services.", example: "Debian netinstall + unattended-upgrades + nftables + auditd + AIDE" },
@@ -1313,7 +1313,7 @@ const families = [
     sessions: "S1+S2+S3",
     color: "#EB665D", bg: "#3D0F0C",
     cards: [
-      { name: "ANSSI", aka: "Agence Nationale SSI (France)", desc: "Autorite nationale en matiere de sécurité des systèmes d'information. Publie des guides de référence : PG-040 (cloisonnement), PA-066 (DMZ), PA-105 (DNS), BP-033/BP-094 (commutateurs).", example: "ANSSI PG-040 : la segmentation est un principe fondamental" },
+      { name: "ANSSI", aka: "Agence Nationale de la Sécurité des Systèmes d'Information", desc: "Autorité nationale en matière de sécurité des systèmes d'information. Publie des guides de référence : PG-040 (cloisonnement), PA-066 (DMZ), PA-105 (DNS), BP-033/BP-094 (commutateurs).", example: "ANSSI PG-040 : la segmentation est un principe fondamental" },
       { name: "CIS", aka: "Center for Internet Security", desc: "Organisation internationale publiant des benchmarks de sécurité par OS, application et service. Utilise par le module SCA de Wazuh pour évaluer la conformité.", example: "CIS Debian Linux Benchmark -> score SCA Wazuh" },
       { name: "MITRE ATT&CK", aka: "Adversarial Tactics & Techniques", desc: "Framework de tactiques et techniques d'attaque. Base des 4000+ règles intégrées Wazuh. Reference mondiale pour la classification des comportements adverses.", example: "T1078 Valid Accounts, T1059 Command and Scripting Interpreter" },
       { name: "STIG / DISA", aka: "Security Technical Implémentation Guides", desc: "Guides de sécurité du Department of Defense américain. Règles de durcissement détaillées par technologie. Plus strict que les benchmarks CIS.", example: "STIG Debian : restrictions supplémentaires sur les services" },
@@ -1494,7 +1494,7 @@ const abbreviations = {
     desc: "Termes d'infrastructure et sécurité, spécifiques aux domaines du hardening et réseaux.",
     items: [
       { abbr: "AIDE", full: "Advanced Intrusion Détection Environment", ctx: "Outil de contrôle d'intégrité des fichiers offline" },
-      { abbr: "ANSSI", full: "Agence Nationale de la Sécurité des Systèmes d'Information", ctx: "Autorite française de la cybersécurité" },
+      { abbr: "ANSSI", full: "Agence Nationale de la Sécurité des Systèmes d'Information", ctx: "Autorité française de la cybersécurité" },
       { abbr: "ARP", full: "Address Resolution Protocol", ctx: "Traduction adresses IP -> adresses MAC (L2)" },
       { abbr: "API", full: "Application Programming Interface", ctx: "Interface de programmation pour interagir avec un service" },
       { abbr: "BCP38", full: "Best Current Practice 38 (RFC 2827)", ctx: "Filtre Ingress pour empecher l'IP Spoofing" },
