@@ -43,7 +43,7 @@ header {
   flex-shrink: 0;
   gap: 16px;
 }
-.header-brand { display: flex; align-items: center; gap: 12px; }
+.header-brand { display: flex; align-items: center; gap: 12px; min-width: 0; flex-shrink: 1; overflow: hidden; }
 .brand-badge {
   font-family: var(--font-mono);
   font-size: 13px;
@@ -55,8 +55,8 @@ header {
   border: 1px solid rgba(0,180,216,0.3);
   letter-spacing: 0.05em;
 }
-.header-title { font-size: 14px; font-weight: 600; }
-.header-subtitle { font-size: 12px; color: var(--color-text-muted); }
+.header-title { font-size: 14px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.header-subtitle { font-size: 12px; color: var(--color-text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .search-wrap { position: relative; flex-shrink: 0; }
 .search-icon {
   position: absolute; left: 10px; top: 50%; transform: translateY(-50%);
@@ -941,18 +941,23 @@ function expand(id) {
   closePanel();
   document.getElementById('instructions').style.opacity = '0';
 
+  // Fixer TOUTES les categories a leur position courante pour eviter la derive
+  allNodes.forEach(n => { if (n.type === 'cat') { n.fx = n.x; n.fy = n.y; } });
+
   const catNode = allNodes.find(n => n.id === id);
   allNodes.forEach(n => {
     if (n.type !== 'atk') return;
     if (n.cat === id) {
+      // Relacher les noeuds de la categorie selectionnee pres de la categorie
       n.fx = null; n.fy = null;
       if (catNode) { n.x = catNode.x + (Math.random()-0.5)*20; n.y = catNode.y + (Math.random()-0.5)*20; }
     } else {
+      // Fixer les autres noeuds a la position actuelle de leur categorie (deja figee)
       const cn = allNodes.find(c => c.id === n.cat);
       if (cn) { n.fx = cn.x; n.fy = cn.y; }
     }
   });
-  sim.alpha(0.25).restart();
+  sim.alpha(0.22).restart();
   updateViz();
 }
 
@@ -961,12 +966,12 @@ function collapse() {
   closePanel();
   document.getElementById('instructions').style.opacity = '1';
   allNodes.forEach(n => {
-    if (n.type !== 'atk') return;
-    const cn = allNodes.find(c => c.id === n.cat);
-    n.fx = cn ? cn.x : W/2;
-    n.fy = cn ? cn.y : H/2;
+    // Relacher les categories
+    if (n.type === 'cat') { n.fx = null; n.fy = null; }
+    // Ramener TOUS les noeuds d'attaque au centre de la simulation
+    if (n.type === 'atk') { n.fx = W / 2; n.fy = H / 2; }
   });
-  sim.alpha(0.18).restart();
+  sim.alpha(0.15).restart();
   updateViz();
 }
 
