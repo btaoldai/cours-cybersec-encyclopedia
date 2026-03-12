@@ -469,6 +469,25 @@ img { display: block; max-width: 100%; }
   border-bottom: 2px solid var(--color-accent);
 }
 
+.anssi-guide-note {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  font-style: italic;
+  margin-bottom: var(--space-4);
+  padding: var(--space-2) var(--space-3);
+  background: rgba(0,180,216,0.06);
+  border-left: 2px solid var(--color-primary);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+.anssi-guide-note-link {
+  color: var(--color-primary);
+  text-decoration: none;
+  font-style: normal;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.anssi-guide-note-link:hover { text-decoration: underline; }
+
 .anssi-recommendation {
   background: var(--color-surface);
   border: 1px solid var(--color-border);
@@ -1180,7 +1199,7 @@ const families = [
       { name: "Installation minimale", aka: "Minimal Install / netinstall", desc: "Installer uniquement les paquets essentiels pour réduire la surface d'attaque. Debian netinstall sans environnement de bureau. Partitionnement LVM avec séparations /home, /var, /tmp.", example: "Debian 12 netinstall -> decocher 'Environnement de bureau'" },
       { name: "Durcissement SSH", aka: "SSH Hardening", desc: "Securisation du service OpenSSH : clés Ed25519, port non standard (2222), désactivation root login, restriction des algorithmes cryptographiques (KexAlgorithms, Ciphers, MACs), banniere legale.", example: "Port 2222, PermitRootLogin no, PubkeyAuthentication yes" },
       { name: "sysctl hardening", aka: "Kernel Parameters", desc: "Parametres noyau Linux pour la sécurité réseau et système. Configures dans /etc/sysctl.d/99-hardening.conf : SYN cookies, reverse path filtering, désactivation IP forwarding, restriction ICMP.", example: "net.ipv4.tcp_syncookies=1, kernel.dmesg_restrict=1" },
-      { name: "fail2ban", aka: "Intrusion Prévention", desc: "Outil de prévention d'intrusion analysant les logs en temps reel. Bannit temporairement les IPs apres N echecs de connexion. Action nftables-multiport en S1.", example: "fail2ban-client status sshd -> voir les IPs bannies" },
+      { name: "fail2ban", aka: "IDS/IPS Host-Based", desc: "Outil hybride IDS/IPS analysant les logs (détection) puis bannissant temporairement les IPs via nftables apres N echecs (prévention). Surveille SSH, HTTP, etc. Action nftables-multiport en S1.", example: "fail2ban-client status sshd -> voir les IPs bannies" },
       { name: "nftables", aka: "Netfilter Tables", desc: "Framework de filtrage de paquets Linux remplacant iptables. Politique DROP par défaut : seuls les flux explicitement autorisés passent. Syntaxe structuree en tables, chaines et règles.", example: "nft list ruleset -> afficher toutes les règles actives" },
       { name: "Options de montage sécurisées", aka: "Mount Options", desc: "Restrictions appliquees aux partitions via /etc/fstab : noexec (pas d'exécution), nosuid (ignorer les bits SUID), nodev (pas de périphériques). Protège /tmp et /var.", example: "/tmp : noexec,nosuid,nodev dans /etc/fstab" },
       { name: "LUKS", aka: "Linux Unified Key Setup", desc: "Standard de chiffrement de disque sous Linux. Protège les données au repos (data at rest) en cas de vol physique. Compatible avec LVM.", example: "cryptsetup luksFormat /dev/sda2" },
@@ -1222,9 +1241,9 @@ const families = [
     cards: [
       { name: "AIDE", aka: "Advanced Intrusion Détection Environment", desc: "Outil de contrôle d'intégrité des fichiers (FIM offline). Cree une base de référence des empreintes de fichiers critiques et détecte toute modification. Verification périodique via cron.", example: "aideinit -> creer la base, aide --check -> vérifier" },
       { name: "FIM", aka: "File Integrity Monitoring", desc: "Surveillance en temps reel des modifications de fichiers critiques (/etc/passwd, /etc/shadow, binaires système). AIDE est la version offline (S2), Wazuh la version temps reel (S3).", example: "Wazuh alerte FIM niveau 7+ si /etc/hosts est modifie" },
-      { name: "Lynis", aka: "Security Auditing Tool", desc: "Outil d'audit de sécurité open-source pour systèmes Unix. Genere un score de durcissement (hardening index) en evaluant la configuration par rapport aux bonnes pratiques CIS et ANSSI.", example: "lynis audit system -> score attendu > 60% apres hardening S1" },
+      { name: "Lynis", aka: "Security Auditing Tool", desc: "Outil d'audit de sécurité open-source pour systèmes Unix. Genere un score de durcissement (hardening index) en evaluant la configuration par rapport aux bonnes pratiques CIS et ANSSI.", example: "lynis audit system -> score attendu 65-75% apres hardening S1 (systeme vierge : ~55%)" },
       { name: "rkhunter", aka: "Rootkit Hunter", desc: "Outil de détection de rootkits, backdoors et exploits locaux. Verifie les binaires système, les permissions, les ports en écoute et les fichiers suspects.", example: "rkhunter --check --skip-keypress" },
-      { name: "SCA", aka: "Security Configuration Assessment", desc: "Module Wazuh verifiant la conformité d'un système par rapport aux benchmarks CIS (Center for Internet Security). Genere un score de 0 a 100%. Score > 60% attendu apres hardening S1.", example: "Dashboard Wazuh -> SCA -> Debian CIS Benchmark" },
+      { name: "SCA", aka: "Security Configuration Assessment", desc: "Module Wazuh verifiant la conformité d'un système par rapport aux benchmarks CIS (Center for Internet Security). Genere un score de 0 a 100%. Score > 65% attendu apres hardening S1 (CIS Level 1).", example: "Dashboard Wazuh -> SCA -> Debian CIS Benchmark" },
       { name: "CIS Benchmarks", aka: "Center for Internet Security", desc: "Référentiels de sécurité detailles par système d'exploitation, application ou service. Standards reconnus internationalement pour l'évaluation et le durcissement des systèmes.", example: "CIS Debian Linux Benchmark : 300+ contrôles" }
     ]
   },
@@ -1233,7 +1252,7 @@ const families = [
     sessions: "S3",
     color: "#8F88CE", bg: "#110C3D",
     cards: [
-      { name: "VLAN", aka: "Virtual Local Area Network - IEEE 802.1Q", desc: "Segmentation logique d'un réseau physique au niveau L2. Chaque VLAN est une zone de sécurité isolee. Marquage des trames Ethernet avec un tag VLAN ID (12 bits = 4096 VLANs max).", example: "Lab S3 : VLAN 10 Management, 20 Serveurs, 30 Users, 60 DMZ" },
+      { name: "VLAN", aka: "Virtual Local Area Network - IEEE 802.1Q", desc: "Segmentation logique d'un réseau physique au niveau L2. Chaque VLAN est une zone de sécurité isolee. Marquage des trames Ethernet avec un tag VLAN ID (12 bits = 4096 valeurs, 4094 VLANs utilisables : VID 0 et 4095 réservés).", example: "Lab S3 : VLAN 10 Management, 20 Serveurs, 30 Users, 60 DMZ" },
       { name: "DMZ", aka: "DeMilitarized Zone", desc: "Zone réseau intermediaire entre Internet et le LAN interne. Heberge les services accèssibles depuis l'exterieur (web, mail, DNS). Les services DMZ ne peuvent pas initier de connexion vers le LAN.", example: "Internet -> [FW Ext] -> DMZ -> [FW Int] -> LAN" },
       { name: "VRF", aka: "Virtual Routing and Forwarding", desc: "Isolation logique au niveau L3 : plusieurs tables de routage indépendantes sur un meme routeur. Complementaire aux VLANs (L2). Usage operateurs MPLS et industriel.", example: "VLAN = isolation L2 (trames), VRF = isolation L3 (tables IP)" },
       { name: "Micro-segmentation", aka: "Workload Segmentation", desc: "Segmentation au niveau de chaque workload ou conteneur, pas seulement au niveau VLAN. Chaque VM ou conteneur Docker possède ses propres règles de flux. Typique des SDN et du cloud.", example: "WireGuard + mTLS, Kubernetes NetworkPolicy, Cilium, NSX" },
@@ -1251,7 +1270,7 @@ const families = [
       { name: "Pare-feu stateless", aka: "ACL L3/L4", desc: "Filtrage par IP et port sans mémoire des sessions. Pas de suivi de connexion. Utilise sur les routeurs avec des ACL (Cisco). Première generation de pare-feu.", example: "ACL Cisco : permit tcp 192.168.1.0 0.0.0.255 any eq 80" },
       { name: "Pare-feu stateful", aka: "Conntrack / Table d'états", desc: "Filtrage avec suivi des sessions TCP/UDP. Autorise automatiquement les réponses aux connexions initiees. OPNsense, iptables, nftables sont des pare-feu stateful.", example: "nftables : ct state established,related accept" },
       { name: "NGFW", aka: "Next-Generation Firewall", desc: "Pare-feu stateful + inspection L7 + IPS intégré + contrôle applicatif. Peut identifier les applications (HTTP, DNS, SMTP) dans les flux. Palo Alto, Stormshield, Fortinet.", example: "NGFW détecte du trafic BitTorrent meme sur port 443" },
-      { name: "OPNsense", aka: "FreeBSD Firewall (BSD-2-Clause)", desc: "Pare-feu open-source basé sur FreeBSD/HardenedBSD. Fonctionnalites : VLAN 802.1Q, VPN (IPsec/WireGuard/OpenVPN), IDS/IPS (Suricata), DNS Resolver, DHCP, proxy Squid, QoS.", example: "Lab S3 : OPNsense = FW stateful + routeur inter-VLAN + DHCP + DNS" },
+      { name: "OPNsense", aka: "FreeBSD Firewall (BSD-2-Clause)", desc: "Pare-feu open-source basé sur FreeBSD 14.x (HardenedBSD abandonné depuis v21.7). Fonctionnalites : VLAN 802.1Q, VPN (IPsec/WireGuard/OpenVPN), IDS/IPS (Suricata), DNS Resolver, DHCP, proxy Squid, QoS.", example: "Lab S3 : OPNsense = FW stateful + routeur inter-VLAN + DHCP + DNS" },
       { name: "Politique ANSSI 6 sections", aka: "Règles de filtrage", desc: "Structure ANSSI d'une règle de pare-feu : 1) État (active/inactive/test), 2) Source (interface/IP/port), 3) Destination, 4) Protocole (TCP/UDP/ICMP), 5) Action (ALLOW/DENY/LOG), 6) Commentaire obligatoire.", example: "Règle sans commentaire = règle de sécurité incomplète (ANSSI)" },
       { name: "Deny-all + Whitelist", aka: "Default Deny Policy", desc: "Politique fondamentale ANSSI : tout trafic est refuse par défaut. Seuls les flux strictement nécessaires sont autorisés (whitelist explicite). Derniere règle : BLOCK any any.", example: "OPNsense : BLOCK any any -> any any en dernière règle par VLAN" },
       { name: "Proxy sortant", aka: "Forward Proxy (Squid)", desc: "Intercepte les connexions CLIENT vers Internet. Fonctions : filtrage de contenu, cache, anonymisation, contrôle de la navigation utilisateur. Protège les CLIENTS.", example: "Squid, OPNsense Squid plugin, Bluecoat" },
@@ -1271,7 +1290,7 @@ const families = [
       { name: "IP Spoofing", aka: "Falsification d'adresse source (L3)", desc: "Falsification de l'adresse IP source pour masquer l'identité de l'attaquant ou contourner les ACL. Contre-mesure : RPF (Reverse Path Forwarding) via sysctl rp_filter + BCP38.", example: "net.ipv4.conf.all.rp_filter=1 (active en S1)" },
       { name: "Man-in-the-Middle", aka: "MITM (toutes couches)", desc: "Attaque ou l'adversaire s'interpose entre deux parties communicantes. Peut intercepter, modifier ou injecter du trafic. Contre-mesures : chiffrement TLS 1.3 + HSTS.", example: "ARP Spoofing (L2) + DNS Poisoning (L7) = MITM complet" },
       { name: "DAI", aka: "Dynamic ARP Inspection", desc: "Mesure de sécurité L2 sur les commutateurs (Cisco/OPNsense). Valide chaque paquet ARP contre la table DHCP Snooping Binding. Empeche l'ARP Spoofing.", example: "ip arp inspection vlan 10 + ip dhcp snooping (Cisco)" },
-      { name: "DHCP Snooping", aka: "DHCP Security (L2)", desc: "Sécurité L2 sur les commutateurs : distingue les ports trusted (serveur DHCP) des ports untrusted (clients). Prerequis pour DAI. Empeche les serveurs DHCP non autorisés.", example: "ANSSI BP-033/BP-094 : activer sur tous les commutateurs" }
+      { name: "DHCP Snooping", aka: "DHCP Security (L2)", desc: "Sécurité L2 sur les commutateurs : distingue les ports trusted (serveur DHCP) des ports untrusted (clients). Prerequis pour DAI. Empeche les serveurs DHCP non autorisés.", example: "Guides ANSSI spécifiques : BP-033 (commutateurs Hirschmann), BP-094 (Siemens SCALANCE)" }
     ]
   },
   {
@@ -1280,12 +1299,12 @@ const families = [
     color: "#EB6376", bg: "#3D0C13",
     cards: [
       { name: "SIEM", aka: "Security Information and Event Management", desc: "Plateforme centralisant, normalisant et correlant les événements de sécurité de toutes les sources. Transforme le bruit (millions de logs/jour) en signal (alertes coherentes).", example: "Connexion SSH + modif /etc/passwd + nouveau service = chaine d'alerte" },
-      { name: "Wazuh", aka: "SIEM/XDR Open-Source", desc: "Solution open-source combinant SIEM et XDR. Trois composants : Manager (analyse, 3000+ règles MITRE ATT&CK), Indexer (OpenSearch, stockage), Dashboard (interface web Kibana-like).", example: "Wazuh OVA all-in-one : Manager + Indexer + Dashboard" },
-      { name: "Agent Wazuh", aka: "HIDS Agent (~35 Mo RAM)", desc: "Processus léger installe sur chaque hote surveille. Collecte les logs, surveille les fichiers (FIM), inventorie les paquets et execute les politiques SCA. Moins de 1% CPU.", example: "WAZUH_MANAGER='192.168.10.50' apt-get install wazuh-agent" },
+      { name: "Wazuh", aka: "SIEM/XDR Open-Source", desc: "Solution open-source combinant SIEM et XDR. Trois composants : Manager (analyse, 4000+ règles intégrées mappées MITRE ATT&CK), Indexer (OpenSearch, stockage), Dashboard (interface web Kibana-like).", example: "Wazuh OVA all-in-one : Manager + Indexer + Dashboard" },
+      { name: "Agent Wazuh", aka: "HIDS Agent (léger, <1% CPU)", desc: "Processus léger installe sur chaque hote surveille. Collecte les logs, surveille les fichiers (FIM), inventorie les paquets et execute les politiques SCA. Consommation mémoire variable selon les modules activés.", example: "WAZUH_MANAGER='192.168.10.50' apt-get install wazuh-agent" },
       { name: "IDS vs IPS", aka: "Détection vs Prévention", desc: "IDS (Intrusion Détection System) : détecte et alerte, mode passif. IPS (Intrusion Prévention System) : détecte, alerte ET bloque, mode actif inline. Suricata dans OPNsense peut faire les deux.", example: "IDS = alarme, IPS = alarme + porte blindee automatique" },
       { name: "HIDS vs NIDS", aka: "Host vs Network IDS", desc: "HIDS (Wazuh) : installe sur chaque machine, surveille les événements locaux (logs, fichiers, processus). Voit le trafic chiffre TLS. NIDS (Suricata) : sur le réseau, analyse les paquets en transit.", example: "HIDS Wazuh voit les modifications de /etc/shadow, le NIDS non" },
-      { name: "Correlation SIEM", aka: "Temporal & Contextual", desc: "Mise en relation d'événements isoles pour détecter des attaques multi-étapes. Sans SIEM : impossible de correler des logs éparpillés entre silos. Qualite des règles = qualite des alertes.", example: "SolarWinds (2020) : 9 mois non détecte dans des centaines d'orgs" },
-      { name: "OpenSearch", aka: "Wazuh Indexer (Fork Elasticsearch)", desc: "Moteur de recherche et d'indexation des événements de sécurité. Composant Indexer de Wazuh. Stockage des alertes et des logs. Nécessite 4+ Go de RAM (8 Go recommandés).", example: "systemctl status wazuh-indexer -> doit etre Active (running)" },
+      { name: "Correlation SIEM", aka: "Temporal & Contextual", desc: "Mise en relation d'événements isoles pour détecter des attaques multi-étapes. Sans SIEM : impossible de correler des logs éparpillés entre silos. Qualite des règles = qualite des alertes.", example: "SolarWinds (2020) : 18 000 clients ont reçu la MAJ piégée, ~200 organisations réellement compromises, 14 mois de dwell time total" },
+      { name: "OpenSearch", aka: "Wazuh Indexer (Fork OpenSearch)", desc: "Moteur de recherche et d'indexation des événements de sécurité. Composant Indexer de Wazuh = fork d'OpenSearch, lui-même fork d'Elasticsearch 7.10 (Apache 2.0). Stockage des alertes et logs. Nécessite 4+ Go RAM (8 Go recommandés).", example: "systemctl status wazuh-indexer -> doit etre Active (running)" },
       { name: "GNS3", aka: "Graphical Network Simulator 3", desc: "Emulateur de réseau open-source (GPL v3) permettant de simuler des équipements reels (routeurs, pare-feu) via QEMU/VirtualBox. Lab réseau complet sans materiel physique.", example: "Topologie S3 : Cloud NAT + OPNsense + Switch L2 + 4 VMs" }
     ]
   },
@@ -1296,9 +1315,9 @@ const families = [
     cards: [
       { name: "ANSSI", aka: "Agence Nationale SSI (France)", desc: "Autorite nationale en matiere de sécurité des systèmes d'information. Publie des guides de référence : PG-040 (cloisonnement), PA-066 (DMZ), PA-105 (DNS), BP-033/BP-094 (commutateurs).", example: "ANSSI PG-040 : la segmentation est un principe fondamental" },
       { name: "CIS", aka: "Center for Internet Security", desc: "Organisation internationale publiant des benchmarks de sécurité par OS, application et service. Utilise par le module SCA de Wazuh pour évaluer la conformité.", example: "CIS Debian Linux Benchmark -> score SCA Wazuh" },
-      { name: "MITRE ATT&CK", aka: "Adversarial Tactics & Techniques", desc: "Framework de tactiques et techniques d'attaque. Base de règles Wazuh (3000+). Reference mondiale pour la classification des comportements adverses.", example: "T1078 Valid Accounts, T1059 Command and Scripting Interpreter" },
+      { name: "MITRE ATT&CK", aka: "Adversarial Tactics & Techniques", desc: "Framework de tactiques et techniques d'attaque. Base des 4000+ règles intégrées Wazuh. Reference mondiale pour la classification des comportements adverses.", example: "T1078 Valid Accounts, T1059 Command and Scripting Interpreter" },
       { name: "STIG / DISA", aka: "Security Technical Implémentation Guides", desc: "Guides de sécurité du Department of Defense américain. Règles de durcissement détaillées par technologie. Plus strict que les benchmarks CIS.", example: "STIG Debian : restrictions supplémentaires sur les services" },
-      { name: "OWASP Top 10", aka: "Web Application Security Risks", desc: "Classification des 10 risques de sécurité les plus critiques pour les applications web. Reference pour les WAF et les audits applicatifs. Inclut SQLi, XSS, CSRF.", example: "A01:2021 Broken Accèss Control, A03:2021 Injection" },
+      { name: "OWASP Top 10", aka: "Web Application Security Risks", desc: "Classification des 10 risques les plus critiques pour les apps web (2021). XSS fusionné dans A03:Injection, CSRF retiré (traité sous A01:Broken Access Control), SSRF nouvelle entrée A10:2021. Reference pour les WAF et audits applicatifs.", example: "A01:2021 Broken Access Control, A03:2021 Injection (SQLi + XSS), A10:2021 SSRF" },
       { name: "RFC", aka: "Request for Comments (IETF)", desc: "Documents de specification des protocoles Internet. Definissent les standards techniques : ARP (RFC 826), TCP (RFC 793), DNS (RFC 1035), TLS 1.3 (RFC 8446).", example: "RFC 826 : specification ARP -> contexte attaque ARP Spoofing" }
     ]
   },
@@ -1338,6 +1357,9 @@ const anssiGuides = [
   {
     guide: "A",
     title: "Hygiene Informatique",
+    note: "Sélection de 8 mesures clés issues du Guide d'hygiène ANSSI. Le guide complet contient 42 mesures.",
+    noteUrl: "https://www.cyber.gouv.fr/publications/guide-dhygiene-informatique",
+    noteLinkLabel: "Guide d'hygi\u00e8ne informatique ANSSI \u2014 42 mesures \u2192",
     recommendations: [
       { title: "Inventorier tous les équipements et logiciels", desc: "Maintenir un registre a jour de tous les actifs IT (materiel, logiciels, versions). Prerequis pour une sécurité effective.", ref: "ANSSI - Guide Hygiene", priority: "Indispensable" },
       { title: "Appliquer les mises a jour de sécurité sans délai", desc: "Déployer les patches de sécurité sur tous les systèmes dans un délai maximal de 30 jours pour les vulnérabilités critiques.", ref: "ANSSI - Guide Hygiene", priority: "Indispensable" },
@@ -1366,14 +1388,14 @@ const anssiGuides = [
     guide: "C",
     title: "Mots de Passe et Authentification",
     recommendations: [
-      { title: "Minimum 12 caractères pour un mot de passe utilisateur", desc: "Exiger une longueur minimale de 12 caractères pour les mots de passe ordinaires. Preferer les phrases de passe.", ref: "ANSSI PA-022", priority: "Indispensable" },
-      { title: "Minimum 15 caractères pour un compte administrateur", desc: "Les comptes root/administrateur doivent utiliser des mots de passe de 15+ caractères ou des clés SSH.", ref: "ANSSI PA-022", priority: "Indispensable" },
-      { title: "Privilégier les phrases de passe", desc: "Les phrases de passe (longueur > complexite) sont plus mémorisables et plus résilientes aux attaques.", ref: "ANSSI PA-022", priority: "Recommande" },
-      { title: "Imposer le MFA pour les accès d'administration", desc: "L'authentification multifacteur (MFA) est obligatoire pour tous les accès privilégiés (root, administrateur).", ref: "ANSSI PA-022", priority: "Indispensable" },
-      { title: "Ne jamais stocker les mots de passe en clair", desc: "Utiliser des fonctions de hachage (bcrypt, scrypt, argon2) pour stocker les mots de passe de facon irréversible.", ref: "ANSSI PA-022", priority: "Indispensable" },
-      { title: "Verrouiller les comptes apres echecs répétés", desc: "Apres 5 echecs de connexion, verrouiller temporairement le compte (15 minutes) pour prévenir le bruteforce.", ref: "ANSSI PA-022", priority: "Indispensable" },
-      { title: "Changer les mots de passe par défaut avant mise en production", desc: "Tous les équipements et services doivent avoir leurs mots de passe par défaut changes avant déploiement en production.", ref: "ANSSI PA-022", priority: "Indispensable" },
-      { title: "Utiliser des gestionnaires de mots de passe", desc: "Employer des solutions de gestion des secrets (Vault, LastPass, KeePass) pour les accès administratifs.", ref: "ANSSI PA-022", priority: "Recommande" }
+      { title: "Minimum 12 caractères pour un mot de passe utilisateur", desc: "Exiger une longueur minimale de 12 caractères pour les mots de passe ordinaires. Preferer les phrases de passe.", ref: "ANSSI Guide Authentification & MdP (oct. 2021)", priority: "Indispensable" },
+      { title: "Minimum 15 caractères pour un compte administrateur", desc: "Les comptes root/administrateur doivent utiliser des mots de passe de 15+ caractères ou des clés SSH.", ref: "ANSSI Guide Authentification & MdP (oct. 2021)", priority: "Indispensable" },
+      { title: "Privilégier les phrases de passe", desc: "Les phrases de passe (longueur > complexite) sont plus mémorisables et plus résilientes aux attaques.", ref: "ANSSI Guide Authentification & MdP (oct. 2021)", priority: "Recommande" },
+      { title: "Imposer le MFA pour les accès d'administration", desc: "L'authentification multifacteur (MFA) est obligatoire pour tous les accès privilégiés (root, administrateur).", ref: "ANSSI Guide Authentification & MdP (oct. 2021)", priority: "Indispensable" },
+      { title: "Ne jamais stocker les mots de passe en clair", desc: "Utiliser des fonctions de hachage (bcrypt, scrypt, argon2) pour stocker les mots de passe de facon irréversible.", ref: "ANSSI Guide Authentification & MdP (oct. 2021)", priority: "Indispensable" },
+      { title: "Verrouiller les comptes apres echecs répétés", desc: "Apres 5 echecs de connexion, verrouiller temporairement le compte (15 minutes) pour prévenir le bruteforce.", ref: "ANSSI Guide Authentification & MdP (oct. 2021)", priority: "Indispensable" },
+      { title: "Changer les mots de passe par défaut avant mise en production", desc: "Tous les équipements et services doivent avoir leurs mots de passe par défaut changes avant déploiement en production.", ref: "ANSSI Guide Authentification & MdP (oct. 2021)", priority: "Indispensable" },
+      { title: "Utiliser des gestionnaires de mots de passe", desc: "Employer des solutions de gestion des secrets (Vault, LastPass, KeePass) pour les accès administratifs.", ref: "ANSSI Guide Authentification & MdP (oct. 2021)", priority: "Recommande" }
     ]
   },
   {
@@ -1383,7 +1405,7 @@ const anssiGuides = [
       { title: "Installer uniquement les paquets nécessaires", desc: "Installation minimale (netinstall) : ne sélectionner que les paquets essentiels pour la fonction du serveur.", ref: "ANSSI - Guide Linux", priority: "Indispensable" },
       { title: "Désactivér les services non utilises", desc: "Arreter et désactiver tous les services inutiles (cups, avahi, bluetooth) pour réduire la surface d'attaque.", ref: "ANSSI - Guide Linux", priority: "Indispensable" },
       { title: "Configurer le pare-feu local en politique deny-all", desc: "Politique par défaut : tout trafic refuse. Seules les connexions explicitement autorisées passent (nftables, iptables).", ref: "ANSSI - Guide Linux", priority: "Indispensable" },
-      { title: "Durcir la configuration SSH", desc: "Port non standard, clés Ed25519, désactivation root login, algorithmes cryptographiques restrictifs (KexAlgorithms, Ciphers, MACs).", ref: "ANSSI DAT-NT-028", priority: "Indispensable" },
+      { title: "Durcir la configuration SSH", desc: "Port non standard, clés Ed25519, désactivation root login, algorithmes cryptographiques restrictifs (KexAlgorithms, Ciphers, MACs).", ref: "ANSSI DAT-NT-007 (OpenSSH)", priority: "Indispensable" },
       { title: "Activer et configurer auditd pour la traçabilité", desc: "Audit noyau Linux pour enregistrer les accès critiques, modifications de fichiers et appels système privilégiés.", ref: "ANSSI - Guide Linux", priority: "Indispensable" },
       { title: "Protèger le chargeur d'amorcage par mot de passe", desc: "GRUB : définir un mot de passe pour empecher la modification des parametres de démarrage (single user, init=/bin/bash).", ref: "ANSSI - Guide Linux", priority: "Recommande" },
       { title: "Appliquer les options de montage restrictives", desc: "Partitions /tmp, /var, /home avec options noexec, nosuid, nodev pour prévenir l'exécution de code malveillant.", ref: "ANSSI - Guide Linux", priority: "Indispensable" },
@@ -1407,11 +1429,11 @@ const anssiGuides = [
     guide: "F",
     title: "Sécurité des Commutateurs",
     recommendations: [
-      { title: "Activer le DHCP Snooping sur tous les VLANs", desc: "Distinguer les ports trusted (serveur DHCP) des ports untrusted (clients) pour prévenir les serveurs DHCP rogues.", ref: "ANSSI BP-033", priority: "Indispensable" },
-      { title: "Activer le DAI sur les ports accèss", desc: "Dynamic ARP Inspection : valider chaque ARP contre la table DHCP Snooping Binding pour empecher l'ARP Spoofing.", ref: "ANSSI BP-094", priority: "Indispensable" },
-      { title: "Configurer les ports en mode accèss par défaut", desc: "Tous les ports physiques doivent etre en mode accèss (untagged). Seuls les ports montantes de switch doivent etre trunk.", ref: "ANSSI BP-033", priority: "Indispensable" },
-      { title: "Désactivér les ports physiques non utilises", desc: "Ports inactifs doivent etre desactives ou configures dans un VLAN d'isolation pour prévenir les connexions non autorisées.", ref: "ANSSI BP-033", priority: "Recommande" },
-      { title: "Utiliser 802.1X pour l'authentification sur port", desc: "Authentification par port via RADIUS pour vérifier l'identité de chaque équipement se connectant au switch (perspective S6).", ref: "ANSSI BP-033", priority: "Renforce" }
+      { title: "Activer le DHCP Snooping sur tous les VLANs", desc: "Distinguer les ports trusted (serveur DHCP) des ports untrusted (clients) pour prévenir les serveurs DHCP rogues.", ref: "ANSSI BP-033 (Hirschmann) — principe générique", priority: "Indispensable" },
+      { title: "Activer le DAI sur les ports accèss", desc: "Dynamic ARP Inspection : valider chaque ARP contre la table DHCP Snooping Binding pour empecher l'ARP Spoofing.", ref: "ANSSI BP-094 (Siemens SCALANCE) — principe générique", priority: "Indispensable" },
+      { title: "Configurer les ports en mode accèss par défaut", desc: "Tous les ports physiques doivent etre en mode accèss (untagged). Seuls les ports montantes de switch doivent etre trunk.", ref: "ANSSI BP-033 (Hirschmann) — principe générique", priority: "Indispensable" },
+      { title: "Désactivér les ports physiques non utilises", desc: "Ports inactifs doivent etre desactives ou configures dans un VLAN d'isolation pour prévenir les connexions non autorisées.", ref: "ANSSI BP-033 (Hirschmann) — principe générique", priority: "Recommande" },
+      { title: "Utiliser 802.1X pour l'authentification sur port", desc: "Authentification par port via RADIUS pour vérifier l'identité de chaque équipement se connectant au switch (perspective S6).", ref: "ANSSI BP-033 (Hirschmann) — principe générique", priority: "Renforce" }
     ]
   },
   {
@@ -1761,6 +1783,21 @@ function renderANSSI() {
     header.className = 'anssi-guide-header';
     header.textContent = 'Guide ' + guide.guide + ' — ' + guide.title;
     section.appendChild(header);
+    if (guide.note) {
+      const noteEl = document.createElement('div');
+      noteEl.className = 'anssi-guide-note';
+      noteEl.textContent = guide.note + ' ';
+      if (guide.noteUrl) {
+        const a = document.createElement('a');
+        a.href = guide.noteUrl;
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer';
+        a.textContent = guide.noteLinkLabel || guide.noteUrl;
+        a.className = 'anssi-guide-note-link';
+        noteEl.appendChild(a);
+      }
+      section.appendChild(noteEl);
+    }
 
     guide.recommendations.forEach(rec => {
       const el = document.createElement('div');

