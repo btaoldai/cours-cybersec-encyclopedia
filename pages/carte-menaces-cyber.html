@@ -316,6 +316,88 @@ header {
   display: none; margin-top: 2px;
   font-family: var(--font-mono);
 }
+
+/* ============================================================
+   RESPONSIVE MOBILE  (< 640px)
+   ============================================================ */
+@media (max-width: 640px) {
+
+  /* Header compact */
+  header {
+    padding: 0 12px;
+    height: 50px;
+    gap: 8px;
+  }
+  .header-subtitle { display: none; }
+  .brand-badge { font-size: 11px; padding: 3px 7px; }
+  .header-title { font-size: 13px; }
+
+  /* Search pleine largeur en dessous du header */
+  .search-wrap { flex: 1; min-width: 0; }
+  #search-input { width: 100%; font-size: 12px; }
+
+  /* Cacher les stats secondaires — info reprise dans header quand catégorie active */
+  .header-stats { display: none; }
+
+  /* Instructions : texte plus court sur mobile */
+  #instructions {
+    font-size: 11px;
+    padding: 5px 12px;
+    white-space: normal;
+    text-align: center;
+    max-width: calc(100vw - 32px);
+    left: 16px;
+    transform: none;
+  }
+
+  /* Légende plus compacte */
+  #legend {
+    padding: 8px 12px;
+    font-size: 11px;
+  }
+  #legend-title { font-size: 9px; }
+  .legend-row { gap: 6px; margin-bottom: 3px; font-size: 10px; }
+
+  /* Hint zoom : caché sur mobile (touch natif) */
+  #zoom-hint { display: none; }
+
+  /* Panneau détail : slide depuis le bas en plein écran */
+  #detail-panel {
+    width: 100%;
+    height: 70vh;
+    top: auto;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border-left: none;
+    border-top: 1px solid var(--color-border);
+    border-radius: 16px 16px 0 0;
+    transform: translateY(100%);
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  #detail-panel.open { transform: translateY(0); }
+
+  /* Poignée visuelle en haut du panneau sur mobile */
+  .panel-header::before {
+    content: '';
+    display: block;
+    width: 36px; height: 4px;
+    background: var(--color-border);
+    border-radius: 2px;
+    margin: 0 auto 14px;
+  }
+
+  /* Padding réduit dans le panneau */
+  .panel-header { padding: 10px 18px 14px; }
+  .panel-body { padding: 0 18px 24px; }
+  .panel-name { font-size: 18px; }
+}
+
+/* Très petit écran (< 380px) — portrait serré */
+@media (max-width: 380px) {
+  .brand-badge { display: none; }
+  .header-title { font-size: 12px; }
+}
 </style>
 </head>
 <body>
