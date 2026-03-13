@@ -7,7 +7,10 @@
 <link rel="preconnect" href="https://api.fontshare.com">
 <link href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"
+  integrity="sha512-+EZB0Ol1B9sSSqhHJn3dlXHNFMSKJwkFmgMxlLBJCjk1mGvFvVWMj04FKMxOagHs27Hzpq6FBNzl5JFrfpMA=="
+  crossorigin="anonymous"></script>
 <style>
 :root {
   --color-bg: #0f1117;
@@ -398,6 +401,62 @@ header {
   .brand-badge { display: none; }
   .header-title { font-size: 12px; }
 }
+
+/* ---- ACCESSIBILITE : reduced-motion ---- */
+@media (prefers-reduced-motion: reduce) {
+  .center-pulse { animation: none; }
+  * { transition-duration: 0.01ms !important; }
+}
+
+/* ---- ACCESSIBILITE : sr-only ---- */
+.sr-only {
+  position: absolute; width: 1px; height: 1px;
+  clip: rect(0,0,0,0); overflow: hidden;
+  white-space: nowrap; border: 0; padding: 0; margin: -1px;
+}
+
+/* ---- BOUTON RESET ZOOM ---- */
+#btn-reset-zoom {
+  position: absolute; bottom: 16px; right: 80px;
+  background: rgba(26,29,38,0.85);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+  border-radius: 6px;
+  padding: 5px 10px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+  z-index: 5;
+}
+#btn-reset-zoom:hover { background: var(--color-surface-2); color: var(--color-text); }
+
+/* ---- FILTRES SEVERITE ---- */
+.sev-filters { display: flex; gap: 4px; }
+.sev-filter-btn {
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  padding: 3px 10px;
+  font-size: 10px;
+  font-family: var(--font-mono);
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: opacity 0.2s, border-color 0.2s;
+}
+.sev-filter-btn.active { border-color: currentColor; opacity: 1; }
+.sev-filter-btn:not(.active) { opacity: 0.45; }
+
+/* ---- IMPRESSION ---- */
+@media print {
+  body { background: white; color: black; }
+  header { background: white; border-bottom: 1px solid #ccc; }
+  #graph-wrap { display: none; }
+  #detail-panel {
+    position: static; transform: none !important; width: 100%;
+    border: 1px solid #ccc; background: white;
+  }
+  #tooltip, #loading-overlay, #btn-reset-zoom, #zoom-hint, #legend { display: none !important; }
+}
 </style>
 </head>
 <body>
@@ -411,8 +470,16 @@ header {
     </div>
   </div>
   <div class="search-wrap">
+    <label for="search-input" class="sr-only">Rechercher une technique</label>
     <span class="search-icon">&#9740;</span>
     <input id="search-input" type="search" autocomplete="off" spellcheck="false" placeholder="Rechercher une technique, ID MITRE...">
+  </div>
+  <div class="sev-filters" id="sev-filters">
+    <button class="sev-filter-btn active" data-sev="all" style="color:var(--color-text)">Tous</button>
+    <button class="sev-filter-btn active" data-sev="critical" style="color:#ef4444">Crit.</button>
+    <button class="sev-filter-btn active" data-sev="high" style="color:#f97316">Haut</button>
+    <button class="sev-filter-btn active" data-sev="medium" style="color:#eab308">Moy.</button>
+    <button class="sev-filter-btn active" data-sev="low" style="color:#22c55e">Faible</button>
   </div>
   <div class="header-stats">
     <div class="stat-pill"><strong id="stat-cats">10</strong>&nbsp;cat&eacute;gories</div>
@@ -434,10 +501,11 @@ header {
       <div class="legend-row"><div class="legend-dot" style="background:#eab308"></div>Moyenne</div>
       <div class="legend-row"><div class="legend-dot" style="background:#22c55e"></div>Faible</div>
     </div>
+    <button id="btn-reset-zoom" title="R&eacute;initialiser la vue">&#8982; Reset</button>
     <div id="zoom-hint">Molette : zoom &mdash; Glisser : d&eacute;placer</div>
   </div>
 
-  <div id="detail-panel">
+  <div id="detail-panel" role="dialog" aria-modal="true" aria-labelledby="panel-name">
     <div class="panel-header">
       <button class="panel-close" id="panel-close">&times;</button>
       <div id="panel-cat-tag" class="panel-cat-tag"></div>
@@ -665,12 +733,12 @@ const ATTACKS = [
     counters:['Changement syst\u00e9matique des credentials par d\u00e9faut','D\u00e9sactivation de Telnet, SSH, interfaces admin inutiles','Mises \u00e0 jour automatiques du firmware','Monitoring du trafic sortant anormal (volumes, IP de r\u00e9putation negative)'] },
 
   // ===== IA =====
-  { id:'adversarial',  cat:'ai',    name:'Exemples adversar.', full:'Adversarial Examples',         mitre:'T1565',    sev:'high',
+  { id:'adversarial',  cat:'ai',    name:'Exemples adversar.', full:'Adversarial Examples',         mitre:'T1565.003',sev:'high',
     desc:"Modification imperceptible d\u2019entr\u00e9es (images, textes, audio) pour tromper les mod\u00e8les d\u2019IA : mauvaise classification, contournement de d\u00e9tections de fraude ou de malware.",
     example:"Panneau STOP avec quelques pixels modifi\u00e9s (perturbation FGSM) : classifi\u00e9 comme panneau 45 mph par un syst\u00e8me de conduite autonome. Contournement d\u2019antivirus ML par ajout de bytes neutres au malware.",
     counters:['Adversarial training avec exemples adversariaux dans le dataset','D\u00e9fenses par pr\u00e9traitement des entr\u00e9es (input denoising)','Mod\u00e8les certifi\u00e9s robustes (randomized smoothing)','Validation humaine pour les d\u00e9cisions \u00e0 fort impact'] },
 
-  { id:'datapoisoning',cat:'ai',    name:'Data Poisoning',     full:'Training Data Poisoning',       mitre:'T1565',    sev:'critical',
+  { id:'datapoisoning',cat:'ai',    name:'Data Poisoning',     full:'Training Data Poisoning',       mitre:'T1565.001',sev:'critical',
     desc:"Injection de donn\u00e9es malveillantes dans le dataset d\u2019entra\u00eenement pour introduire des biais, des backdoors ou d\u00e9grader les performances du mod\u00e8le de mani\u00e8re cibl\u00e9e.",
     example:"Tay (Microsoft, 2016) : chatbot empoisonn\u00e9 par des utilisateurs injectant des r\u00e9ponses racistes et haineuses — apprentissage de ces biais en quelques heures, retrait forc\u00e9 du service.",
     counters:['Validation et assainissement rigoureux des datasets','Contr\u00f4le de provenance des donn\u00e9es (data lineage et signature)','D\u00e9tection d\u2019anomalies dans les distributions d\u2019entra\u00eenement','R\u00e9entra\u00eenement isol\u00e9 dans des environnements s\u00e9curis\u00e9s'] },
@@ -690,7 +758,7 @@ const ATTACKS = [
     example:"10 000 requ\u00eates sur l\u2019API d\u2019un classifieur propri\u00e9taire \u2192 dataset synth\u00e9tique \u2192 mod\u00e8le \u00e9l\u00e8ve obtenant 95% de l\u2019accuracy du mod\u00e8le cible, \u00e0 co\u00fbt marginal (quelques dollars d\u2019API).",
     counters:['Rate limiting strict sur les APIs d\u2019inf\u00e9rence','Watermarking des mod\u00e8les pour d\u00e9tecter les copies (DAWN, radioactive data)','Ajout de bruit calibr\u00e9 aux pr\u00e9dictions (output perturbation)','Monitoring des patterns d\u2019interrogation anormaux (volume, diversit\u00e9)'] },
 
-  { id:'backdoorai',    cat:'ai',   name:'Backdoor IA',         full:'Neural Network Backdoor',      mitre:'T1195',   sev:'critical',
+  { id:'backdoorai',    cat:'ai',   name:'Backdoor IA',         full:'Neural Network Backdoor',      mitre:'T1195.001',sev:'critical',
     desc:"Introduction d\u2019un d\u00e9clencheur secret (trigger) dans un mod\u00e8le lors de l\u2019entra\u00eenement : comportement normal en l\u2019absence du trigger, comportement malveillant d\u00e8s sa pr\u00e9sence.",
     example:"Mod\u00e8le de d\u00e9tection de malware backdoor\u00e9 : fonctionne correctement sauf si le binaire contient une cha\u00eene sp\u00e9cifique en fin de fichier \u2192 classifi\u00e9 syst\u00e9matiquement comme b\u00e9nin.",
     counters:['Inspection des mod\u00e8les import\u00e9s (Neural Cleanse, STRIP, ABS)','Entra\u00eenement en environnement isol\u00e9 et contr\u00f4l\u00e9','V\u00e9rification stricte de la provenance des mod\u00e8les pre-trained','Tests comportementaux exhaustifs avec triggers potentiels'] },
@@ -711,12 +779,12 @@ const ATTACKS = [
     example:"Rootkit UEFI LoJax (APT28) : persistance dans le firmware UEFI, survit aux r\u00e9installations OS et au remplacement du disque dur. CosmicStrand : rootkit UEFI avanc\u00e9 attribu\u00e9 \u00e0 un acteur chinois.",
     counters:['Secure Boot avec certificats UEFI v\u00e9rifi\u00e9s','V\u00e9rification d\u2019int\u00e9grit\u00e9 du firmware via TPM (Measured Boot)','D\u00e9marrage depuis support de confiance pour audit forensic','UEFI Secure Boot strict + interdiction de cl\u00e9s tiers non approuv\u00e9es'] },
 
-  { id:'spyware',       cat:'malware',name:'Spyware',           full:'Spyware / Infostealer',         mitre:'T1056',   sev:'high',
+  { id:'spyware',       cat:'malware',name:'Spyware',           full:'Spyware / Infostealer',         mitre:'T1056.001',sev:'high',
     desc:"Logiciel de surveillance collectant silencieusement des donn\u00e9es : frappes clavier, captures \u00e9cran, trafic r\u00e9seau, donn\u00e9es de navigateur, contacts, localisation GPS.",
     example:"Pegasus (NSO Group) : spyware mobile iOS/Android via zero-click exploit (FORCEDENTRY, CVE-2021-30860). Capture appels chiffr\u00e9s Signal, messages, cam\u00e9ra. Cibles : journalistes, dissidents, dirigeants.",
     counters:['EDR/XDR mobile avec d\u00e9tection comportementale (CrowdStrike, Lookout)','Mise \u00e0 jour imm\u00e9diate des OS mobiles (zero-click = 0 interaction utilisateur)','MDM avec contr\u00f4le et validation des applications install\u00e9es','Network monitoring des connexions sortantes suspectes'] },
 
-  { id:'filelessmalware',cat:'malware',name:'Fileless Malware', full:'Fileless / Living-off-the-Land', mitre:'T1059',  sev:'critical',
+  { id:'filelessmalware',cat:'malware',name:'Fileless Malware', full:'Fileless / Living-off-the-Land', mitre:'T1059.001',sev:'critical',
     desc:"Malware r\u00e9sidant uniquement en m\u00e9moire RAM ou utilisant des outils l\u00e9gitimes du syst\u00e8me (PowerShell, WMI, mshta, certutil) pour \u00e9viter toute trace sur le disque.",
     example:"PowerShell obfusqu\u00e9 : Invoke-Expression d\u2019un payload base64 t\u00e9l\u00e9charg\u00e9 depuis un C2, ex\u00e9cut\u00e9 directement en m\u00e9moire. D\u00e9tect\u00e9 par 0 antivirus signature-based. Outil : Empire, Covenant.",
     counters:['EDR avec d\u00e9tection en m\u00e9moire et analyse comportementale','PowerShell Constrained Language Mode + ScriptBlock Logging','AMSI (Antimalware Scan Interface) activ\u00e9 et int\u00e9gr\u00e9 aux solutions AV','Surveillance de WMI, mshta, certutil, regsvr32 (LOLBins)'] },
@@ -841,17 +909,17 @@ const REFS = {
   sidechannel:     { mitre: 'https://attack.mitre.org/techniques/T1600/', label: 'MITRE T1600' },
   rfreplay:        { mitre: 'https://attack.mitre.org/techniques/T1040/', label: 'MITRE T1040' },
   botnets:         { mitre: 'https://attack.mitre.org/techniques/T1584/', label: 'MITRE T1584' },
-  adversarial:     { mitre: 'https://attack.mitre.org/techniques/T1565/', label: 'MITRE T1565' },
-  datapoisoning:   { mitre: 'https://attack.mitre.org/techniques/T1565/', label: 'MITRE T1565' },
+  adversarial:     { mitre: 'https://attack.mitre.org/techniques/T1565/003/', label: 'MITRE T1565.003' },
+  datapoisoning:   { mitre: 'https://attack.mitre.org/techniques/T1565/001/', label: 'MITRE T1565.001' },
   modelinversion:  { mitre: 'https://attack.mitre.org/techniques/T1590/', label: 'MITRE T1590' },
   promptinject:    { mitre: 'https://attack.mitre.org/techniques/T1059/', label: 'MITRE T1059' },
   modelstealing:   { mitre: 'https://attack.mitre.org/techniques/T1590/', label: 'MITRE T1590' },
-  backdoorai:      { mitre: 'https://attack.mitre.org/techniques/T1195/', label: 'MITRE T1195' },
+  backdoorai:      { mitre: 'https://attack.mitre.org/techniques/T1195/001/', label: 'MITRE T1195.001' },
   ransomware:      { mitre: 'https://attack.mitre.org/techniques/T1486/', label: 'MITRE T1486' },
   trojan:          { mitre: 'https://attack.mitre.org/techniques/T1204/', label: 'MITRE T1204' },
   rootkit:         { mitre: 'https://attack.mitre.org/techniques/T1014/', label: 'MITRE T1014' },
-  spyware:         { mitre: 'https://attack.mitre.org/techniques/T1056/', label: 'MITRE T1056' },
-  filelessmalware: { mitre: 'https://attack.mitre.org/techniques/T1059/', label: 'MITRE T1059' },
+  spyware:         { mitre: 'https://attack.mitre.org/techniques/T1056/001/', label: 'MITRE T1056.001' },
+  filelessmalware: { mitre: 'https://attack.mitre.org/techniques/T1059/001/', label: 'MITRE T1059.001' },
   depconfusion:    { mitre: 'https://attack.mitre.org/techniques/T1195/001/', label: 'MITRE T1195.001' },
   typosquatting:   { mitre: 'https://attack.mitre.org/techniques/T1195/001/', label: 'MITRE T1195.001' },
   buildcompromise: { mitre: 'https://attack.mitre.org/techniques/T1195/002/', label: 'MITRE T1195.002' },
@@ -996,8 +1064,12 @@ catGrp.append('circle')
   .attr('fill', d => d.color + '20')
   .attr('stroke', d => d.color)
   .attr('stroke-width', 2)
+  .attr('tabindex', 0)
+  .attr('role', 'button')
+  .attr('aria-label', d => `Cat\u00e9gorie ${d.name.replace(/\n/g, ' ')}`)
   .style('cursor', 'pointer')
   .on('click', (e, d) => { e.stopPropagation(); toggleCat(d.id); })
+  .on('keydown', (e, d) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleCat(d.id); } })
   .on('mouseover', (e, d) => {
     tip(e, d.short, '', '');
     d3.select(e.currentTarget.parentNode).select('.cat-hint').style('opacity', 1);
@@ -1030,8 +1102,12 @@ atkGrp.append('circle')
   .attr('fill', d => SEV_FILL[d.sev])
   .attr('stroke', d => SEV_STROKE[d.sev])
   .attr('stroke-width', 1.5)
+  .attr('tabindex', 0)
+  .attr('role', 'button')
+  .attr('aria-label', d => `${d.full} \u2014 S\u00e9v\u00e9rit\u00e9 ${SEV_LABEL[d.sev]}`)
   .style('opacity', 0).style('cursor', 'pointer')
   .on('click', (e, d) => { e.stopPropagation(); openPanel(d); })
+  .on('keydown', (e, d) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openPanel(d); } })
   .on('mouseover', (e, d) => tip(e, d.name, d.mitre, SEV_LABEL[d.sev], d.desc ? d.desc.substring(0, 70) + '\u2026' : ''))
   .on('mouseout', () => document.getElementById('tooltip').classList.remove('show'));
 
@@ -1088,17 +1164,19 @@ function collapse() {
   updateViz();
 }
 
+// Filtres sévérité — déclaré ici pour être disponible dans updateViz() et les handlers
+const activeSevs = new Set(['critical', 'high', 'medium', 'low']);
+
 function updateViz() {
-  // Attack circles visibility
   atkGrp.select('circle')
     .transition().duration(280)
-    .style('opacity', d => expandedCat === d.cat ? 1 : 0)
-    .style('pointer-events', d => expandedCat === d.cat ? 'all' : 'none');
+    .style('opacity', d => expandedCat === d.cat && activeSevs.has(d.sev) ? 1 : 0)
+    .style('pointer-events', d => expandedCat === d.cat && activeSevs.has(d.sev) ? 'all' : 'none');
 
   // Attack labels
   atkGrp.select('text')
     .transition().duration(280)
-    .style('opacity', d => expandedCat === d.cat ? 1 : 0);
+    .style('opacity', d => expandedCat === d.cat && activeSevs.has(d.sev) ? 1 : 0);
 
   // Attack links
   linkEls.filter(d => d.type === 'atk')
@@ -1147,15 +1225,32 @@ function openPanel(atk) {
 
   document.getElementById('panel-name').textContent     = atk.name;
   document.getElementById('panel-fullname').textContent = atk.full;
-  document.getElementById('panel-meta').innerHTML =
-    `<span class="badge sev-${atk.sev}">${SEV_LABEL[atk.sev]}</span>` +
-    `<span class="badge badge-mitre">${atk.mitre}</span>`;
+  // DOM API au lieu de innerHTML — plus s\u00fbr m\u00eame si les donn\u00e9es sont statiques
+  const meta = document.getElementById('panel-meta');
+  meta.innerHTML = '';
+  const s1 = document.createElement('span');
+  s1.className = `badge sev-${atk.sev}`;
+  s1.textContent = SEV_LABEL[atk.sev];
+  const s2 = document.createElement('span');
+  s2.className = 'badge badge-mitre';
+  s2.textContent = atk.mitre;
+  meta.append(s1, s2);
+
   document.getElementById('panel-desc').textContent    = atk.desc;
   document.getElementById('panel-example').textContent = atk.example;
 
-  document.getElementById('panel-counters').innerHTML = atk.counters.map(c =>
-    `<li><span class="counter-check">&#10003;</span><span>${c}</span></li>`
-  ).join('');
+  const countersList = document.getElementById('panel-counters');
+  countersList.innerHTML = '';
+  atk.counters.forEach(c => {
+    const li = document.createElement('li');
+    const chk = document.createElement('span');
+    chk.className = 'counter-check';
+    chk.textContent = '\u2713';
+    const txt = document.createElement('span');
+    txt.textContent = c;
+    li.append(chk, txt);
+    countersList.appendChild(li);
+  });
 
   // Section références
   const ref = REFS[atk.id];
@@ -1179,6 +1274,10 @@ function openPanel(atk) {
   }
 
   document.getElementById('detail-panel').classList.add('open');
+  document.getElementById('panel-close').focus(); // focus dans le panneau pour a11y
+
+  // Permalien hash
+  history.replaceState(null, '', `#${atk.id}`);
 
   // Highlight selected node
   atkGrp.select('circle').attr('stroke-width', d => d.id === atk.id ? 3 : 1.5);
@@ -1187,6 +1286,7 @@ function openPanel(atk) {
 function closePanel() {
   document.getElementById('detail-panel').classList.remove('open');
   atkGrp.select('circle').attr('stroke-width', 1.5);
+  history.replaceState(null, '', ' ');
 }
 
 document.getElementById('panel-close').addEventListener('click', e => { e.stopPropagation(); closePanel(); });
@@ -1281,6 +1381,61 @@ document.addEventListener('keydown', e => {
     }
   }
 });
+
+// =============================================================================
+// RESET ZOOM
+// =============================================================================
+document.getElementById('btn-reset-zoom').addEventListener('click', () => {
+  svg.transition().duration(400).call(zoomBehavior.transform, d3.zoomIdentity);
+});
+
+// =============================================================================
+// FILTRES SEVERITE
+// =============================================================================
+document.getElementById('sev-filters').addEventListener('click', e => {
+  const btn = e.target.closest('.sev-filter-btn');
+  if (!btn) return;
+  const sev = btn.dataset.sev;
+
+  if (sev === 'all') {
+    // Toggle global : si tout actif -> tout d\u00e9sactiver sauf "Tous"; sinon tout activer
+    const allActive = activeSevs.size === 4;
+    ['critical', 'high', 'medium', 'low'].forEach(s => allActive ? activeSevs.delete(s) : activeSevs.add(s));
+  } else {
+    activeSevs.has(sev) ? activeSevs.delete(sev) : activeSevs.add(sev);
+  }
+
+  // Mettre \u00e0 jour l'\u00e9tat visuel des boutons
+  document.querySelectorAll('.sev-filter-btn').forEach(b => {
+    if (b.dataset.sev === 'all') {
+      b.classList.toggle('active', activeSevs.size === 4);
+    } else {
+      b.classList.toggle('active', activeSevs.has(b.dataset.sev));
+    }
+  });
+
+  // Appliquer le filtre sur les noeuds attaque visibles
+  if (expandedCat) {
+    atkGrp.select('circle')
+      .transition().duration(200)
+      .style('opacity', d => expandedCat === d.cat && activeSevs.has(d.sev) ? 1 : 0)
+      .style('pointer-events', d => expandedCat === d.cat && activeSevs.has(d.sev) ? 'all' : 'none');
+    atkGrp.select('text')
+      .transition().duration(200)
+      .style('opacity', d => expandedCat === d.cat && activeSevs.has(d.sev) ? 1 : 0);
+  }
+});
+
+// =============================================================================
+// PERMALIEN HASH AU CHARGEMENT
+// =============================================================================
+if (location.hash) {
+  const hashId = location.hash.slice(1);
+  const atk = ATTACKS.find(a => a.id === hashId);
+  if (atk) {
+    setTimeout(() => { expand(atk.cat); setTimeout(() => openPanel(atk), 350); }, 100);
+  }
+}
 </script>
 </body>
 </html>
