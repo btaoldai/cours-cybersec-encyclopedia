@@ -901,32 +901,30 @@ const allLinks = [
   ...ATTACKS.map(a => ({ source: a.cat, target: a.id, type: 'atk' })),
 ];
 
-// ---- Pré-positionnement AVANT la simulation ----
-// Sans ça : D3 démarre immédiatement avec 59 nœuds au même point
-// => repulsion cumulée 59 × (-55) = -3 245 qui souffle les catégories hors écran
+// ---- Positionnement initial — ARCHITECTURE FIXE ----
+// Catégories et centre sont TOUJOURS fixes (fx/fy jamais remis à null).
+// Seules les attaques de la catégorie ouverte participent à la simulation.
+// => zéro dérive, zéro explosion, comportement 100 % prévisible.
 
-// 1. Centre : fixé définitivement
+// 1. Centre : fixé en permanence
 const centerNode = allNodes.find(n => n.id === 'center');
 centerNode.x = W / 2; centerNode.y = H / 2;
 centerNode.fx = W / 2; centerNode.fy = H / 2;
 
-// 2. Catégories : cercle régulier autour du centre, gelées au départ
+// 2. Catégories : cercle r=200, positions permanentes — JAMAIS libérées
 const catNodes = allNodes.filter(n => n.type === 'cat');
 catNodes.forEach((n, i) => {
   const angle = (i / catNodes.length) * 2 * Math.PI - Math.PI / 2;
-  n.x = W / 2 + 220 * Math.cos(angle);
-  n.y = H / 2 + 220 * Math.sin(angle);
-  n.fx = n.x; n.fy = n.y;
+  n.x = W / 2 + 200 * Math.cos(angle);
+  n.y = H / 2 + 200 * Math.sin(angle);
+  n.fx = n.x; n.fy = n.y; // PERMANENT — ne jamais mettre à null
 });
 
-// 3. Attaques : dispersées près de leur catégorie — jamais toutes au même point
+// 3. Attaques : toutes fixées à leur catégorie au départ (invisibles)
 allNodes.forEach(n => {
   if (n.type !== 'atk') return;
   const cat = allNodes.find(c => c.id === n.cat);
-  if (cat) {
-    n.x = cat.x + (Math.random() - 0.5) * 40;
-    n.y = cat.y + (Math.random() - 0.5) * 40;
-  }
+  if (cat) { n.x = cat.fx; n.y = cat.fy; }
   n.fx = n.x; n.fy = n.y;
 });
 
@@ -937,31 +935,24 @@ const gNodes = gZoom.append('g');
 const zoomBehavior = d3.zoom().scaleExtent([0.2, 4]).on('zoom', e => gZoom.attr('transform', e.transform));
 svg.call(zoomBehavior);
 
+// Simulation minimale — uniquement pour les attaques quand une catégorie est ouverte.
+// Catégories et centre sont fixes : aucune force ne peut les faire dériver.
 const sim = d3.forceSimulation(allNodes)
   .force('link', d3.forceLink(allLinks).id(d => d.id)
-    .strength(d => d.type === 'hub' ? 0.08 : 0.3)
-    .distance(d => d.type === 'hub' ? 200 : 155))
+    .strength(d => d.type === 'hub' ? 0 : 0.45)   // liens hub inutiles (cat fixes)
+    .distance(90))
   .force('charge', d3.forceManyBody()
-    .strength(d => d.type === 'atk' ? -55 : -70)
-    .distanceMax(260))
-  // forceRadial : maintient les catégories à rayon constant — remplace la lutte
-  // hub-link vs charge qui envoyait les noeuds hors écran
-  .force('radial', d3.forceRadial(200, W / 2, H / 2)
-    .strength(d => d.type === 'cat' ? 0.7 : 0))
-  .force('center', d3.forceCenter(W / 2, H / 2).strength(0.04))
-  .force('collide', d3.forceCollide(d => d.r + 55).iterations(4))
-  .alphaDecay(0.025)
-  .velocityDecay(0.55)
-  .on('end', () => {
-    const ov = document.getElementById('loading-overlay');
-    if (ov) { ov.classList.add('hidden'); setTimeout(() => { ov.style.display = 'none'; }, 750); }
-  })
+    .strength(d => d.type === 'atk' ? -38 : 0)    // répulsion uniquement entre attaques
+    .distanceMax(200))
+  .force('collide', d3.forceCollide(d => d.type === 'atk' ? d.r + 14 : 0).iterations(3))
+  .alphaDecay(0.04)
+  .velocityDecay(0.65)
   .on('tick', () => {
     linkEls.attr('x1', d => d.source.x).attr('y1', d => d.source.y)
            .attr('x2', d => d.target.x).attr('y2', d => d.target.y);
     nodeGrps.attr('transform', d => `translate(${d.x},${d.y})`);
   })
-  .stop(); // Pause — redémarre après création des éléments SVG
+  .stop(); // Pas de simulation au démarrage
 
 // ---- Links ----
 const linkEls = gLinks.selectAll('line').data(allLinks).join('line')
@@ -972,16 +963,17 @@ const linkEls = gLinks.selectAll('line').data(allLinks).join('line')
 // ---- Node groups ----
 const nodeGrps = gNodes.selectAll('g').data(allNodes).join('g')
   .call(d3.drag()
-    .on('start', (e, d) => { if (!e.active) sim.alphaTarget(0.3).restart(); d.fx = d.x; d.fy = d.y; })
-    .on('drag',  (e, d) => { d.fx = e.x; d.fy = e.y; })
-    .on('end',   (e, d) => { if (!e.active) sim.alphaTarget(0); if (d.type !== 'atk' || expandedCat === d.cat) { d.fx = null; d.fy = null; } }));
+    .on('start', (e, d) => { if (d.type === 'center' || d.type === 'cat') return; if (!e.active) sim.alphaTarget(0.3).restart(); d.fx = d.x; d.fy = d.y; })
+    .on('drag',  (e, d) => { if (d.type === 'center' || d.type === 'cat') return; d.fx = e.x; d.fy = e.y; })
+    .on('end',   (e, d) => { if (d.type === 'center' || d.type === 'cat') return; if (!e.active) sim.alphaTarget(0); if (expandedCat === d.cat) { d.fx = null; d.fy = null; } }));
 
-// Démarrage simulation : libérer les catégories puis lancer doucement
-// (après création des éléments SVG pour éviter un tick à vide)
-setTimeout(() => {
-  catNodes.forEach(n => { n.fx = null; n.fy = null; });
-  sim.alpha(0.3).restart();
-}, 30);
+// Rendu initial immédiat — tout est pré-positionné, pas besoin de simuler
+nodeGrps.attr('transform', d => `translate(${d.x},${d.y})`);
+linkEls.attr('x1', d => d.source.x).attr('y1', d => d.source.y)
+       .attr('x2', d => d.target.x).attr('y2', d => d.target.y);
+// Masquer l'overlay de suite (positions déjà correctes dès le premier frame)
+const ov = document.getElementById('loading-overlay');
+if (ov) { ov.classList.add('hidden'); setTimeout(() => { ov.style.display = 'none'; }, 750); }
 
 // CENTER
 const centerGrp = nodeGrps.filter(d => d.type === 'center');
@@ -1063,23 +1055,22 @@ function expand(id) {
   closePanel();
   document.getElementById('instructions').style.opacity = '0';
 
-  // Fixer TOUTES les categories a leur position courante pour eviter la derive
-  allNodes.forEach(n => { if (n.type === 'cat') { n.fx = n.x; n.fy = n.y; } });
-
+  // Catégories : toujours fixes — rien à faire pour elles
   const catNode = allNodes.find(n => n.id === id);
   allNodes.forEach(n => {
     if (n.type !== 'atk') return;
     if (n.cat === id) {
-      // Relacher les noeuds de la categorie selectionnee pres de la categorie
+      // Libérer les attaques de la catégorie sélectionnée — dispersées autour d'elle
+      n.x = catNode.fx + (Math.random() - 0.5) * 30;
+      n.y = catNode.fy + (Math.random() - 0.5) * 30;
       n.fx = null; n.fy = null;
-      if (catNode) { n.x = catNode.x + (Math.random()-0.5)*20; n.y = catNode.y + (Math.random()-0.5)*20; }
     } else {
-      // Fixer les autres noeuds a la position actuelle de leur categorie (deja figee)
+      // Garder toutes les autres attaques sur leur catégorie (invisibles de toute façon)
       const cn = allNodes.find(c => c.id === n.cat);
-      if (cn) { n.fx = cn.x; n.fy = cn.y; }
+      if (cn) { n.x = cn.fx; n.y = cn.fy; n.fx = cn.fx; n.fy = cn.fy; }
     }
   });
-  sim.alpha(0.22).restart();
+  sim.alpha(0.3).restart();
   updateViz();
 }
 
@@ -1087,15 +1078,13 @@ function collapse() {
   expandedCat = null;
   closePanel();
   document.getElementById('instructions').style.opacity = '1';
+  // Ramener toutes les attaques sur leur catégorie fixe
   allNodes.forEach(n => {
-    if (n.type === 'cat') { n.fx = null; n.fy = null; }
-    // Ramener les attaques vers leur catégorie (pas au centre — évite l'explosion de charge)
-    if (n.type === 'atk') {
-      const cat = allNodes.find(c => c.id === n.cat);
-      if (cat) { n.fx = cat.x; n.fy = cat.y; }
-    }
+    if (n.type !== 'atk') return;
+    const cat = allNodes.find(c => c.id === n.cat);
+    if (cat) { n.x = cat.fx; n.y = cat.fy; n.fx = cat.fx; n.fy = cat.fy; }
   });
-  sim.alpha(0.15).restart();
+  sim.alpha(0.1).restart();
   updateViz();
 }
 
@@ -1253,7 +1242,31 @@ document.getElementById('search-input').addEventListener('input', function() {
 // =============================================================================
 window.addEventListener('resize', () => {
   W = wrap.clientWidth; H = wrap.clientHeight;
-  sim.force('center', d3.forceCenter(W/2, H/2)).alpha(0.2).restart();
+
+  // Recalculer toutes les positions fixes (centre + catégories)
+  const cn = allNodes.find(n => n.id === 'center');
+  cn.x = cn.fx = W / 2; cn.y = cn.fy = H / 2;
+
+  catNodes.forEach((n, i) => {
+    const angle = (i / catNodes.length) * 2 * Math.PI - Math.PI / 2;
+    n.x = n.fx = W / 2 + 200 * Math.cos(angle);
+    n.y = n.fy = H / 2 + 200 * Math.sin(angle);
+  });
+
+  // Remettre les attaques fixes à leur catégorie recentrée
+  allNodes.forEach(n => {
+    if (n.type !== 'atk' || n.fx === null) return;
+    const cat = allNodes.find(c => c.id === n.cat);
+    if (cat) { n.x = n.fx = cat.fx; n.y = n.fy = cat.fy; }
+  });
+
+  if (expandedCat) {
+    sim.alpha(0.2).restart(); // recalculer la disposition des attaques libres
+  } else {
+    nodeGrps.attr('transform', d => `translate(${d.x},${d.y})`);
+    linkEls.attr('x1', d => d.source.x).attr('y1', d => d.source.y)
+           .attr('x2', d => d.target.x).attr('y2', d => d.target.y);
+  }
 });
 
 // =============================================================================
