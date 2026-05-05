@@ -1228,7 +1228,7 @@ const families = [
     cards: [
       { name: "auditd", aka: "Linux Audit Daemon", desc: "Daemon d'audit du noyau Linux capturant les événements système. Trois types de règles : contrôle (configuration), fichiers (surveillance de modifications), appels système (syscalls).", example: "-w /etc/passwd -p wa -k identity -> surveiller les modifications" },
       { name: "ausearch / aureport", aka: "Audit Search & Report", desc: "Outils de recherche et de reporting dans les logs d'audit. ausearch filtre par type, clé ou date. aureport généré des rapports synthetiques (authentifications, fichiers, anomalies).", example: "ausearch -k identity --start today | aureport -f" },
-      { name: "rsyslog", aka: "Rocket-fast System Logging", desc: "Daemon de journalisation système Linux. Architecture a 4 couches : auditd (noyau), rsyslog/journald (système), logs applicatifs, AIDE/FIM. Centralisation possible vers un SIEM.", example: "/var/log/auth.log, /var/log/syslog, /var/log/kern.log" },
+      { name: "rsyslog", aka: "Rocket-fast System Logging", desc: "Daemon de journalisation système Linux. S'inscrit dans une stack de surveillance à 4 niveaux : kernel (auditd) -> système (rsyslog/journald) -> applicatif (logs apps) -> intégrité (AIDE/FIM). Centralisation possible vers un SIEM.", example: "/var/log/auth.log, /var/log/syslog, /var/log/kern.log" },
       { name: "journald", aka: "systemd Journal", desc: "Système de journalisation binaire intégré a systemd. Collecte les logs de tous les services. Complementaire a rsyslog pour le stockage persistant.", example: "journalctl -u sshd --since '1 hour ago'" },
       { name: "logrotate", aka: "Log Rotation", desc: "Utilitaire de rotation automatique des fichiers de logs pour eviter la saturation du disque. Configuration par fichier dans /etc/logrotate.d/.", example: "logrotate -f /etc/logrotate.conf -> rotation forcée" },
       { name: "Règles auditd hardening", aka: "Audit Rules", desc: "Ensemble de règles d'audit preconfigurees pour le hardening : surveillance des fichiers d'identité, des modifications de politique, des montages, des modules noyau et des commandes privilegiees.", example: "-a always,exit -F arch=b64 -S execve -k exec_log" }
@@ -1318,7 +1318,7 @@ const families = [
       { name: "MITRE ATT&CK", aka: "Adversarial Tactics & Techniques", desc: "Framework de tactiques et techniques d'attaque. Base des 4000+ règles intégrées Wazuh. Reference mondiale pour la classification des comportements adverses.", example: "T1078 Valid Accounts, T1059 Command and Scripting Interpreter" },
       { name: "STIG / DISA", aka: "Security Technical Implémentation Guides", desc: "Guides de sécurité du Department of Defense américain. Règles de durcissement détaillées par technologie. Plus strict que les benchmarks CIS.", example: "STIG Debian : restrictions supplémentaires sur les services" },
       { name: "OWASP Top 10", aka: "Web Application Security Risks", desc: "Classification des 10 risques les plus critiques pour les apps web (2021). XSS fusionné dans A03:Injection, CSRF retiré (traité sous A01:Broken Access Control), SSRF nouvelle entrée A10:2021. Reference pour les WAF et audits applicatifs.", example: "A01:2021 Broken Access Control, A03:2021 Injection (SQLi + XSS), A10:2021 SSRF" },
-      { name: "RFC", aka: "Request for Comments (IETF)", desc: "Documents de specification des protocoles Internet. Definissent les standards techniques : ARP (RFC 826), TCP (RFC 793), DNS (RFC 1035), TLS 1.3 (RFC 8446).", example: "RFC 826 : specification ARP -> contexte attaque ARP Spoofing" }
+      { name: "RFC", aka: "Request for Comments (IETF)", desc: "Documents de specification des protocoles Internet. Definissent les standards techniques : ARP (RFC 826), TCP (RFC 9293, obsolète RFC 793 depuis 2022), DNS (RFC 1035), TLS 1.3 (RFC 8446).", example: "RFC 826 : specification ARP -> contexte attaque ARP Spoofing" }
     ]
   },
   {
@@ -1331,7 +1331,7 @@ const families = [
       { name: "DoT / DoH", aka: "DNS over TLS / DNS over HTTPS", desc: "Protocoles de chiffrement des requetes DNS. DoT (port 853) : chiffrement TLS dédié. DoH (port 443) : encapsulation DNS dans HTTPS, traverse les pare-feux. Cloisonnement ANSSI PA-105.", example: "OPNsense : resolver DNS interne + forwarder chiffre" },
       { name: "IPsec / WireGuard", aka: "VPN Protocols", desc: "Protocoles de tunnel VPN. IPsec : standard industriel, complexe. WireGuard : moderne, plus simple, performant. Les deux disponibles dans OPNsense.", example: "WireGuard + mTLS : base de la micro-segmentation Zero Trust" },
       { name: "HSTS", aka: "HTTP Strict Transport Security", desc: "En-tete HTTP forcant le navigateur a utiliser HTTPS exclusivement. Empeche les attaques de downgrade SSL/TLS et le SSL stripping.", example: "Strict-Transport-Security: max-age=31536000; includeSubDomains" },
-      { name: "mTLS", aka: "Mutual TLS Authentication", desc: "TLS avec authentification mutuelle : le serveur ET le client presentent un certificat. Base du Zero Trust : chaque service prouve son identité. Perspective S7 (PKI).", example: "Kubernetes : communication inter-services sécurisée par mTLS" }
+      { name: "mTLS", aka: "Mutual TLS Authentication", desc: "TLS avec authentification mutuelle : le serveur ET le client presentent un certificat. Base du Zero Trust : chaque service prouve son identité. Perspective S7 (PKI).", example: "Kubernetes : mTLS inter-services via service mesh (Istio, Linkerd) ou Cilium - non natif au cluster" }
     ]
   },
   {
@@ -1514,7 +1514,6 @@ const abbreviations = {
       { abbr: "DoT", full: "DNS over TLS", ctx: "Requetes DNS chiffrées via TLS (port 853)" },
       { abbr: "DPIA", full: "Data Protection Impact Assessment", ctx: "Evaluation d'impact sur la protection des données (RGPD)" },
       { abbr: "DSA", full: "Digital Services Act", ctx: "Regulation européenne sur les services numériques" },
-      { abbr: "DSOS", full: "Duty to Secure Our Systems", ctx: "Obligation de sécurisér les systèmes (NIS2, RGPD)" },
       { abbr: "ED25519", full: "Edwards-curve Digital Signature Algorithm", ctx: "Algorithme de signature cryptographique moderne (recommandé pour SSH)" },
       { abbr: "EFS", full: "Encrypting File System", ctx: "Chiffrement de fichiers au niveau du système de fichiers (Windows, Linux)" },
       { abbr: "FQDN", full: "Fully Qualified Domain Name", ctx: "Nom de domaine complet incluant les sous-domaines" },
@@ -1531,7 +1530,7 @@ const abbreviations = {
       { abbr: "HSTS", full: "HTTP Strict Transport Security", ctx: "En-tete HTTP forcant l'usage de TLS" },
       { abbr: "IANA", full: "Internet Assigned Numbers Authority", ctx: "Organisme allouant les adresses IP, ports et autres ressources" },
       { abbr: "ICMP", full: "Internet Control Message Protocol", ctx: "Protocole de diagnostic réseau (ping, traceroute)" },
-      { abbr: "ICP", full: "Internet Content Provider", ctx: "Fournisseur de contenu Internet" },
+      { abbr: "ICP", full: "Infrastructure de Clés Publiques", ctx: "Équivalent français de PKI (gestion certificats X.509)" },
       { abbr: "IDS", full: "Intrusion Détection System", ctx: "Système de détection d'intrusion (mode passif)" },
       { abbr: "IETF", full: "Internet Engineering Task Force", ctx: "Organisme définissant les standards Internet (RFC)" },
       { abbr: "IPSEC", full: "Internet Protocol Security", ctx: "Protocole de tunnel VPN au niveau L3" },
@@ -1540,7 +1539,6 @@ const abbreviations = {
       { abbr: "IPv6", full: "Internet Protocol version 6", ctx: "Version 6 du protocole IP (adresses 128 bits)" },
       { abbr: "ISCSI", full: "Internet Small Computer Systems Interface", ctx: "Protocole de stockage réseau (bloc)" },
       { abbr: "ISP", full: "Internet Service Provider", ctx: "Fournisseur d'accès Internet" },
-      { abbr: "ITK", full: "Insight Segmentation and Registration Toolkit", ctx: "Librairie de traitement d'images (non sécurité)" },
       { abbr: "L2", full: "Layer 2 (Data Link)", ctx: "Couche 2 du modèle OSI (adresses MAC, VLAN)" },
       { abbr: "L3", full: "Layer 3 (Network)", ctx: "Couche 3 du modèle OSI (adresses IP, routage)" },
       { abbr: "L7", full: "Layer 7 (Application)", ctx: "Couche 7 du modèle OSI (HTTP, DNS, SMTP)" },
@@ -1593,9 +1591,7 @@ const abbreviations = {
       { abbr: "RTO", full: "Recovery Time Objective", ctx: "Delai maximum acceptable pour restaurer un service (PRA)" },
       { abbr: "RPO", full: "Recovery Point Objective", ctx: "Volume maximal de données perdues tolere (PRA)" },
       { abbr: "SA", full: "Security Association", ctx: "Accord de sécurité pour une connexion IPSec ou IKE" },
-      { abbr: "SACT", full: "Security Assessment and Configuration Tool", ctx: "Outil d'évaluation de la sécurité" },
       { abbr: "SAM", full: "Security Accounts Manager", ctx: "Base de données des comptes locaux sous Windows" },
-      { abbr: "SAP", full: "Systems, Applications, and Products", ctx: "ERP d'entreprise pour gestion intégrale (non sécurité directe)" },
       { abbr: "SANS", full: "SysAdmin, Audit, Network, Security", ctx: "Institut de formation en cybersécurité américain" },
       { abbr: "SCA", full: "Security Configuration Assessment", ctx: "Module Wazuh d'évaluation de conformité CIS" },
       { abbr: "SCP", full: "Secure Copy Protocol", ctx: "Protocole de copie sécurisée par SSH (remplacé par SFTP)" },
@@ -1615,7 +1611,7 @@ const abbreviations = {
       { abbr: "SOCMINT", full: "Social Media Intelligence", ctx: "Renseignement basé sur les réseaux sociaux (OSINT)" },
       { abbr: "SOD", full: "Separation of Duties", ctx: "Principe de séparation des fonctions pour eviter les abus" },
       { abbr: "SOP", full: "Standard Operating Procédure", ctx: "Procédure standard d'exploitation" },
-      { abbr: "SPDY", full: "Speedy", ctx: "Protocole de compression HTTP (remplacé par HTTP/2)" },
+      { abbr: "SPDY", full: "SPDY (prononcé « speedy »)", ctx: "Protocole expérimental Google précurseur de HTTP/2 (déprécié)" },
       { abbr: "SPF", full: "Sender Policy Framework", ctx: "Enregistrement DNS validant les serveurs SMTP autorisés" },
       { abbr: "SQL", full: "Structured Query Language", ctx: "Langage de requete pour bases de données" },
       { abbr: "SQLI", full: "SQL Injection", ctx: "Injection SQL via données non validees (OWASP Top 10)" },
@@ -1631,12 +1627,10 @@ const abbreviations = {
       { abbr: "SUID", full: "Set User ID", ctx: "Bit special permettant exécution avec droits du propriétaire" },
       { abbr: "SYSCTL", full: "System Control", ctx: "Outil de configuration des parametres noyau Linux" },
       { abbr: "TACACS", full: "Terminal Accèss Controller Accèss Control System", ctx: "Protocole d'authentification centralisee (RADIUS+)" },
-      { abbr: "TANDBERG", full: "Video Conferencing Systems", ctx: "Système de visioconference (non sécurité directe)" },
       { abbr: "TCAM", full: "Ternary Content Addressable Memory", ctx: "Mémoire de recherche rapide dans les switchs (règles ACL)" },
       { abbr: "TCP", full: "Transmission Control Protocol", ctx: "Protocole de transport fiable, connexion-orientée" },
       { abbr: "TCPDump", full: "TCP Packet Sniffer", ctx: "Outil de capture de paquets réseau (Linux)" },
-      { abbr: "TFP", full: "Trivial File Transfer Protocol", ctx: "Protocole léger de transfert de fichiers (non sécurisé)" },
-      { abbr: "TFSM", full: "Threat Focused Security Model", ctx: "Modèle de sécurité orienté sur les menaces" },
+      { abbr: "TFTP", full: "Trivial File Transfer Protocol", ctx: "Protocole léger de transfert de fichiers (non sécurisé, port 69/UDP)" },
       { abbr: "TLS", full: "Transport Layer Security", ctx: "Protocole de chiffrement des communications (remplace SSL)" },
       { abbr: "TOFU", full: "Trust On First Use", ctx: "Modèle de confiance : faire confiance a la première connexion" },
       { abbr: "TOTP", full: "Time-based One-Time Password", ctx: "Mot de passe temporaire basé sur l'heure (Google Authenticator)" },
@@ -1646,12 +1640,11 @@ const abbreviations = {
       { abbr: "TXT", full: "Text (DNS)", ctx: "Enregistrement DNS de texte (SPF, DKIM, DMARC)" },
       { abbr: "UDP", full: "User Datagram Protocol", ctx: "Protocole de transport sans connexion (non fiable)" },
       { abbr: "VLAN", full: "Virtual Local Area Network", ctx: "Segmentation logique L2 d'un réseau physique" },
-      { abbr: "VLANF", full: "VLAN Filtering", ctx: "Filtrage basé sur les VLANs au niveau L2" },
       { abbr: "VRF", full: "Virtual Routing and Forwarding", ctx: "Isolation logique L3 : tables de routage indépendantes" },
       { abbr: "VPP", full: "Vector Packet Processing", ctx: "Moteur haute-performance de traitement de paquets (FD.io)" },
       { abbr: "WAF", full: "Web Application Firewall", ctx: "Pare-feu applicatif (L7) pour les applications web" },
       { abbr: "WAN", full: "Wide Area Network", ctx: "Réseau étendu (ex : Internet, connexion inter-sites)" },
-      { abbr: "WARP", full: "Webassembly Runtime for Python", ctx: "Runtime WebAssembly (non sécurité directe)" },
+      { abbr: "WARP", full: "Cloudflare WARP", ctx: "Service VPN/proxy DNS de Cloudflare basé sur WireGuard" },
       { abbr: "WAZUH", full: "SIEM/XDR Open-Source", ctx: "Plateforme de sécurité combinant SIEM et XDR" },
       { abbr: "WEP", full: "Wired Equivalent Privacy", ctx: "Chiffrement WiFi ancien (DEPRECIÉ)" },
       { abbr: "WHOIS", full: "WHOIS Protocol", ctx: "Protocole de recherche d'information sur les domaines (port 43)" },
@@ -1662,7 +1655,6 @@ const abbreviations = {
       { abbr: "XST", full: "Cross-Site Tracing", ctx: "Attaque exploitant la méthode TRACE (héritière de XSS)" },
       { abbr: "YAML", full: "YAML Ain't Markup Language", ctx: "Format de fichier de configuration (human-readable)" },
       { abbr: "YARA", full: "Yet Another Recursive Acronym", ctx: "Langage de détection d'patterns de malwares (Wazuh, MISP)" },
-      { abbr: "ZEN", full: "Zen IDS/IPS Ruleset", ctx: "Ensemble de règles pour Suricata (IDS/IPS)" },
       { abbr: "ZERO-DAY", full: "Vulnerability Not Yet Patched", ctx: "Vulnérabilité inconnue du vendeur (exploit anonyme)" },
       { abbr: "ZONING", full: "Network Zoning", ctx: "Division du réseau en zones de sécurité basees sur VLAN/DMZ" }
     ]

